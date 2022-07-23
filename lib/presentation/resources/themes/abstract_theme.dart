@@ -9,6 +9,7 @@ abstract class AbstractTheme {
     this.cardColor,
     this.wrongColor,
     this.rightColor,
+    this.whiteTextColor,
     this.appShadows,
   );
 
@@ -19,6 +20,7 @@ abstract class AbstractTheme {
   final Color cardColor;
   final Color wrongColor;
   final Color rightColor;
+  final Color whiteTextColor;
   final AppShadows appShadows;
 }
 

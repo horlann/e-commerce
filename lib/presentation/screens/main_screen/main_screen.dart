@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 
-import '../../widgets/bottom_bar.dart';
+import 'bottom_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
