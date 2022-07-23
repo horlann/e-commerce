@@ -11,19 +11,27 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 84,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: demo_categories.length,
-        itemBuilder: (context, index) => CategoryCard(
-          icon: demo_categories[index].icon,
-          title: demo_categories[index].title,
-          press: () {},
-        ),
-        separatorBuilder: (context, index) =>
-            const SizedBox(width: defaultPadding),
-      ),
-    );
+        height: 84,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CategoryCard(
+              icon: demo_categories[0].icon,
+              title: demo_categories[0].title,
+              press: () {},
+            ),
+            CategoryCard(
+              icon: demo_categories[1].icon,
+              title: demo_categories[1].title,
+              press: () {},
+            ),
+            CategoryCard(
+              icon: demo_categories[2].icon,
+              title: demo_categories[2].title,
+              press: () {},
+            ),
+          ],
+        ));
   }
 }
 
@@ -48,8 +56,7 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
+        padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
         child: Column(
           children: [
             SvgPicture.asset(icon),

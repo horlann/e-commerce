@@ -16,12 +16,9 @@ class NewArrivalProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-          child: SectionTitle(
-            title: "New Arrival",
-            pressSeeAll: () {},
-          ),
+        SectionTitle(
+          title: "New Arrival",
+          pressSeeAll: () {},
         ),
         SingleChildScrollView(
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),

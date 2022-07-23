@@ -15,8 +15,8 @@ import 'package:flutter/material.dart' as _i8;
 
 import '../../presentation/pages/account/account_page.dart' as _i3;
 import '../../presentation/pages/home/home_page.dart' as _i6;
+import '../../presentation/pages/home/home_page_wrapper.dart' as _i2;
 import '../../presentation/pages/shopping_cart/shopping_cart_page.dart' as _i4;
-import '../../presentation/resources/wrappers/home_page_wrapper.dart' as _i2;
 import '../../presentation/screens/details/details_screen.dart' as _i5;
 import '../../presentation/screens/main_screen/main_screen.dart' as _i1;
 

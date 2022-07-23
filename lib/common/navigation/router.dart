@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:kurilki/presentation/pages/home/home_page.dart';
+import 'package:kurilki/presentation/pages/home/home_page_wrapper.dart';
 import 'package:kurilki/presentation/pages/shopping_cart/shopping_cart_page.dart';
-import 'package:kurilki/presentation/resources/wrappers/home_page_wrapper.dart';
 import 'package:kurilki/presentation/screens/details/details_screen.dart';
 import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
 

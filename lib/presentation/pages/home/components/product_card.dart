@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 
@@ -43,12 +44,15 @@ class ProductCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     title,
-                    style: const TextStyle(color: Colors.black),
+                    maxFontSize: 16,
+                    minFontSize: 12,
+                    maxLines: 2,
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
                   ),
                 ),
-                const SizedBox(width: defaultPadding / 4),
+                const SizedBox(width: 10),
                 Text(
                   "\$" + price.toString(),
                   style: Theme.of(context).textTheme.subtitle2,

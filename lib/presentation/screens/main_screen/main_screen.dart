@@ -16,7 +16,7 @@ class MainScreen extends StatelessWidget {
           AccountRouter(),
           CartRouter(),
         ],
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1),
         builder: (context, child, animation) {
           return Scaffold(
             body: FadeTransition(

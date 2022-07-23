@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kurilki/presentation/screens/product.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 
 import '../../shopping_cart/products.dart';
@@ -15,16 +14,12 @@ class PopularProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-          child: SectionTitle(
-            title: "Popular",
-            pressSeeAll: () {},
-          ),
+        SectionTitle(
+          title: "Popular",
+          pressSeeAll: () {},
         ),
         SingleChildScrollView(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(

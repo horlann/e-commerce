@@ -17,8 +17,4 @@ List<Category> demo_categories = [
     icon: "assets/icons/pants.svg",
     title: "Pants",
   ),
-  Category(
-    icon: "assets/icons/Tshirt.svg",
-    title: "Tshirt",
-  ),
 ];

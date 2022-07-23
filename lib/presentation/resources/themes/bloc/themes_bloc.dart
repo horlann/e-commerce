@@ -14,7 +14,7 @@ class ThemesBloc extends Bloc<ThemesEvent, ThemesState> {
 
   // final ApplicationThemeUseCase _applicationThemeUseCase;
   // final UpdateApplicationThemeUseCase _updateApplicationThemeUseCase;
-  AbstractTheme _currentTheme = DarkTheme();
+  AbstractTheme _currentTheme = LightTheme();
 
   AbstractTheme get theme => _currentTheme;
 
