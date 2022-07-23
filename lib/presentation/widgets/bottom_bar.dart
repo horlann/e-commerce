@@ -20,7 +20,7 @@ class _BottomBarState extends State<BottomBar> {
         children: [
           Expanded(
             child: InkWell(
-              onTap: () => context.navigateTo(const HomeRouter()),
+              onTap: () => context.navigateTo(const HomePageWrapper()),
               child: const SizedBox(
                 width: double.infinity,
                 child: Center(

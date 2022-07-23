@@ -12,7 +12,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       body: AutoTabsRouter(
         routes: const [
-          HomeRouter(),
+          HomePageWrapper(),
           AccountRouter(),
           CartRouter(),
         ],
