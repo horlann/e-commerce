@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kurilki/presentation/screens/Category.dart';
+import 'package:kurilki/presentation/screens/category.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 
 class Categories extends StatelessWidget {
@@ -20,7 +20,8 @@ class Categories extends StatelessWidget {
           title: demo_categories[index].title,
           press: () {},
         ),
-        separatorBuilder: (context, index) => const SizedBox(width: defaultPadding),
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: defaultPadding),
       ),
     );
   }
@@ -47,7 +48,8 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
+        padding: const EdgeInsets.symmetric(
+            vertical: defaultPadding / 2, horizontal: defaultPadding / 4),
         child: Column(
           children: [
             SvgPicture.asset(icon),

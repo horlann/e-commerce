@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kurilki/presentation/screens/Product.dart';
+import 'package:kurilki/presentation/screens/product.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 
+import '../../shopping_cart/products.dart';
 import 'product_card.dart';
 import 'section_title.dart';
 
@@ -22,7 +23,8 @@ class PopularProducts extends StatelessWidget {
           ),
         ),
         SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(

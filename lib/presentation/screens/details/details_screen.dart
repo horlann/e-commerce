@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:kurilki/presentation/screens/Product.dart';
+import 'package:kurilki/presentation/screens/product.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 
 import 'components/color_dot.dart';
@@ -39,7 +39,8 @@ class DetailsScreen extends StatelessWidget {
           const SizedBox(height: defaultPadding * 1.5),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.fromLTRB(defaultPadding, defaultPadding * 2, defaultPadding, defaultPadding),
+              padding: const EdgeInsets.fromLTRB(defaultPadding,
+                  defaultPadding * 2, defaultPadding, defaultPadding),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -99,7 +100,9 @@ class DetailsScreen extends StatelessWidget {
                       height: 48,
                       child: ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(primary: primaryColor, shape: const StadiumBorder()),
+                        style: ElevatedButton.styleFrom(
+                            primary: primaryColor,
+                            shape: const StadiumBorder()),
                         child: const Text("Add to Cart"),
                       ),
                     ),

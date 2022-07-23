@@ -1,8 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:kurilki/presentation/screens/Product.dart';
+import 'package:kurilki/common/navigation/router.gr.dart';
+
+import 'package:kurilki/presentation/screens/product.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 import 'package:kurilki/presentation/screens/details/details_screen.dart';
 
+import '../../shopping_cart/products.dart';
 import 'product_card.dart';
 import 'section_title.dart';
 
@@ -23,7 +27,8 @@ class NewArrivalProducts extends StatelessWidget {
           ),
         ),
         SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
@@ -36,11 +41,8 @@ class NewArrivalProducts extends StatelessWidget {
                   price: demo_product[index].price,
                   bgColor: demo_product[index].bgColor,
                   press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailsScreen(product: demo_product[index]),
-                        ));
+                    /*AutoRouter.of(context)
+                        .push(DetailsRouter(product: demo_product[index]));*/
                   },
                 ),
               ),
