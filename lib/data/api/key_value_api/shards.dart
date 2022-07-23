@@ -1,11 +1,9 @@
-import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ISharedPreferencesDao implements SharedPreferences {
   String key(String name);
 }
 
-@injectable
 class SharedPreferencesDao implements ISharedPreferencesDao {
   static const namespace = 'shared_preferences';
 

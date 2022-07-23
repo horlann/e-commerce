@@ -9,24 +9,22 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AutoTabsRouter(
-        routes: const [
-          HomePageWrapper(),
-          AccountRouter(),
-          CartRouter(),
-        ],
-        duration: const Duration(milliseconds: 1),
-        builder: (context, child, animation) {
-          return Scaffold(
-            body: FadeTransition(
-              opacity: animation,
-              child: child,
-            ),
-            bottomNavigationBar: const BottomBar(),
-          );
-        },
-      ),
+    return AutoTabsRouter(
+      routes: const [
+        HomePageWrapper(),
+        AccountRouter(),
+        CartRouter(),
+      ],
+      duration: const Duration(milliseconds: 1),
+      builder: (context, child, animation) {
+        return Scaffold(
+          body: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+          bottomNavigationBar: const BottomBar(),
+        );
+      },
     );
   }
 }

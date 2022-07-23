@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/common/services/firebase.dart';
 
 @module
@@ -7,6 +6,6 @@ abstract class AppModule {
   @preResolve
   Future<FirebaseService> get fireService => FirebaseService.init();
 
-  @singleton
-  AppRouter get appRouter => AppRouter();
+// @singleton
+// AppRouter get appRouter => AppRouter();
 }

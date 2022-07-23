@@ -19,12 +19,15 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       lazy: false,
       create: (context) => ThemesBloc()..add(const ThemeInitEvent()),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routeInformationParser: _appRouter.defaultRouteParser(),
-        routerDelegate: _appRouter.delegate(),
-        builder: (context, router) => router!,
-      ),
+      child: Builder(builder: (context) {
+        return MaterialApp.router(
+          color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
+          debugShowCheckedModeBanner: false,
+          routeInformationParser: _appRouter.defaultRouteParser(),
+          routerDelegate: _appRouter.delegate(),
+          builder: (context, router) => router!,
+        );
+      }),
     );
   }
 }

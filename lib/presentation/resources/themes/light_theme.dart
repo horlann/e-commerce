@@ -25,6 +25,9 @@ class LightTheme implements AbstractTheme {
   Color get rightColor => const Color(0xFF24ad65);
 
   @override
+  Color get whiteTextColor => const Color(0xFFFFFFFF);
+
+  @override
   AppShadows get appShadows => _LightAppShadows();
 }
 

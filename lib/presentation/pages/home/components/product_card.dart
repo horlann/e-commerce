@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kurilki/presentation/screens/constants.dart';
 
@@ -35,8 +36,8 @@ class ProductCard extends StatelessWidget {
                 color: bgColor,
                 borderRadius: const BorderRadius.all(Radius.circular(defaultBorderRadius)),
               ),
-              child: Image.asset(
-                image,
+              child: CachedNetworkImage(
+                imageUrl: image,
                 height: 132,
               ),
             ),

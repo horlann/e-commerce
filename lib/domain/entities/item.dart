@@ -10,6 +10,7 @@ abstract class Item {
   final double oldPrice;
 
   final String category;
+
   final String imageLink;
 
   const Item({

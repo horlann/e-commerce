@@ -23,7 +23,10 @@ class _BottomBarState extends State<BottomBar> {
 
     return Container(
       height: 60,
-      decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.5, color: Colors.black))),
+      decoration: BoxDecoration(
+        border: const Border(top: BorderSide(width: 1.5, color: Colors.black)),
+        color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
+      ),
       child: Row(
         children: [
           Expanded(

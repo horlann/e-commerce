@@ -41,4 +41,4 @@ class ThemesBloc extends Bloc<ThemesEvent, ThemesState> {
   }
 }
 
-enum Theme { dark, light }
+enum ThemeStyle { dark, light }
