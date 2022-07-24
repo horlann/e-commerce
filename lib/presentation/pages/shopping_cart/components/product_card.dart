@@ -24,15 +24,16 @@ class ProductCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 100,
-          height: 90.0,
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.fitHeight),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: SizedBox(
+            width: 100,
+            height: 100,
+            child: CustomImageProvider(
+              imageLink: product.image,
+              imageFrom: ImageFrom.network,
+            ),
           ),
-          child: CustomImageProvider(imageLink: product.image, imageFrom: ImageFrom.network),
         ),
         const SizedBox(width: 10),
         Column(
@@ -66,9 +67,9 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   "\$${product.price}",
-                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.backgroundColor),
+                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.inactiveTextColor),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 5),
                 Text(
                   "x ${product.count}",
                   style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w500, color: theme.inactiveTextColor),
