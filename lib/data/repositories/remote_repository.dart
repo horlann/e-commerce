@@ -1,1 +1,45 @@
-class RemoteRepository {}
+import 'package:injectable/injectable.dart';
+import 'package:kurilki/data/datasources/remote_datasource.dart';
+import 'package:kurilki/data/models/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/item_table_model.dart';
+import 'package:kurilki/data/models/snus_table_model.dart';
+import 'package:kurilki/domain/entities/disposable_pod_entity.dart';
+import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/domain/entities/snus.dart';
+import 'package:uuid/uuid.dart';
+
+@singleton
+class RemoteRepository {
+  final RemoteDataSource _remoteDataSource;
+
+  RemoteRepository(this._remoteDataSource);
+
+  Future<List<Item>> loadAllItems() async {
+    List<Item?> items = [];
+    List<ItemTableModel> preItems = await _remoteDataSource.loadAllItems();
+    items = preItems.map((e) {
+      if (e.category == ProductCategory.disposablePod.name) {
+        return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
+      } else if (e.category == ProductCategory.snus.name) {
+        return Snus.fromTableModel(e as SnusTableModel);
+      } else {
+        return null;
+      }
+    }).toList();
+    List<Item> productsList = items.where((element) => element != null).toList() as List<Item>;
+    return productsList;
+  }
+
+  Future<void> createItem() async {
+    _remoteDataSource.createItem(ItemTableModel(
+        uuid: const Uuid().v4(),
+        id: 1,
+        name: 'ElfBar Grape',
+        price: 330,
+        oldPrice: 0,
+        category: 'disposablePod',
+        imageLink: 'imageLink',
+        tags: [],
+        isAvailable: true));
+  }
+}

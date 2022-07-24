@@ -6,7 +6,6 @@ class FirebaseService {
   static Future<FirebaseService> init() async {
     await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
     return FirebaseService();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:kurilki/data/models/snus_table_model.dart';
 import 'package:kurilki/domain/entities/item.dart';
 
 class Snus extends Item {
@@ -8,5 +9,21 @@ class Snus extends Item {
       required super.price,
       required super.oldPrice,
       required super.category,
-      required super.imageLink});
+      required super.imageLink,
+      required super.isAvailable,
+      required super.tags,
+      required this.strength});
+
+  final int strength;
+  factory Snus.fromTableModel(SnusTableModel model) => Snus(
+      uuid: model.uuid,
+      id: model.id,
+      name: model.name,
+      price: model.price,
+      oldPrice: model.oldPrice,
+      category: model.category,
+      imageLink: model.imageLink,
+      isAvailable: model.isAvailable,
+      tags: model.tags,
+      strength: model.strength);
 }

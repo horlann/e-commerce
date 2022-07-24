@@ -1,10 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:kurilki/common/navigation/router.gr.dart';
-import 'package:kurilki/presentation/screens/constants.dart';
 
-import '../../shopping_cart/products.dart';
-import 'product_card.dart';
 import 'section_title.dart';
 
 class NewArrivalProducts extends StatelessWidget {
@@ -20,27 +15,27 @@ class NewArrivalProducts extends StatelessWidget {
           title: "New Arrival",
           pressSeeAll: () {},
         ),
-        SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              demo_product.length,
-              (index) => Padding(
-                padding: const EdgeInsets.only(right: defaultPadding),
-                child: ProductCard(
-                  title: demo_product[index].title,
-                  image: demo_product[index].image,
-                  price: demo_product[index].price,
-                  bgColor: demo_product[index].bgColor,
-                  press: () {
-                    AutoRouter.of(context).push(DetailsRouter(product: demo_product[index]));
-                  },
-                ),
-              ),
-            ),
-          ),
-        )
+        // SingleChildScrollView(
+        //   physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        //   scrollDirection: Axis.horizontal,
+        //   child: Row(
+        //     children: List.generate(
+        //       demo_product.length,
+        //       (index) => Padding(
+        //         padding: const EdgeInsets.only(right: defaultPadding),
+        //         child: ProductCard(
+        //           title: demo_product[index].title,
+        //           image: demo_product[index].image,
+        //           price: demo_product[index].price,
+        //           bgColor: demo_product[index].bgColor,
+        //           press: () {
+        //             AutoRouter.of(context).push(DetailsRouter(product: demo_product[index]));
+        //           },
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // )
       ],
     );
   }
