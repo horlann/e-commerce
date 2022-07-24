@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
+import 'package:kurilki/presentation/bloc/auth/auth_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_event.dart';
 
@@ -16,9 +17,11 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return BlocProvider(
-      lazy: false,
-      create: (context) => ThemesBloc()..add(const ThemeInitEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemesBloc>(create: (_) => ThemesBloc()..add(const ThemeInitEvent())),
+        BlocProvider<AuthBloc>(create: (_) => AuthBloc()),
+      ],
       child: Builder(builder: (context) {
         return MaterialApp.router(
           color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
