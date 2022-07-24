@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/screens/product.dart';
-import 'package:kurilki/presentation/widgets/Image_provider.dart';
+import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;

@@ -19,4 +19,8 @@ class RemoteDataSource {
     await FirebaseAuth.instance.signInWithCredential(credential);
     return Right(googleUser);
   }
+
+  Future logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

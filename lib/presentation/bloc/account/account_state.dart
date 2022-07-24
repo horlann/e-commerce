@@ -7,7 +7,7 @@ class AuthState {
     return AuthorizedState(user);
   }
 
-  AuthState unauthorizedState() {
+  AuthState unauthorized() {
     return const UnauthorizedState();
   }
 }
