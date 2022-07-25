@@ -1,4 +1,4 @@
-import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
+import 'package:kurilki/domain/entities/user_entity.dart';
 
 class AccountState {
   const AccountState();

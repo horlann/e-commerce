@@ -1,14 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/item_table_model.dart';
 import 'package:kurilki/data/models/snus_table_model.dart';
 import 'package:kurilki/domain/entities/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/item.dart';
-import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
-import 'package:kurilki/common/failures/failures.dart';
-import 'package:dartz/dartz.dart';
 import 'package:kurilki/domain/entities/snus.dart';
+import 'package:kurilki/domain/entities/user_entity.dart';
 import 'package:uuid/uuid.dart';
 
 @singleton

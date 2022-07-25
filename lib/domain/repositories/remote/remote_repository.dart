@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kurilki/common/failures/failures.dart';
-import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
+import 'package:kurilki/domain/entities/user_entity.dart';
 
 abstract class RemoteRepository {
   const RemoteRepository();

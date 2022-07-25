@@ -12,7 +12,7 @@ import 'package:kurilki/data/models/item_table_model.dart';
 import 'package:kurilki/data/models/snus_table_model.dart';
 import 'package:kurilki/data/models/user_table_model.dart';
 import 'package:kurilki/domain/entities/item.dart';
-import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
+import 'package:kurilki/domain/entities/user_entity.dart';
 import 'package:kurilki/main.dart';
 
 @lazySingleton
