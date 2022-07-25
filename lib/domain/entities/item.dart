@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 abstract class Item {
   final String uuid;
 
-  final int id;
+  final String id;
 
   final String name;
 

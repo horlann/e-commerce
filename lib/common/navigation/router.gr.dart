@@ -13,6 +13,7 @@
 import 'package:auto_route/auto_route.dart' as _i7;
 import 'package:flutter/material.dart' as _i8;
 
+import '../../domain/entities/item.dart' as _i9;
 import '../../presentation/pages/account/account_page.dart' as _i3;
 import '../../presentation/pages/details/details_screen.dart' as _i5;
 import '../../presentation/pages/home/home_page.dart' as _i6;
@@ -99,7 +100,7 @@ class CartRouter extends _i7.PageRouteInfo<void> {
 /// generated route for
 /// [_i5.DetailsScreen]
 class DetailsRouter extends _i7.PageRouteInfo<DetailsRouterArgs> {
-  DetailsRouter({_i8.Key? key, required dynamic product})
+  DetailsRouter({_i8.Key? key, required _i9.Item product})
       : super(DetailsRouter.name, path: 'details', args: DetailsRouterArgs(key: key, product: product));
 
   static const String name = 'DetailsRouter';
@@ -110,7 +111,7 @@ class DetailsRouterArgs {
 
   final _i8.Key? key;
 
-  final dynamic product;
+  final _i9.Item product;
 
   @override
   String toString() {

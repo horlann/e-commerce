@@ -28,7 +28,7 @@ class RemoteDataSource {
       }
     }).toList();
     List<ItemTableModel> productsList =
-        tempProductsList.where((element) => element != null).toList() as List<ItemTableModel>;
+        tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();
     return productsList;
   }
 

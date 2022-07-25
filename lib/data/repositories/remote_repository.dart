@@ -26,19 +26,19 @@ class RemoteRepository {
         return null;
       }
     }).toList();
-    List<Item> productsList = items.where((element) => element != null).toList() as List<Item>;
+    List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
     return productsList;
   }
 
   Future<void> createItem() async {
     _remoteDataSource.createItem(ItemTableModel(
         uuid: const Uuid().v4(),
-        id: 1,
+        id: '1',
         name: 'ElfBar Grape',
         price: 330,
         oldPrice: 0,
         category: 'disposablePod',
-        imageLink: 'imageLink',
+        imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
         tags: [],
         isAvailable: true));
   }

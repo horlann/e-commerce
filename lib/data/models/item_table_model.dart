@@ -8,8 +8,8 @@ part 'item_table_model.g.dart';
 class ItemTableModel {
   @JsonKey(name: FirestoreSchema.uuid)
   final String uuid;
-  @JsonKey(name: FirestoreSchema.id, defaultValue: -1)
-  final int id;
+  @JsonKey(name: FirestoreSchema.id, defaultValue: '-1')
+  final String id;
   @JsonKey(name: FirestoreSchema.name, defaultValue: '')
   final String name;
   @JsonKey(name: FirestoreSchema.price, defaultValue: 0)

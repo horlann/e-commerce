@@ -1,9 +1,27 @@
+import 'package:kurilki/domain/entities/item.dart';
+
 class ProductsState {
+  const ProductsState();
+
   ProductsState init() {
-    return ProductsState();
+    return const ProductsState();
   }
 
-  ProductsState clone() {
-    return ProductsState();
+  ProductsState loading() {
+    return const ProductsLoadingState();
   }
+
+  ProductsState productsLoaded(List<Item> items) {
+    return ProductsLoadedState(items);
+  }
+}
+
+class ProductsLoadingState extends ProductsState {
+  const ProductsLoadingState();
+}
+
+class ProductsLoadedState extends ProductsState {
+  const ProductsLoadedState(this.items);
+
+  final List<Item> items;
 }
