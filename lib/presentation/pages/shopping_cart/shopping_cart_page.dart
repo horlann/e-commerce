@@ -16,26 +16,30 @@ class ShoppingCartPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Cart", style: TextStyle(color: theme.backgroundColor)),
         centerTitle: true,
+        backgroundColor: theme.accentColor,
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              // Expanded(
-              //   child: ListView.separated(
-              //     itemCount: demo_product.length,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return ProductCard(
-              //         product: demo_product[index],
-              //         theme: theme,
-              //         width: screenSize.width,
-              //       );
-              //     },
-              //     separatorBuilder: (BuildContext context, int index) =>
-              //         const SizedBox(height: defaultPadding),
-              //   ),
-              // ),
+              const SizedBox(height: 10),
+              /* Expanded(
+                child: ScrollConfiguration(
+                  behavior: ListViewScrollBehavior(),
+                  child: ListView.separated(
+                    itemCount: demo_product.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ProductCard(
+                        product: demo_product[index],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: defaultPadding);
+                    },
+                  ),
+                ),
+              ), */
               Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(24)),
@@ -46,8 +50,7 @@ class ShoppingCartPage extends StatelessWidget {
                     const SizedBox(height: 5),
                     Text(
                       "Total: 1000\$",
-                      style:
-                          TextStyle(color: theme.infoTextColor, fontSize: 16),
+                      style: TextStyle(color: theme.infoTextColor, fontSize: 16),
                     ),
                     const SizedBox(height: 5),
                     SizedBox(

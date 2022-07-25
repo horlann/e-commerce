@@ -5,6 +5,9 @@ import 'package:kurilki/data/models/item_table_model.dart';
 import 'package:kurilki/data/models/snus_table_model.dart';
 import 'package:kurilki/domain/entities/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
+import 'package:kurilki/common/failures/failures.dart';
+import 'package:dartz/dartz.dart';
 import 'package:kurilki/domain/entities/snus.dart';
 import 'package:uuid/uuid.dart';
 
@@ -41,5 +44,17 @@ class RemoteRepository {
         imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
         tags: [],
         isAvailable: true));
+  }
+
+  Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
+    return await _remoteDataSource.authWithGoogleAccount();
+  }
+
+  Future<Either<Failure, AccountEntity>> getAccountEntity() async {
+    return await _remoteDataSource.getAccountEntity();
+  }
+
+  Future<Either<Failure, bool>> logout() async {
+    return await _remoteDataSource.logout();
   }
 }

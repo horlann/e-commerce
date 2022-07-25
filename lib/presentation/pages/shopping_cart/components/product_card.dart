@@ -6,7 +6,7 @@ import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/item.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/widgets/Image_provider.dart';
+import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class ProductCard extends StatelessWidget {
   final Item product;
@@ -66,12 +66,12 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     "\$${product.price}",
-                    style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.backgroundColor),
+                    style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.infoTextColor),
                   ),
                   const SizedBox(width: 10),
                   Text(
                     "x 1",
-                    style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w500, color: theme.inactiveTextColor),
+                    style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w500, color: theme.infoTextColor),
                   ),
                 ],
               )
