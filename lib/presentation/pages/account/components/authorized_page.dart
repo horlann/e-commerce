@@ -9,11 +9,11 @@ import 'package:kurilki/presentation/pages/account/product_history.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/screens/scroll_behaviour.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class AuthorizedPage extends StatelessWidget {
   final AccountEntity user;
+
   const AuthorizedPage({
     Key? key,
     required this.user,
@@ -59,21 +59,18 @@ class AuthorizedPage extends StatelessWidget {
           ),
           SizedBox(height: scale * 10),
           Expanded(
-            child: ScrollConfiguration(
-              behavior: ListViewScrollBehavior(),
-              child: ListView.separated(
-                itemCount: product_list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCardHistory(
-                    item: product_list[index],
-                    theme: theme,
-                    width: screenSize.width,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 2);
-                },
-              ),
+            child: ListView.separated(
+              itemCount: product_list.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ProductCardHistory(
+                  item: product_list[index],
+                  theme: theme,
+                  width: screenSize.width,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 2);
+              },
             ),
           ),
           const SocialNetworks(),

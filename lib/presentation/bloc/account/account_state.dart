@@ -14,7 +14,7 @@ class AccountState {
     return const InProgressAuthState();
   }
   AccountState failure() {
-    return const InProgressAuthState();
+    return const AuthorizationFailureState();
   }
 }
 

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
@@ -16,14 +19,29 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: theme.whiteTextColor),
         actions: [
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(primary: theme.accentColor, shape: const StadiumBorder()),
-            child: const Text("Add to Cart"),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     cartBloc.add(AddToCartEvent(product, 1 + 1));
+          //   },
+          //   style: ElevatedButton.styleFrom(primary: theme.accentColor, shape: const StadiumBorder()),
+          //   child: const Text("Add to Cart"),
+          // ),
+          BlocBuilder<CartBloc, CartState>(
+            builder: (context, state) {
+              final int countInCart = cartBloc.countOfItemsInCart(product.uuid);
+              return ElevatedButton(
+                onPressed: () {
+                  cartBloc.add(AddToCartEvent(product, countInCart + 1));
+                },
+                style: ElevatedButton.styleFrom(primary: theme.accentColor, shape: const StadiumBorder()),
+                child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
+              );
+            },
           ),
           const SizedBox(
             width: 15,
@@ -76,13 +94,13 @@ class DetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text(
+                  const Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: const Text(
                       "A Henley shirt is a collarless pullover shirt, by a round neckline and a placket about 3 to 5 inches (8 to 13 cm) long and usually having 2–5 buttons.",
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Colors",
                     //  style: Theme.of(context).textTheme.subtitle2,
                   ),

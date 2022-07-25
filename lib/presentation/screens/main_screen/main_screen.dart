@@ -15,13 +15,10 @@ class MainScreen extends StatelessWidget {
         AccountRouter(),
         CartRouter(),
       ],
-      duration: const Duration(milliseconds: 1),
+      lazyLoad: false,
       builder: (context, child, animation) {
         return Scaffold(
-          body: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
+          body: child,
           bottomNavigationBar: const BottomBar(),
         );
       },

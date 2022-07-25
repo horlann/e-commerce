@@ -1,67 +1,68 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:kurilki/presentation/screens/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kurilki/common/navigation/router.gr.dart';
+import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
+import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
+import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class ProductCard extends StatelessWidget {
+  final Item product;
+
   const ProductCard({
     Key? key,
-    required this.image,
-    required this.title,
-    required this.price,
-    required this.press,
-    required this.bgColor,
+    required this.product,
   }) : super(key: key);
-  final String image, title;
-  final VoidCallback press;
-  final int price;
-  final Color bgColor;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: press,
-      child: Container(
-        width: 154,
-        padding: const EdgeInsets.all(defaultPadding / 2),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: const BorderRadius.all(Radius.circular(defaultBorderRadius)),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: image,
-                height: 132,
-              ),
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    return InkWell(
+      onTap: () {
+        AutoRouter.of(context).push(DetailsRouter(product: product));
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 80,
+            height: 90.0,
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
-            const SizedBox(height: defaultPadding / 2),
-            Row(
-              children: [
-                Expanded(
-                  child: AutoSizeText(
-                    title,
-                    maxFontSize: 16,
-                    minFontSize: 12,
+            child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network),
+          ),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10.0),
+              Row(
+                children: [
+                  AutoSizeText(
+                    product.name,
                     maxLines: 2,
-                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                    minFontSize: 14,
+                    maxFontSize: 16,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: theme.infoTextColor,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  "\$" + price.toString(),
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-              ],
-            )
-          ],
-        ),
+                ],
+              ),
+              const SizedBox(height: 10.0),
+              Text(
+                "\$${product.price}",
+                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: theme.infoTextColor),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
@@ -22,14 +21,18 @@ class AccountPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: theme.accentColor,
       ),
-      body: BlocBuilder<AccountBloc, AccountState>(
+      body: BlocConsumer<AccountBloc, AccountState>(
+        listener: (context, state) {
+          if (state is AuthorizationFailureState) {
+            CustomSnackBar.showSnackNar(context, "Authorization failure", "");
+          }
+        },
         builder: ((context, state) {
           if (state is InProgressAuthState) {
             return Center(child: CircularProgressIndicator(color: theme.accentColor));
           } else if (state is UnauthorizedState) {
             return const UnauthorizedPage();
           } else if (state is AuthorizationFailureState) {
-            CustomSnackBar.showSnackNar(context, "Authorization failure", "");
             return const UnauthorizedPage();
           } else if (state is AuthorizedState) {
             return AuthorizedPage(user: state.entity);
