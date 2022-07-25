@@ -29,6 +29,8 @@ dependencies:
   #REST
   dio: ^4.0.4
   retrofit: ^3.0.1+1
+  uuid: ^3.0.4
+
 
 
   #UTILITY

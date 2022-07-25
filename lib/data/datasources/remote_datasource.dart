@@ -3,13 +3,19 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
+import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/account_firestore_schema.dart';
+import 'package:kurilki/data/models/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/item_table_model.dart';
+import 'package:kurilki/data/models/snus_table_model.dart';
 import 'package:kurilki/data/models/user_table_model.dart';
+import 'package:kurilki/domain/entities/item.dart';
 import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
 import 'package:kurilki/main.dart';
-import 'package:logger/logger.dart';
 
+@lazySingleton
 class RemoteDataSource {
   final _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore;
@@ -98,5 +104,30 @@ class RemoteDataSource {
       logger.e(e);
       return const Left(FirebaseAuthFailure());
     }
+  }
+
+  Future<List<ItemTableModel>> loadAllItems() async {
+    final userCollectionRef = _firestore.collection("products");
+    QuerySnapshot ref = await userCollectionRef.get();
+
+    List<ItemTableModel?> tempProductsList = ref.docs.map((e) {
+      Json json = e.data() as Json;
+      ItemTableModel abstractItem = ItemTableModel.fromJson(json);
+      if (abstractItem.category == ProductCategory.disposablePod.name) {
+        return DisposablePodTableModel.fromJson(json);
+      } else if (abstractItem.category == ProductCategory.snus.name) {
+        return SnusTableModel.fromJson(json);
+      } else {
+        return null;
+      }
+    }).toList();
+    List<ItemTableModel> productsList =
+        tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();
+    return productsList;
+  }
+
+  Future<void> createItem(ItemTableModel model) async {
+    final userCollectionRef = _firestore.collection("products");
+    await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 }

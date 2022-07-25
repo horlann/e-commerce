@@ -1,10 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:kurilki/common/navigation/router.gr.dart';
-import 'package:kurilki/presentation/screens/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
+import 'package:kurilki/presentation/bloc/products/products_state.dart';
+import 'package:kurilki/presentation/pages/shopping_cart/components/product_card.dart';
 
-import '../../shopping_cart/products.dart';
-import 'product_card.dart';
 import 'section_title.dart';
 
 class NewArrivalProducts extends StatelessWidget {
@@ -20,27 +20,30 @@ class NewArrivalProducts extends StatelessWidget {
           title: "New Arrival",
           pressSeeAll: () {},
         ),
-        SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              demo_product.length,
-              (index) => Padding(
-                padding: const EdgeInsets.only(right: defaultPadding),
-                child: ProductCard(
-                  title: demo_product[index].title,
-                  image: demo_product[index].image,
-                  price: demo_product[index].price,
-                  bgColor: demo_product[index].bgColor,
-                  press: () {
-                    AutoRouter.of(context).push(DetailsRouter(product: demo_product[index]));
-                  },
+        BlocBuilder<ProductsBloc, ProductsState>(
+          builder: (context, state) {
+            if (state is ProductsLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              final List<Item> items = (state as ProductsLoadedState).items;
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    items.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: ProductCard(
+                        product: items[index],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        )
+              );
+            }
+          },
+        ),
       ],
     );
   }

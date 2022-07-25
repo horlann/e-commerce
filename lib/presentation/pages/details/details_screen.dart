@@ -2,22 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kurilki/domain/entities/item.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/screens/product.dart';
 
 import 'components/color_dot.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key? key, required this.product}) : super(key: key);
 
-  final Product product;
+  final Item product;
 
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return Scaffold(
-      backgroundColor: product.bgColor,
       appBar: AppBar(
         leading: BackButton(color: theme.whiteTextColor),
         actions: [
@@ -44,7 +43,7 @@ class DetailsScreen extends StatelessWidget {
       body: Column(
         children: [
           CachedNetworkImage(
-            imageUrl: product.image,
+            imageUrl: product.imageLink,
             height: MediaQuery.of(context).size.height * 0.4,
             fit: BoxFit.cover,
           ),
@@ -66,7 +65,7 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          product.title,
+                          product.name,
                           //style: Theme.of(context).textTheme.headline6,
                         ),
                       ),

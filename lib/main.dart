@@ -15,6 +15,7 @@ Future<void> main() async {
 
   await easy_local.EasyLocalization.ensureInitialized();
   _initLogger();
+
   await setupLocators(Environment.dev);
   runApp(MyApp());
 }
