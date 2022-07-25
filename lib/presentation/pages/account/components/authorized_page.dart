@@ -5,7 +5,7 @@ import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/pages/account/components/product_card_history.dart';
 import 'package:kurilki/presentation/pages/account/components/social_networks.dart';
-import 'package:kurilki/presentation/pages/shopping_cart/products.dart';
+import 'package:kurilki/presentation/pages/account/product_history.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -62,10 +62,10 @@ class AuthorizedPage extends StatelessWidget {
             child: ScrollConfiguration(
               behavior: ListViewScrollBehavior(),
               child: ListView.separated(
-                itemCount: demo_product_history.length,
+                itemCount: product_list.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ProductCardHistory(
-                    product: demo_product_history[index],
+                    item: product_list[index],
                     theme: theme,
                     width: screenSize.width,
                   );

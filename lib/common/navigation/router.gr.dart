@@ -22,29 +22,36 @@ import '../../presentation/pages/shopping_cart/shopping_cart_page.dart' as _i4;
 import '../../presentation/screens/main_screen/main_screen.dart' as _i1;
 
 class AppRouter extends _i7.RootStackRouter {
-  AppRouter([_i8.GlobalKey<_i8.NavigatorState>? navigatorKey]) : super(navigatorKey);
+  AppRouter([_i8.GlobalKey<_i8.NavigatorState>? navigatorKey])
+      : super(navigatorKey);
 
   @override
   final Map<String, _i7.PageFactory> pagesMap = {
     MainScreen.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(routeData: routeData, child: const _i1.MainScreen());
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i1.MainScreen());
     },
     HomePageWrapper.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(routeData: routeData, child: const _i2.HomePageWrapper());
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.HomePageWrapper());
     },
     AccountRouter.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(routeData: routeData, child: const _i3.AccountPage());
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i3.AccountPage());
     },
     CartRouter.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(routeData: routeData, child: const _i4.ShoppingCartPage());
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i4.ShoppingCartPage());
     },
     DetailsRouter.name: (routeData) {
       final args = routeData.argsAs<DetailsRouterArgs>();
       return _i7.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i5.DetailsScreen(key: args.key, product: args.product));
+          routeData: routeData,
+          child: _i5.DetailsScreen(key: args.key, product: args.product));
     },
     HomeRouter.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(routeData: routeData, child: const _i6.HomePage());
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i6.HomePage());
     }
   };
 
@@ -52,14 +59,28 @@ class AppRouter extends _i7.RootStackRouter {
   List<_i7.RouteConfig> get routes => [
         _i7.RouteConfig(MainScreen.name, path: '/', children: [
           _i7.RouteConfig('#redirect',
-              path: '', parent: MainScreen.name, redirectTo: 'homePageWrapper', fullMatch: true),
-          _i7.RouteConfig(HomePageWrapper.name, path: 'homePageWrapper', parent: MainScreen.name, children: [
-            _i7.RouteConfig('#redirect', path: '', parent: HomePageWrapper.name, redirectTo: 'home', fullMatch: true),
-            _i7.RouteConfig(DetailsRouter.name, path: 'details', parent: HomePageWrapper.name),
-            _i7.RouteConfig(HomeRouter.name, path: 'home', parent: HomePageWrapper.name)
-          ]),
-          _i7.RouteConfig(AccountRouter.name, path: 'account', parent: MainScreen.name),
-          _i7.RouteConfig(CartRouter.name, path: 'cart', parent: MainScreen.name)
+              path: '',
+              parent: MainScreen.name,
+              redirectTo: 'homePageWrapper',
+              fullMatch: true),
+          _i7.RouteConfig(HomePageWrapper.name,
+              path: 'homePageWrapper',
+              parent: MainScreen.name,
+              children: [
+                _i7.RouteConfig('#redirect',
+                    path: '',
+                    parent: HomePageWrapper.name,
+                    redirectTo: 'home',
+                    fullMatch: true),
+                _i7.RouteConfig(DetailsRouter.name,
+                    path: 'details', parent: HomePageWrapper.name),
+                _i7.RouteConfig(HomeRouter.name,
+                    path: 'home', parent: HomePageWrapper.name)
+              ]),
+          _i7.RouteConfig(AccountRouter.name,
+              path: 'account', parent: MainScreen.name),
+          _i7.RouteConfig(CartRouter.name,
+              path: 'cart', parent: MainScreen.name)
         ])
       ];
 }
@@ -67,7 +88,8 @@ class AppRouter extends _i7.RootStackRouter {
 /// generated route for
 /// [_i1.MainScreen]
 class MainScreen extends _i7.PageRouteInfo<void> {
-  const MainScreen({List<_i7.PageRouteInfo>? children}) : super(MainScreen.name, path: '/', initialChildren: children);
+  const MainScreen({List<_i7.PageRouteInfo>? children})
+      : super(MainScreen.name, path: '/', initialChildren: children);
 
   static const String name = 'MainScreen';
 }
@@ -76,7 +98,8 @@ class MainScreen extends _i7.PageRouteInfo<void> {
 /// [_i2.HomePageWrapper]
 class HomePageWrapper extends _i7.PageRouteInfo<void> {
   const HomePageWrapper({List<_i7.PageRouteInfo>? children})
-      : super(HomePageWrapper.name, path: 'homePageWrapper', initialChildren: children);
+      : super(HomePageWrapper.name,
+            path: 'homePageWrapper', initialChildren: children);
 
   static const String name = 'HomePageWrapper';
 }
@@ -101,7 +124,9 @@ class CartRouter extends _i7.PageRouteInfo<void> {
 /// [_i5.DetailsScreen]
 class DetailsRouter extends _i7.PageRouteInfo<DetailsRouterArgs> {
   DetailsRouter({_i8.Key? key, required _i9.Item product})
-      : super(DetailsRouter.name, path: 'details', args: DetailsRouterArgs(key: key, product: product));
+      : super(DetailsRouter.name,
+            path: 'details',
+            args: DetailsRouterArgs(key: key, product: product));
 
   static const String name = 'DetailsRouter';
 }

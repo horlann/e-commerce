@@ -1,16 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kurilki/presentation/pages/account/product_history.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
-import 'package:kurilki/presentation/screens/product_history.dart';
 import 'package:kurilki/presentation/widgets/Image_provider.dart';
 
 class ProductCardHistory extends StatelessWidget {
-  final ProductHistory product;
+  final ProductHistory item;
   final AbstractTheme theme;
   final double width;
   const ProductCardHistory({
     Key? key,
-    required this.product,
+    required this.item,
     required this.theme,
     required this.width,
   }) : super(key: key);
@@ -28,7 +28,7 @@ class ProductCardHistory extends StatelessWidget {
               width: 50,
               height: 50,
               child: CustomImageProvider(
-                imageLink: product.image,
+                imageLink: item.image,
                 imageFrom: ImageFrom.network,
               ),
             ),
@@ -41,7 +41,7 @@ class ProductCardHistory extends StatelessWidget {
               SizedBox(
                 width: width - 180,
                 child: AutoSizeText(
-                  product.title,
+                  item.name,
                   maxLines: 2,
                   minFontSize: 14,
                   maxFontSize: 16,
@@ -53,12 +53,20 @@ class ProductCardHistory extends StatelessWidget {
                 ),
               ),
               Text(
-                "\$" + (product.price * product.count).toString(),
-                style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.inactiveTextColor),
+                "\$" + (item.price * item.count).toString(),
+                style: TextStyle(
+                  fontSize: 11.0,
+                  fontWeight: FontWeight.w600,
+                  color: theme.inactiveTextColor,
+                ),
               ),
               Text(
-                product.data,
-                style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w500, color: theme.inactiveTextColor),
+                item.data,
+                style: TextStyle(
+                  fontSize: 11.0,
+                  fontWeight: FontWeight.w500,
+                  color: theme.inactiveTextColor,
+                ),
               ),
             ],
           ),

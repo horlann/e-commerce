@@ -8,7 +8,7 @@ import 'package:kurilki/presentation/bloc/account/account_state.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
-  final _remoteRepository = RemoteRepositoryImpl(
+  final _remoteRepository = RemoteRepository(
     RemoteDataSource(FirebaseFirestore.instance, FirebaseAuth.instance),
   );
 
