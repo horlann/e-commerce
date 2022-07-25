@@ -11,7 +11,6 @@ late Logger logger;
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FirebaseService.init();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await easy_local.EasyLocalization.ensureInitialized();

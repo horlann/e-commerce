@@ -42,7 +42,9 @@ class ShoppingCartPage extends StatelessWidget {
                         width: screenSize.width,
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) => const SizedBox(height: defaultPadding),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: defaultPadding);
+                    },
                   ),
                 ),
               ),

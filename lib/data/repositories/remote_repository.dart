@@ -5,21 +5,21 @@ import 'package:dartz/dartz.dart';
 import 'package:kurilki/domain/repositories/remote/remote_repository.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
-  final RemoteDataSource dataSource;
+  final RemoteDataSource _dataSource;
 
-  RemoteRepositoryImpl(this.dataSource);
+  RemoteRepositoryImpl(this._dataSource);
   @override
   Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
-    return await dataSource.authWithGoogleAccount();
+    return await _dataSource.authWithGoogleAccount();
   }
 
   @override
   Future<Either<Failure, AccountEntity>> getAccountEntity() async {
-    return await dataSource.getAccountEntity();
+    return await _dataSource.getAccountEntity();
   }
 
   @override
   Future<Either<Failure, bool>> logout() async {
-    return await dataSource.logout();
+    return await _dataSource.logout();
   }
 }

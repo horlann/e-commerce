@@ -23,10 +23,16 @@ class CircleIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: callback,
-      child: SizedBox(
+      child: Container(
         height: height,
         width: width,
-        child: SvgPicture.asset(icon),
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(shape: BoxShape.circle),
+        child: SvgPicture.asset(
+          icon,
+          height: height - 10,
+          width: width - 10,
+        ),
       ),
       style: ButtonStyle(
         shape: MaterialStateProperty.all(const CircleBorder()),

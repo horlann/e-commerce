@@ -67,12 +67,12 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   "\$${product.price}",
-                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.inactiveTextColor),
+                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w600, color: theme.infoTextColor),
                 ),
                 const SizedBox(width: 5),
                 Text(
                   "x ${product.count}",
-                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w500, color: theme.inactiveTextColor),
+                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.w500, color: theme.infoTextColor),
                 ),
               ],
             )
