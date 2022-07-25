@@ -13,6 +13,9 @@ class AccountState {
   AccountState inProgress() {
     return const InProgressAuthState();
   }
+  AccountState failure() {
+    return const InProgressAuthState();
+  }
 }
 
 class AuthorizedState extends AccountState {
@@ -27,4 +30,8 @@ class InProgressAuthState extends AccountState {
 
 class UnauthorizedState extends AccountState {
   const UnauthorizedState();
+}
+
+class AuthorizationFailureState extends AccountState {
+  const AuthorizationFailureState();
 }

@@ -19,12 +19,12 @@ class RemoteDataSource {
 
   Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
     try {
-      GoogleSignInAccount? googleUser;
-      googleUser = await _googleSignIn.signIn().catchError(
+      final googleUser = await _googleSignIn
+          .signIn(); /*.catchError(
         (onError) {
           logger.e("Sign In is canceled");
         },
-      );
+      );*/
       if (googleUser == null) return const Left(FirebaseAuthFailure());
 
       final googleAuth = await googleUser.authentication;
@@ -41,11 +41,11 @@ class RemoteDataSource {
           (l) => Left(l),
           (r) => Right(r),
         );
-      } on FirebaseAuthException catch (e) {
+      } on PlatformException catch (e) {
         rethrow;
       }
-    } on FirebaseAuthException catch (e) {
-      //not implemented yet
+    } on PlatformException catch (e) {
+      //TODO: not implemented yet
       switch (e.code) {
         case "account-exists-with-different-credential":
           break;

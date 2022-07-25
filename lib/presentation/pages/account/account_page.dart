@@ -7,6 +7,7 @@ import 'package:kurilki/presentation/pages/account/components/authorized_page.da
 import 'package:kurilki/presentation/pages/account/components/unauthorized_page.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
+import 'package:kurilki/presentation/widgets/snackbar.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -26,6 +27,9 @@ class AccountPage extends StatelessWidget {
           if (state is InProgressAuthState) {
             return Center(child: CircularProgressIndicator(color: theme.accentColor));
           } else if (state is UnauthorizedState) {
+            return const UnauthorizedPage();
+          } else if (state is AuthorizationFailureState) {
+            CustomSnackBar.showSnackNar(context, "Authorization failure", "");
             return const UnauthorizedPage();
           } else if (state is AuthorizedState) {
             return AuthorizedPage(user: state.entity);
