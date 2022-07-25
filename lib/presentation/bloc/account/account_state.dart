@@ -1,23 +1,30 @@
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
 
-class AuthState {
-  const AuthState();
+class AccountState {
+  const AccountState();
 
-  AuthState authorized({required GoogleSignInAccount user}) {
-    return AuthorizedState(user);
+  AccountState authorized({required AccountEntity entity}) {
+    return AuthorizedState(entity);
   }
 
-  AuthState unauthorized() {
+  AccountState unauthorized() {
     return const UnauthorizedState();
   }
+  AccountState inProgress() {
+    return const InProgressAuthState();
+  }
 }
 
-class AuthorizedState extends AuthState {
-  final GoogleSignInAccount user;
+class AuthorizedState extends AccountState {
+  final AccountEntity entity;
 
-  const AuthorizedState(this.user);
+  const AuthorizedState(this.entity);
 }
 
-class UnauthorizedState extends AuthState {
+class InProgressAuthState extends AccountState {
+  const InProgressAuthState();
+}
+
+class UnauthorizedState extends AccountState {
   const UnauthorizedState();
 }

@@ -6,8 +6,8 @@ import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 
-class UnauthorizatedPage extends StatelessWidget {
-  const UnauthorizatedPage({
+class UnauthorizedPage extends StatelessWidget {
+  const UnauthorizedPage({
     Key? key,
   }) : super(key: key);
 

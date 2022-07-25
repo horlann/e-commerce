@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_event.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemesBloc>(create: (_) => ThemesBloc()..add(const ThemeInitEvent())),
-        BlocProvider<AccountBloc>(create: (_) => AccountBloc()),
+        BlocProvider<AccountBloc>(create: (_) => AccountBloc()..add(InitAuthEvent())),
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

@@ -2,28 +2,26 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kurilki/domain/entities/remote/firebase/user_entity.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
-import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/pages/account/components/product_card_history.dart';
 import 'package:kurilki/presentation/pages/account/components/social_networks.dart';
 import 'package:kurilki/presentation/pages/shopping_cart/products.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/screens/scroll_behaviour.dart';
-import 'package:kurilki/presentation/widgets/circle_icon_button.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
-import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 
-import '../../../resources/icons.dart';
-
-class AuthorizatedPage extends StatelessWidget {
-  const AuthorizatedPage({Key? key}) : super(key: key);
+class AuthorizedPage extends StatelessWidget {
+  final AccountEntity user;
+  const AuthorizedPage({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bloc = AccountBloc();
-    final user = FirebaseAuth.instance.currentUser!;
     final screenSize = MediaQuery.of(context).size;
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
@@ -36,7 +34,7 @@ class AuthorizatedPage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
               child: CustomImageProvider(
-                imageLink: user.photoURL ?? "",
+                imageLink: user.imageLink,
                 imageFrom: ImageFrom.network,
               ),
             ),
@@ -46,7 +44,7 @@ class AuthorizatedPage extends StatelessWidget {
             width: 200,
             child: Center(
               child: AutoSizeText(
-                user.displayName ?? "Google account",
+                user.name,
                 minFontSize: 12,
                 maxFontSize: 20,
                 style: const TextStyle(color: Colors.black, fontSize: 20),

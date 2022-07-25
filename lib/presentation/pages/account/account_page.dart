@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/presentation/pages/account/components/authorizated_page.dart';
-import 'package:kurilki/presentation/pages/account/components/unauthorizated_page.dart';
+import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/presentation/bloc/account/account_state.dart';
+import 'package:kurilki/presentation/pages/account/components/authorized_page.dart';
+import 'package:kurilki/presentation/pages/account/components/unauthorized_page.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
@@ -19,17 +21,16 @@ class AccountPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: theme.accentColor,
       ),
-      body: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: ((context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            return const AuthorizatedPage();
-          } else if (snapshot.hasError) {
-            return const Center(child: Text("Something went wrong"));
+      body: BlocBuilder<AccountBloc, AccountState>(
+        builder: ((context, state) {
+          if (state is InProgressAuthState) {
+            return Center(child: CircularProgressIndicator(color: theme.accentColor));
+          } else if (state is UnauthorizedState) {
+            return const UnauthorizedPage();
+          } else if (state is AuthorizedState) {
+            return AuthorizedPage(user: state.entity);
           } else {
-            return const UnauthorizatedPage();
+            return const Center(child: Text("Something went wrong"));
           }
         }),
       ),
