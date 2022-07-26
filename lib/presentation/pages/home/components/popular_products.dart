@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/bloc/products/products_state.dart';
 import 'package:kurilki/presentation/pages/home/components/product_card.dart';

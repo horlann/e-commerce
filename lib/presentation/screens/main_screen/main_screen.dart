@@ -15,7 +15,8 @@ class MainScreen extends StatelessWidget {
         AccountRouter(),
         CartRouter(),
       ],
-      lazyLoad: false,
+      //TODO:should be false
+      lazyLoad: true,
       builder: (context, child, animation) {
         return Scaffold(
           body: child,

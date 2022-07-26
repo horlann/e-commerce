@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kurilki/data/api/rest_api/schemas/account_firestore_schema.dart';
-import 'package:kurilki/domain/entities/user_entity.dart';
+import 'package:kurilki/domain/entities/user/user_entity.dart';
 
 class UserTableModel extends AccountEntity {
   UserTableModel({

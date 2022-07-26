@@ -11,9 +11,10 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../../data/datasources/remote_datasource.dart' as _i7;
 import '../../data/repositories/remote_repository.dart' as _i8;
+import '../../presentation/bloc/account/account_bloc.dart' as _i9;
 import '../services/connection/custom_connection_checker.dart' as _i3;
 import '../services/firebase.dart' as _i6;
-import 'app_module.dart' as _i9; // ignore_for_file: unnecessary_lambdas
+import 'app_module.dart' as _i10; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -26,8 +27,9 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get, {String? environment, _i2.Environmen
   await gh.factoryAsync<_i6.FirebaseService>(() => appModule.fireService, preResolve: true);
   gh.lazySingleton<_i7.RemoteDataSource>(
       () => _i7.RemoteDataSource(get<_i5.FirebaseFirestore>(), get<_i4.FirebaseAuth>()));
-  gh.singleton<_i8.RemoteRepository>(_i8.RemoteRepository(get<_i7.RemoteDataSource>()));
+  gh.lazySingleton<_i8.RemoteRepository>(() => _i8.RemoteRepository(get<_i7.RemoteDataSource>()));
+  gh.factory<_i9.AccountBloc>(() => _i9.AccountBloc(get<_i8.RemoteRepository>()));
   return get;
 }
 
-class _$AppModule extends _i9.AppModule {}
+class _$AppModule extends _i10.AppModule {}

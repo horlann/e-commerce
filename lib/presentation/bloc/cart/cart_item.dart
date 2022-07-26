@@ -1,4 +1,4 @@
-import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 
 class CartItem {
   final Item item;

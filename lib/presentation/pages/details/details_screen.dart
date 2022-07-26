@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
@@ -24,13 +24,6 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: theme.whiteTextColor),
         actions: [
-          // ElevatedButton(
-          //   onPressed: () {
-          //     cartBloc.add(AddToCartEvent(product, 1 + 1));
-          //   },
-          //   style: ElevatedButton.styleFrom(primary: theme.accentColor, shape: const StadiumBorder()),
-          //   child: const Text("Add to Cart"),
-          // ),
           BlocBuilder<CartBloc, CartState>(
             builder: (context, state) {
               final int countInCart = cartBloc.countOfItemsInCart(product.uuid);

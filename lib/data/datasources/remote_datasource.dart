@@ -7,12 +7,14 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/account_firestore_schema.dart';
-import 'package:kurilki/data/models/disposable_pod_table_model.dart';
-import 'package:kurilki/data/models/item_table_model.dart';
-import 'package:kurilki/data/models/snus_table_model.dart';
-import 'package:kurilki/data/models/user_table_model.dart';
-import 'package:kurilki/domain/entities/item.dart';
-import 'package:kurilki/domain/entities/user_entity.dart';
+import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
+import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/items/item_table_model.dart';
+import 'package:kurilki/data/models/items/snus_table_model.dart';
+import 'package:kurilki/data/models/order/order_table_model.dart';
+import 'package:kurilki/data/models/user/user_table_model.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
 
 @lazySingleton
@@ -25,12 +27,7 @@ class RemoteDataSource {
 
   Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
     try {
-      final googleUser = await _googleSignIn
-          .signIn(); /*.catchError(
-        (onError) {
-          logger.e("Sign In is canceled");
-        },
-      );*/
+      final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return const Left(FirebaseAuthFailure());
 
       final googleAuth = await googleUser.authentication;
@@ -129,5 +126,24 @@ class RemoteDataSource {
   Future<void> createItem(ItemTableModel model) async {
     final userCollectionRef = _firestore.collection("products");
     await userCollectionRef.doc(model.uuid).set(model.toJson());
+  }
+
+  Future<void> createOrder(OrderTableModel orderTableModel) async {
+    final userCollectionRef = _firestore.collection("orders");
+    await userCollectionRef.doc(orderTableModel.uuid).set(orderTableModel.toJson());
+  }
+
+  Future<OrderTableModel> get lastOrder async {
+    final ordersCollection = _firestore.collection("orders");
+
+    QuerySnapshot snap = await ordersCollection.orderBy(FirestoreSchema.number, descending: true).limit(1).get();
+
+    List<QueryDocumentSnapshot> docs = snap.docs;
+    OrderTableModel orderTableModel = OrderTableModel.fromJson(docs.first.data() as Map<String, dynamic>);
+    if (docs.isNotEmpty) {
+      return orderTableModel;
+    } else {
+      throw Exception('Orders empty');
+    }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
-import 'package:kurilki/data/models/item_table_model.dart';
+import 'package:kurilki/data/models/items/item_table_model.dart';
 
 part 'disposable_pod_table_model.g.dart';
 
