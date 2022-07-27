@@ -58,16 +58,16 @@ class DetailsScreen extends StatelessWidget {
             )
           ],
         ),
-        body: Column(
-          children: [
-            CachedNetworkImage(
-              imageUrl: product.imageLink,
-              height: MediaQuery.of(context).size.height * 0.4,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 25),
-            Expanded(
-              child: Container(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl: product.imageLink,
+                height: MediaQuery.of(context).size.height * 0.4,
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(height: 25),
+              Container(
                 padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -84,25 +84,20 @@ class DetailsScreen extends StatelessWidget {
                         Expanded(
                           child: Text(
                             product.name,
-                            //style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         const SizedBox(width: 16),
                         Text(
                           "\$" + product.price.toString(),
-                          //  style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headline6,
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: const Text(
-                        "A Henley shirt is a collarless pullover shirt, by a round neckline and a placket about 3 to 5 inches (8 to 13 cm) long and usually having 2–5 buttons.",
-                      ),
-                    ),
-                    const Text(
-                      "Colors",
-                      //  style: Theme.of(context).textTheme.subtitle2,
+                    const SizedBox(height: 12),
+                    Text(
+                      "Tastes",
+                      style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     const SizedBox(height: 8),
                     BlocBuilder<DetailsBloc, DetailsState>(
@@ -110,26 +105,33 @@ class DetailsScreen extends StatelessWidget {
                         if (state is DetailsLoadedState) {
                           List<Item> items = state.list;
 
-                          return Wrap(
-                            children: items
-                                .map((e) => Container(
-                                      width: 50,
-                                      height: 50,
-                                      child: CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
-                                    ))
-                                .toList(),
+                          return Center(
+                            child: Wrap(
+                              alignment: WrapAlignment.start,
+                              runSpacing: 10,
+                              spacing: 10,
+                              children: items
+                                  .map((e) => Container(
+                                        width: 80,
+                                        height: 80,
+                                        decoration: BoxDecoration(border: Border.all()),
+                                        child:
+                                            CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                                      ))
+                                  .toList(),
+                            ),
                           );
                         } else {
-                          return const CircularProgressIndicator();
+                          return Center(child: const CircularProgressIndicator());
                         }
                       },
                     ),
                     const SizedBox(height: 32),
                   ],
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -40,7 +40,8 @@ class RemoteRepository {
 
   Future<List<Item>> loadItemsWithSameId(Item item) async {
     List<Item?> items = [];
-    List<ItemTableModel> preItems = await _remoteDataSource.loadItemsWithSameId(item.category.name);
+    List<ItemTableModel> preItems = await _remoteDataSource.loadItemsWithSameId(item.category);
+
     items = preItems.map((e) {
       if (e.category == ProductCategory.disposablePod.name) {
         return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);

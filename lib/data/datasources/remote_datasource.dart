@@ -124,10 +124,7 @@ class RemoteDataSource {
 
   Future<List<ItemTableModel>> loadItemsWithSameId(String id) async {
     final userCollectionRef = _firestore.collection("products");
-    QuerySnapshot ref = await userCollectionRef
-        .orderBy('orderNumber', descending: true)
-        .where(FirestoreSchema.categoryName, isEqualTo: id)
-        .get();
+    QuerySnapshot ref = await userCollectionRef.where(FirestoreSchema.categoryName, isEqualTo: id).get();
     List<ItemTableModel?> tempProductsList = ref.docs.map((e) {
       Json json = e.data() as Json;
       ItemTableModel abstractItem = ItemTableModel.fromJson(json);
