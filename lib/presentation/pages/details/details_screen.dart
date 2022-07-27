@@ -16,7 +16,10 @@ import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/Image_provider.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key, required this.product}) : super(key: key);
+  const DetailsScreen({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   final Item product;
 

@@ -1,5 +1,11 @@
-abstract class ProductsEvent {}
+abstract class ProductsEvent {
+  const ProductsEvent();
+}
 
-class InitEvent extends ProductsEvent {}
+class InitEvent extends ProductsEvent {
+  const InitEvent();
+}
 
-class CreateItemEvent extends ProductsEvent {}
+class CreateItemEvent extends ProductsEvent {
+  const CreateItemEvent();
+}

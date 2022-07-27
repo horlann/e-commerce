@@ -13,6 +13,7 @@ class RoundedInputField extends StatefulWidget {
   final Function(String callback) callback;
   final int maxLength;
   final int maxLines;
+  final TextInputType inputType;
 
   const RoundedInputField(
       {Key? key,
@@ -23,6 +24,7 @@ class RoundedInputField extends StatefulWidget {
       this.isPasswordCanBeVisible = true,
       this.maxLength = 30,
       this.maxLines = 1,
+      this.inputType = TextInputType.text,
       this.suffixIcon})
       : super(key: key);
 
@@ -46,10 +48,11 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
-        color: theme.accentColor.withOpacity(0.6),
+        color: theme.accentColor,
         borderRadius: BorderRadius.circular(29),
       ),
       child: TextField(
+        keyboardType: widget.inputType,
         cursorColor: Colors.green,
         obscureText: isPasswordHiden,
         controller: controller,
@@ -57,15 +60,15 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
         maxLines: widget.maxLines,
         textAlign: TextAlign.start,
         inputFormatters: [LengthLimitingTextInputFormatter(widget.maxLength)],
-        style: TextStyle(color: theme.infoTextColor),
+        style: TextStyle(color: theme.whiteTextColor),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           icon: Icon(
             widget.icon,
-            color: theme.infoTextColor,
+            color: theme.whiteTextColor,
           ),
           hintText: widget.hint,
-          hintStyle: TextStyle(color: theme.infoTextColor, fontSize: 15),
+          hintStyle: TextStyle(color: theme.whiteTextColor, fontSize: 15),
           contentPadding: EdgeInsets.zero,
           alignLabelWithHint: true,
           isCollapsed: true,

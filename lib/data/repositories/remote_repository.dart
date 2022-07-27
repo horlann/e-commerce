@@ -2,11 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
+import 'package:kurilki/data/models/category_table_model.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
+import 'package:kurilki/domain/entities/category/category_entity.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
@@ -90,35 +92,66 @@ class RemoteRepository {
     }
   }
 
+  Future<void> createCategory(String name, String imageLink) async {
+    await _remoteDataSource.createCategory(CategoryTableModel(
+      id: 1,
+      name: name,
+      imageLink: imageLink,
+      uuid: const Uuid().v4(),
+    ));
+  }
+
   Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
+    AccountEntity? entity;
     final result = (await _remoteDataSource.authWithGoogleAccount());
-    result.fold((l) {
-      throw Failure;
-    }, (r) {
-      UserTableModel userTableModel = r;
-      AccountEntity entity = AccountEntity.fromTableModel(userTableModel);
-      return entity;
-    });
-    throw Failure;
+    result.fold(
+      (l) => const Left(FirebaseUnknownFailure()),
+      (r) {
+        UserTableModel userTableModel = r;
+        entity = AccountEntity.fromTableModel(userTableModel);
+        return entity;
+      },
+    );
+    if (entity != null) {
+      return Right(entity!);
+    }
+    return const Left(FirebaseUnknownFailure());
   }
 
   Future<Either<Failure, AccountEntity>> getAccountEntity() async {
     AccountEntity? entity;
     final result = (await _remoteDataSource.getAccountEntity());
-    result.fold((l) {
-      throw Failure;
-    }, (r) {
-      UserTableModel userTableModel = r;
-      entity = AccountEntity.fromTableModel(userTableModel);
-      return Right(entity);
-    });
+    result.fold(
+      (l) => const Left(FirebaseUnknownFailure()),
+      (r) {
+        UserTableModel userTableModel = r;
+        entity = AccountEntity.fromTableModel(userTableModel);
+        return Right(entity);
+      },
+    );
     if (entity != null) {
       return Right(entity!);
     }
-    throw Failure;
+    return const Left(FirebaseUnknownFailure());
   }
 
   Future<Either<Failure, bool>> logout() async {
     return await _remoteDataSource.logout();
+  }
+
+  Future<Either<Failure, List<CategoryEntity>>> getCategoriesList() async {
+    List<CategoryEntity> entity = [];
+    final result = await _remoteDataSource.getCategoriesList();
+    result.fold(
+      (l) => const Left(FirebaseUnknownFailure()),
+      (r) {
+        List<CategoryTableModel> models = r;
+        for (var model in models) {
+          entity.add(CategoryEntity.fromTableModel(model));
+        }
+        return Right(entity);
+      },
+    );
+    return Right(entity);
   }
 }

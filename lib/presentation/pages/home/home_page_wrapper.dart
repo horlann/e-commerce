@@ -12,7 +12,7 @@ class HomePageWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ProductsBloc(getIt.call())..add(InitEvent()),
+      create: (BuildContext context) => ProductsBloc(getIt.call())..add(const InitEvent()),
       child: AutoRouter(
         placeholder: (context) => ColoredBox(
           color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,

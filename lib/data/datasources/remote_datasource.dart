@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/account_firestore_schema.dart';
+import 'package:kurilki/data/models/category_table_model.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
@@ -43,22 +43,11 @@ class RemoteDataSource {
           (l) => Left(l),
           (r) => Right(r),
         );
-      } on PlatformException catch (e) {
+      } catch (e) {
         rethrow;
       }
-    } on PlatformException catch (e) {
-      //TODO: not implemented yet
-      switch (e.code) {
-        case "account-exists-with-different-credential":
-          break;
-        case "invalid-credential":
-          break;
-        case "operation-not-allowed":
-          break;
-        case "user-disabled":
-          break;
-      }
-      logger.e(e.code);
+    } catch (e) {
+      logger.e(e);
       return const Left(FirebaseAuthFailure());
     }
   }
@@ -85,6 +74,23 @@ class RemoteDataSource {
       } else {
         return const Left(FirebaseForbiddenAccessFailure());
       }
+    } on Exception catch (e) {
+      logger.e(e);
+      return const Left(FirebaseUnknownFailure());
+    }
+  }
+
+  Future<Either<Failure, List<CategoryTableModel>>> getCategoriesList() async {
+    try {
+      final userCollectionRef = _firestore.collection("admin");
+      QuerySnapshot ref = await userCollectionRef.get();
+
+      List<CategoryTableModel> models = ref.docs.map((e) {
+        Json json = e.data() as Json;
+        return CategoryTableModel.fromJson(json);
+      }).toList();
+
+      return Right(models);
     } on Exception catch (e) {
       logger.e(e);
       return const Left(FirebaseUnknownFailure());
@@ -143,6 +149,11 @@ class RemoteDataSource {
 
   Future<void> createItem(ItemTableModel model) async {
     final userCollectionRef = _firestore.collection("products");
+    await userCollectionRef.doc(model.uuid).set(model.toJson());
+  }
+
+  Future<void> createCategory(CategoryTableModel model) async {
+    final userCollectionRef = _firestore.collection("admin");
     await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 
