@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+
 import 'package:kurilki/presentation/pages/home/home_page.dart';
 import 'package:kurilki/presentation/pages/home/home_page_wrapper.dart';
 import 'package:kurilki/presentation/pages/shopping_cart/shopping_cart_page.dart';
+import 'package:kurilki/presentation/screens/admin/admin_screen.dart';
 import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
 
 import '../../presentation/pages/account/account_page.dart';
+
 import '../../presentation/pages/details/details_screen.dart';
 
 @MaterialAutoRouter(
@@ -13,6 +16,7 @@ import '../../presentation/pages/details/details_screen.dart';
     AutoRoute(
       path: '/',
       page: MainScreen,
+      name: "MainScreen",
       initial: true,
       children: [
         AutoRoute(
@@ -22,15 +26,14 @@ import '../../presentation/pages/details/details_screen.dart';
           page: HomePageWrapper,
           children: [
             AutoRoute(
+              path: '',
+              name: "HomeRouter",
+              page: HomePage,
+            ),
+            AutoRoute(
               path: 'details',
               name: "DetailsRouter",
               page: DetailsScreen,
-            ),
-            AutoRoute(
-              initial: true,
-              path: 'home',
-              name: "HomeRouter",
-              page: HomePage,
             ),
           ],
         ),
@@ -46,6 +49,11 @@ import '../../presentation/pages/details/details_screen.dart';
         ),
       ],
     ),
+    /*AutoRoute(
+      path: 'admin',
+      name: "AdminRouter",
+      page: AdminScreen,
+    ),*/
   ],
 )
 class $AppRouter {}

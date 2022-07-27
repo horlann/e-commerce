@@ -35,7 +35,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 1;
                 });
-                context.navigateTo(const HomePageWrapper());
+                context.router.navigate(const HomePageWrapper());
               },
               child: SizedBox(
                 width: double.infinity,
@@ -54,7 +54,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 2;
                 });
-                context.navigateTo(const AccountRouter());
+                context.router.navigate(const AccountRouter());
               },
               child: SizedBox(
                 width: double.infinity,
@@ -73,7 +73,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 3;
                 });
-                context.navigateTo(const CartRouter());
+                context.router.navigate(const CartRouter());
               },
               child: SizedBox(
                 width: double.infinity,

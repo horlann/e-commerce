@@ -12,7 +12,10 @@ import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'components/color_dot.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key, required this.product}) : super(key: key);
+  const DetailsScreen({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   final Item product;
 
@@ -20,6 +23,7 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: theme.whiteTextColor),
@@ -95,8 +99,8 @@ class DetailsScreen extends StatelessWidget {
                     ],
                   ),
                   const Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: const Text(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
                       "A Henley shirt is a collarless pullover shirt, by a round neckline and a placket about 3 to 5 inches (8 to 13 cm) long and usually having 2–5 buttons.",
                     ),
                   ),

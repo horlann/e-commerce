@@ -17,3 +17,4 @@ class FirebaseForbiddenAccessFailure extends Failure {
 class FirebaseOtherFailure extends Failure {
   const FirebaseOtherFailure();
 }
+

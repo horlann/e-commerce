@@ -17,7 +17,7 @@ class UnauthorizedPage extends StatelessWidget {
     final bloc = BlocProvider.of<AccountBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final scale = byWithScale(context);
-    
+
     return Container(
       color: theme.backgroundColor,
       child: Center(
@@ -38,7 +38,7 @@ class UnauthorizedPage extends StatelessWidget {
                 color: theme.accentColor,
                 theme: theme,
                 callback: () => bloc.add(
-                  AuthWithGoogleAccountEvent(),
+                  const AuthWithGoogleAccountEvent(),
                 ),
               ),
             ),

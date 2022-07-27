@@ -15,8 +15,8 @@ import 'package:flutter/material.dart' as _i8;
 
 import '../../domain/entities/item.dart' as _i9;
 import '../../presentation/pages/account/account_page.dart' as _i3;
-import '../../presentation/pages/details/details_screen.dart' as _i5;
-import '../../presentation/pages/home/home_page.dart' as _i6;
+import '../../presentation/pages/details/details_screen.dart' as _i6;
+import '../../presentation/pages/home/home_page.dart' as _i5;
 import '../../presentation/pages/home/home_page_wrapper.dart' as _i2;
 import '../../presentation/pages/shopping_cart/shopping_cart_page.dart' as _i4;
 import '../../presentation/screens/main_screen/main_screen.dart' as _i1;
@@ -43,15 +43,15 @@ class AppRouter extends _i7.RootStackRouter {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.ShoppingCartPage());
     },
+    HomeRouter.name: (routeData) {
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i5.HomePage());
+    },
     DetailsRouter.name: (routeData) {
       final args = routeData.argsAs<DetailsRouterArgs>();
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i5.DetailsScreen(key: args.key, product: args.product));
-    },
-    HomeRouter.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i6.HomePage());
+          child: _i6.DetailsScreen(key: args.key, product: args.product));
     }
   };
 
@@ -67,15 +67,10 @@ class AppRouter extends _i7.RootStackRouter {
               path: 'homePageWrapper',
               parent: MainScreen.name,
               children: [
-                _i7.RouteConfig('#redirect',
-                    path: '',
-                    parent: HomePageWrapper.name,
-                    redirectTo: 'home',
-                    fullMatch: true),
-                _i7.RouteConfig(DetailsRouter.name,
-                    path: 'details', parent: HomePageWrapper.name),
                 _i7.RouteConfig(HomeRouter.name,
-                    path: 'home', parent: HomePageWrapper.name)
+                    path: '', parent: HomePageWrapper.name),
+                _i7.RouteConfig(DetailsRouter.name,
+                    path: 'details', parent: HomePageWrapper.name)
               ]),
           _i7.RouteConfig(AccountRouter.name,
               path: 'account', parent: MainScreen.name),
@@ -121,7 +116,15 @@ class CartRouter extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.DetailsScreen]
+/// [_i5.HomePage]
+class HomeRouter extends _i7.PageRouteInfo<void> {
+  const HomeRouter() : super(HomeRouter.name, path: '');
+
+  static const String name = 'HomeRouter';
+}
+
+/// generated route for
+/// [_i6.DetailsScreen]
 class DetailsRouter extends _i7.PageRouteInfo<DetailsRouterArgs> {
   DetailsRouter({_i8.Key? key, required _i9.Item product})
       : super(DetailsRouter.name,
@@ -142,12 +145,4 @@ class DetailsRouterArgs {
   String toString() {
     return 'DetailsRouterArgs{key: $key, product: $product}';
   }
-}
-
-/// generated route for
-/// [_i6.HomePage]
-class HomeRouter extends _i7.PageRouteInfo<void> {
-  const HomeRouter() : super(HomeRouter.name, path: 'home');
-
-  static const String name = 'HomeRouter';
 }

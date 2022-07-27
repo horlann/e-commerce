@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/presentation/pages/details/details_screen.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -21,7 +22,7 @@ class ProductCard extends StatelessWidget {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return InkWell(
       onTap: () {
-        AutoRouter.of(context).push(DetailsRouter(product: product));
+        context.router.navigate(HomePageWrapper(children: [DetailsRouter(product: product)]));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

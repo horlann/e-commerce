@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_state.dart';
 import 'package:kurilki/presentation/pages/account/components/authorized_page.dart';
@@ -17,14 +19,17 @@ class AccountPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Account", style: TextStyle(color: theme.backgroundColor)),
+        title: Text(
+          "Account",
+          style: TextStyle(color: theme.backgroundColor),
+        ),
         centerTitle: true,
         backgroundColor: theme.accentColor,
       ),
       body: BlocConsumer<AccountBloc, AccountState>(
         listener: (context, state) {
           if (state is AuthorizationFailureState) {
-            CustomSnackBar.showSnackNar(context, "Authorization failure", "");
+            CustomSnackBar.showSnackNar(context, "Error", "An error occurred during authorization");
           }
         },
         builder: ((context, state) {

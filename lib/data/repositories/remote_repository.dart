@@ -2,9 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
+import 'package:kurilki/data/models/category_table_model.dart';
 import 'package:kurilki/data/models/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/item_table_model.dart';
 import 'package:kurilki/data/models/snus_table_model.dart';
+import 'package:kurilki/domain/entities/category_entity.dart';
 import 'package:kurilki/domain/entities/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/item.dart';
 import 'package:kurilki/domain/entities/snus.dart';
@@ -56,5 +58,30 @@ class RemoteRepository {
 
   Future<Either<Failure, bool>> logout() async {
     return await _remoteDataSource.logout();
+  }
+
+  Future<Either<Failure, List<CategoryEntity>>> getCategoriesList() async {
+    List<CategoryEntity> entity = [];
+    final result = await _remoteDataSource.getCategoriesList();
+    result.fold(
+      (l) => const Left(FirebaseUnknownFailure()),
+      (r) {
+        List<CategoryTableModel> models = r;
+        for (var model in models) {
+          entity.add(CategoryEntity.fromTableModel(model));
+        }
+        return Right(entity);
+      },
+    );
+    return Right(entity);
+  }
+
+  Future<void> addNewCategory(String name, String imageLink) async {
+    await _remoteDataSource.addNewCategory(CategoryTableModel(
+      id: 1,
+      name: name,
+      imageLink: imageLink,
+      uuid: const Uuid().v4(),
+    ));
   }
 }

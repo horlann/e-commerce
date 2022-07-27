@@ -482,6 +482,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_expanded_tile:
+    dependency: "direct main"
+    description:
+      name: flutter_expanded_tile
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.6"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

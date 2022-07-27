@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 
 class CircleIconButton extends StatelessWidget {

@@ -8,9 +8,7 @@ import 'package:kurilki/presentation/pages/home/components/product_card.dart';
 import 'section_title.dart';
 
 class NewArrivalProducts extends StatelessWidget {
-  const NewArrivalProducts({
-    Key? key,
-  }) : super(key: key);
+  const NewArrivalProducts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
