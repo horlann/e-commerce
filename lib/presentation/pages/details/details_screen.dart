@@ -125,7 +125,7 @@ class DetailsScreen extends StatelessWidget {
                             ),
                           );
                         } else {
-                          return Center(child: const CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                       },
                     ),

@@ -5,9 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/common/typedefs/json.dart';
-import 'package:kurilki/data/api/rest_api/schemas/account_firestore_schema.dart';
-import 'package:kurilki/data/models/category_table_model.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
+import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
@@ -24,7 +23,7 @@ class RemoteDataSource {
 
   RemoteDataSource(this._firestore, this._auth);
 
-  Future<Either<Failure, UserTableModel>> authWithGoogleAccount() async {
+  Future<Either<Failure, bool>> authWithGoogleAccount() async {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return const Left(FirebaseAuthFailure());
@@ -37,46 +36,64 @@ class RemoteDataSource {
 
       try {
         await _auth.signInWithCredential(credential);
-        logger.i("Successful authorization");
-        final response = await getAccountEntity();
-        return response.fold(
-          (l) => Left(l),
-          (r) => Right(r),
-        );
+        return const Right(true);
       } catch (e) {
+        _auth.signOut();
         rethrow;
       }
     } catch (e) {
       logger.e(e);
+      _auth.signOut();
+
       return const Left(FirebaseAuthFailure());
     }
   }
 
   Future<Either<Failure, UserTableModel>> getAccountEntity() async {
-    UserTableModel userTableModel;
     try {
       if (_auth.currentUser != null) {
         final userCollectionRef = _firestore.collection("accounts");
-        final uuid = _auth.currentUser!.uid;
+        final authId = _auth.currentUser!.uid;
 
-        final document = await userCollectionRef.doc(uuid).get();
-        if (document.data() == null) {
-          await userCollectionRef.doc(uuid).set({
-            AccountFirestoreSchema.uuid: uuid,
-            AccountFirestoreSchema.name: _auth.currentUser!.displayName,
-            AccountFirestoreSchema.imageLink: _auth.currentUser!.photoURL,
-          });
+        final QuerySnapshot document =
+            await userCollectionRef.where(FirestoreSchema.authId, isEqualTo: authId).limit(1).get();
+        if (document.docs.isEmpty) {
+          print('no acc');
+          return const Left(NoUserFailure());
         }
-        DocumentSnapshot snapshot = await userCollectionRef.doc(uuid).get();
-        userTableModel = UserTableModel.fromJson(snapshot.data() as Json);
-        print(userTableModel.toJson());
+        UserTableModel userTableModel = UserTableModel.fromJson(document.docs.first.data() as Json);
         return Right(userTableModel);
       } else {
-        return const Left(FirebaseForbiddenAccessFailure());
+        logger.e('no auth');
+        return const Left(NoUserFailure());
       }
     } on Exception catch (e) {
       logger.e(e);
       return const Left(FirebaseUnknownFailure());
+    }
+  }
+
+  Future<Either<Failure, UserTableModel>> createUser(UserTableModel tableModel) async {
+    try {
+      final userCollectionRef = _firestore.collection("accounts");
+      await userCollectionRef.doc(tableModel.uuid).set(tableModel.toJson());
+      return Right(tableModel);
+    } on Exception catch (e) {
+      logger.e(e);
+      return const Left(FirebaseUnknownFailure());
+    }
+  }
+
+  Future<User> get userFromGoogleAuth async {
+    try {
+      if (_auth.currentUser != null) {
+        return _auth.currentUser!;
+      } else {
+        throw Failure;
+      }
+    } catch (e) {
+      logger.e(e);
+      throw Failure;
     }
   }
 

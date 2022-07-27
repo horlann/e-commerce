@@ -1,4 +1,4 @@
-import 'package:kurilki/data/models/category_table_model.dart';
+import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:uuid/uuid.dart';
 
 class CategoryEntity {

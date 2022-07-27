@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/admin_firestore_schema.dart';
-import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 
 part 'category_table_model.g.dart';
 

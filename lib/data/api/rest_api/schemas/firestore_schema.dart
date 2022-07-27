@@ -1,6 +1,7 @@
 class FirestoreSchema {
   static const String id = 'id';
   static const String uuid = 'uuid';
+  static const String authId = 'authId';
   static const String categoryName = 'category';
   static const String imageLink = 'imageLink';
   static const String name = 'name';

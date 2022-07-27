@@ -1,41 +1,36 @@
 import 'package:kurilki/data/models/user/user_table_model.dart';
+import 'package:uuid/uuid.dart';
 
-class AccountEntity {
+class UserEntity {
   final String uuid;
+  final String authId;
   final String name;
   final String imageLink;
 
-  const AccountEntity({
-    required this.uuid,
+  UserEntity({
+    String? uuid,
+    required this.authId,
     required this.name,
     required this.imageLink,
-  });
+  }) : uuid = uuid ?? const Uuid().v4();
 
-  AccountEntity copyWith({
+  UserEntity copyWith({
     String? uuid,
+    String? authId,
     String? name,
     String? imageLink,
   }) {
-    return AccountEntity(
+    return UserEntity(
       uuid: uuid ?? this.uuid,
+      authId: authId ?? this.authId,
       name: name ?? this.name,
       imageLink: imageLink ?? this.imageLink,
     );
   }
 
-  factory AccountEntity.fromTableModel(UserTableModel model) =>
-      AccountEntity(uuid: model.uuid, name: model.name, imageLink: model.imageLink);
+  factory UserEntity.fromTableModel(UserTableModel model) =>
+      UserEntity(uuid: model.uuid, authId: model.authId, name: model.name, imageLink: model.imageLink);
 
   @override
-  String toString() => 'UserEntity(uuid: $uuid, name: $name, imageLink: $imageLink)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AccountEntity && other.uuid == uuid && other.name == name && other.imageLink == imageLink;
-  }
-
-  @override
-  int get hashCode => uuid.hashCode ^ name.hashCode ^ imageLink.hashCode;
+  String toString() => 'UserEntity(uuid: $uuid,authId: $authId name: $name, imageLink: $imageLink)';
 }

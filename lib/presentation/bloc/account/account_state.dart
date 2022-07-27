@@ -3,7 +3,7 @@ import 'package:kurilki/domain/entities/user/user_entity.dart';
 class AccountState {
   const AccountState();
 
-  AccountState authorized({required AccountEntity entity}) {
+  AccountState authorized({required UserEntity entity}) {
     return AuthorizedState(entity);
   }
 
@@ -19,7 +19,7 @@ class AccountState {
 }
 
 class AuthorizedState extends AccountState {
-  final AccountEntity entity;
+  final UserEntity entity;
 
   const AuthorizedState(this.entity);
 }

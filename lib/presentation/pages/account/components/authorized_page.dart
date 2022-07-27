@@ -11,7 +11,7 @@ import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class AuthorizedPage extends StatelessWidget {
-  final AccountEntity user;
+  final UserEntity user;
 
   const AuthorizedPage({
     Key? key,
