@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
+import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -19,14 +21,19 @@ class ShoppingCartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AbstractTheme theme = Provider.of<ThemesBloc>(context).theme;
     Size screenSize = MediaQuery.of(context).size;
-
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Cart", style: TextStyle(color: theme.backgroundColor)),
         centerTitle: true,
         backgroundColor: theme.accentColor,
       ),
-      body: BlocBuilder<CartBloc, CartState>(
+      body: BlocConsumer<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is OrderCreated) {
+            CustomSnackBar.showSnackNar(context, 'Success!', 'Order Created');
+          }
+        },
         builder: (context, state) {
           if (state is InProgressCartState) {
             return const Center(child: CircularProgressIndicator());
@@ -59,6 +66,40 @@ class ShoppingCartPage extends StatelessWidget {
                           key: ValueKey(index),
                           child: CartProductCard(
                             cartItem: cartItems[index],
+                          ),
+                          startActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                onPressed: (context) {},
+                                backgroundColor: const Color(0xFF21B7CA),
+                                foregroundColor: Colors.white,
+                                icon: Icons.monitor_heart,
+                                label: 'add_to_favorite',
+                              ),
+                            ],
+                          ),
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                // An action can be bigger than the others.
+                                onPressed: (context) {
+                                  cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
+                                },
+                                backgroundColor: const Color(0xFF7BC043),
+                                foregroundColor: Colors.white,
+                                icon: Icons.remove,
+                                label: 'Remove',
+                              ),
+                              SlidableAction(
+                                onPressed: (context) {},
+                                backgroundColor: const Color(0xFF0392CF),
+                                foregroundColor: Colors.white,
+                                icon: Icons.save,
+                                label: 'Save',
+                              ),
+                            ],
                           ),
                         );
                       },
@@ -115,7 +156,9 @@ class _FilledCartPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: MainRoundedButton(
-                  callback: () {},
+                  callback: () {
+                    BlocProvider.of<CartBloc>(context).add(const CheckoutEvent());
+                  },
                   color: theme.accentColor,
                   text: 'Check Out',
                   paddingVert: 14,

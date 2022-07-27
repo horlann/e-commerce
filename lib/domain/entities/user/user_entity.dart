@@ -1,3 +1,5 @@
+import 'package:kurilki/data/models/user/user_table_model.dart';
+
 class AccountEntity {
   final String uuid;
   final String name;
@@ -20,6 +22,9 @@ class AccountEntity {
       imageLink: imageLink ?? this.imageLink,
     );
   }
+
+  factory AccountEntity.fromTableModel(UserTableModel model) =>
+      AccountEntity(uuid: model.uuid, name: model.name, imageLink: model.imageLink);
 
   @override
   String toString() => 'UserEntity(uuid: $uuid, name: $name, imageLink: $imageLink)';

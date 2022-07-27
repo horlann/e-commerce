@@ -3,8 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
-import 'package:kurilki/domain/entities/item.dart';
-import 'package:kurilki/presentation/pages/details/details_screen.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -22,7 +21,7 @@ class ProductCard extends StatelessWidget {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return InkWell(
       onTap: () {
-        context.router.navigate(HomePageWrapper(children: [DetailsRouter(product: product)]));
+        AutoRouter.of(context).push(DetailsRouter(product: product));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

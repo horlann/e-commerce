@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:kurilki/data/repositories/remote_repository.dart';
-import 'package:kurilki/domain/entities/item.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 
 import 'products_event.dart';
 import 'products_state.dart';

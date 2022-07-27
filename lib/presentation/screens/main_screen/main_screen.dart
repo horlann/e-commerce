@@ -6,6 +6,8 @@ import 'package:kurilki/common/services/connection/custom_connection_checker.dar
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'bottom_bar.dart';
 
+final _innerRouterKey = GlobalKey<AutoRouterState>();
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -27,11 +29,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
+      key: _innerRouterKey,
+
       routes: const [
         HomePageWrapper(),
         AccountRouter(),
         CartRouter(),
       ],
+      //TODO:should be false
       lazyLoad: true,
       builder: (context, child, animation) {
         return Scaffold(

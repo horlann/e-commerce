@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -20,6 +19,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final tabsRouter = AutoTabsRouter.of(context);
 
     return Container(
       height: 60,
@@ -35,7 +35,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 1;
                 });
-                context.router.navigate(const HomePageWrapper());
+                tabsRouter.setActiveIndex(0);
               },
               child: SizedBox(
                 width: double.infinity,
@@ -54,7 +54,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 2;
                 });
-                context.router.navigate(const AccountRouter());
+                tabsRouter.setActiveIndex(1);
               },
               child: SizedBox(
                 width: double.infinity,
@@ -73,7 +73,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 3;
                 });
-                context.router.navigate(const CartRouter());
+                tabsRouter.setActiveIndex(2);
               },
               child: SizedBox(
                 width: double.infinity,

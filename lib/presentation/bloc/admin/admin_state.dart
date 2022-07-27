@@ -1,4 +1,4 @@
-import 'package:kurilki/domain/entities/category_entity.dart';
+import 'package:kurilki/domain/entities/category/category_entity.dart';
 
 class AdminState {
   const AdminState();

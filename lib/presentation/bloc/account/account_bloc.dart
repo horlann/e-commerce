@@ -1,8 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/repositories/remote_repository.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/bloc/account/account_state.dart';
 
+@injectable
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
   final RemoteRepository _remoteRepository;
 
@@ -16,8 +18,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     emit(state.inProgress());
     final result = await _remoteRepository.getAccountEntity();
     result.fold(
-      (l) => emit(state.unauthorized()),
-      (r) => emit(state.authorized(entity: r)),
+          (l) => emit(state.unauthorized()),
+          (r) => emit(state.authorized(entity: r)),
     );
   }
 
@@ -25,8 +27,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     emit(state.inProgress());
     final result = await _remoteRepository.authWithGoogleAccount();
     result.fold(
-      (l) => emit(state.failure()),
-      (r) => emit(state.authorized(entity: r)),
+          (l) => emit(state.failure()),
+          (r) => emit(state.authorized(entity: r)),
     );
   }
 
@@ -35,7 +37,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     final result = await _remoteRepository.logout();
     result.fold(
           (l) => emit(state.failure()),
-      (r) => emit(state.unauthorized()),
+          (r) => emit(state.unauthorized()),
     );
   }
 }

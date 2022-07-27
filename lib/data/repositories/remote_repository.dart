@@ -3,25 +3,47 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/category_table_model.dart';
-import 'package:kurilki/data/models/disposable_pod_table_model.dart';
-import 'package:kurilki/data/models/item_table_model.dart';
-import 'package:kurilki/data/models/snus_table_model.dart';
-import 'package:kurilki/domain/entities/category_entity.dart';
-import 'package:kurilki/domain/entities/disposable_pod_entity.dart';
-import 'package:kurilki/domain/entities/item.dart';
-import 'package:kurilki/domain/entities/snus.dart';
-import 'package:kurilki/domain/entities/user_entity.dart';
+import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/items/item_table_model.dart';
+import 'package:kurilki/data/models/items/snus_table_model.dart';
+import 'package:kurilki/data/models/order/order_table_model.dart';
+import 'package:kurilki/data/models/user/user_table_model.dart';
+import 'package:kurilki/domain/entities/category/category_entity.dart';
+import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/snus.dart';
+import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/order/order.dart';
+import 'package:kurilki/domain/entities/order/price_details.dart';
+import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:uuid/uuid.dart';
 
-@singleton
+@lazySingleton
 class RemoteRepository {
   final RemoteDataSource _remoteDataSource;
 
-  RemoteRepository(this._remoteDataSource);
+  const RemoteRepository(this._remoteDataSource);
 
   Future<List<Item>> loadAllItems() async {
     List<Item?> items = [];
     List<ItemTableModel> preItems = await _remoteDataSource.loadAllItems();
+    items = preItems.map((e) {
+      if (e.category == ProductCategory.disposablePod.name) {
+        return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
+      } else if (e.category == ProductCategory.snus.name) {
+        return Snus.fromTableModel(e as SnusTableModel);
+      } else {
+        return null;
+      }
+    }).toList();
+    List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
+    return productsList;
+  }
+
+  Future<List<Item>> loadItemsWithSameId(Item item) async {
+    List<Item?> items = [];
+    List<ItemTableModel> preItems = await _remoteDataSource.loadItemsWithSameId(item.category);
+
     items = preItems.map((e) {
       if (e.category == ProductCategory.disposablePod.name) {
         return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
@@ -48,12 +70,69 @@ class RemoteRepository {
         isAvailable: true));
   }
 
+  Future<void> createOrder({required List<String> items}) async {
+    OrderEntity order = OrderEntity(
+        number: (await _lastOrderNumber),
+        userId: 'id',
+        deliveryDetails: const DeliveryDetails(address: 'adress', deliveryType: DeliveryType.delivery),
+        itemsUuid: items,
+        priceDetails: PriceDetails(totalPrice: 10, itemsPrice: 100, fullPrice: 120, deliveryPrice: 20));
+    await _remoteDataSource.createOrder(OrderTableModel.fromEntity(order));
+  }
+
+  Future<int> get _lastOrderNumber async {
+    int number = 1;
+
+    try {
+      OrderTableModel order = await _remoteDataSource.lastOrder;
+      number = order.number;
+      return ++number;
+    } catch (e) {
+      return 1;
+    }
+  }
+
+  Future<void> createCategory(String name, String imageLink) async {
+    await _remoteDataSource.createCategory(CategoryTableModel(
+      id: 1,
+      name: name,
+      imageLink: imageLink,
+      uuid: const Uuid().v4(),
+    ));
+  }
+
   Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
-    return await _remoteDataSource.authWithGoogleAccount();
+    AccountEntity? entity;
+    final result = (await _remoteDataSource.authWithGoogleAccount());
+    result.fold(
+      (l) => const Left(FirebaseUnknownFailure()),
+      (r) {
+        UserTableModel userTableModel = r;
+        entity = AccountEntity.fromTableModel(userTableModel);
+        return entity;
+      },
+    );
+    if (entity != null) {
+      return Right(entity!);
+    }
+    return const Left(FirebaseUnknownFailure());
   }
 
   Future<Either<Failure, AccountEntity>> getAccountEntity() async {
-    return await _remoteDataSource.getAccountEntity();
+    AccountEntity? entity;
+    final result = (await _remoteDataSource.getAccountEntity());
+    result.fold(
+      (l) => const Left(FirebaseUnknownFailure()),
+      (r) {
+        UserTableModel userTableModel = r;
+        entity = AccountEntity.fromTableModel(userTableModel);
+        return Right(entity);
+      },
+    );
+    if (entity != null) {
+      return Right(entity!);
+    }
+    return const Left(FirebaseUnknownFailure());
   }
 
   Future<Either<Failure, bool>> logout() async {
@@ -74,14 +153,5 @@ class RemoteRepository {
       },
     );
     return Right(entity);
-  }
-
-  Future<void> addNewCategory(String name, String imageLink) async {
-    await _remoteDataSource.addNewCategory(CategoryTableModel(
-      id: 1,
-      name: name,
-      imageLink: imageLink,
-      uuid: const Uuid().v4(),
-    ));
   }
 }
