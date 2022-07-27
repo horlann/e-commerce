@@ -6,6 +6,7 @@ import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
+import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
@@ -24,6 +25,22 @@ class RemoteRepository {
   Future<List<Item>> loadAllItems() async {
     List<Item?> items = [];
     List<ItemTableModel> preItems = await _remoteDataSource.loadAllItems();
+    items = preItems.map((e) {
+      if (e.category == ProductCategory.disposablePod.name) {
+        return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
+      } else if (e.category == ProductCategory.snus.name) {
+        return Snus.fromTableModel(e as SnusTableModel);
+      } else {
+        return null;
+      }
+    }).toList();
+    List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
+    return productsList;
+  }
+
+  Future<List<Item>> loadItemsWithSameId(Item item) async {
+    List<Item?> items = [];
+    List<ItemTableModel> preItems = await _remoteDataSource.loadItemsWithSameId(item.category.name);
     items = preItems.map((e) {
       if (e.category == ProductCategory.disposablePod.name) {
         return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
@@ -73,11 +90,31 @@ class RemoteRepository {
   }
 
   Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
-    return await _remoteDataSource.authWithGoogleAccount();
+    final result = (await _remoteDataSource.authWithGoogleAccount());
+    result.fold((l) {
+      throw Failure;
+    }, (r) {
+      UserTableModel userTableModel = r;
+      AccountEntity entity = AccountEntity.fromTableModel(userTableModel);
+      return entity;
+    });
+    throw Failure;
   }
 
   Future<Either<Failure, AccountEntity>> getAccountEntity() async {
-    return await _remoteDataSource.getAccountEntity();
+    AccountEntity? entity;
+    final result = (await _remoteDataSource.getAccountEntity());
+    result.fold((l) {
+      throw Failure;
+    }, (r) {
+      UserTableModel userTableModel = r;
+      entity = AccountEntity.fromTableModel(userTableModel);
+      return Right(entity);
+    });
+    if (entity != null) {
+      return Right(entity!);
+    }
+    throw Failure;
   }
 
   Future<Either<Failure, bool>> logout() async {

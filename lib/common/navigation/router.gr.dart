@@ -28,8 +28,8 @@ class AppRouter extends _i7.RootStackRouter {
   @override
   final Map<String, _i7.PageFactory> pagesMap = {
     MainScreen.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.MainScreen());
+      final args = routeData.argsAs<MainScreenArgs>(orElse: () => const MainScreenArgs());
+      return _i7.MaterialPageX<dynamic>(routeData: routeData, child: _i1.MainScreen(key: args.key));
     },
     HomePageWrapper.name: (routeData) {
       return _i7.MaterialPageX<dynamic>(
@@ -87,19 +87,29 @@ class AppRouter extends _i7.RootStackRouter {
 
 /// generated route for
 /// [_i1.MainScreen]
-class MainScreen extends _i7.PageRouteInfo<void> {
-  const MainScreen({List<_i7.PageRouteInfo>? children})
-      : super(MainScreen.name, path: '/', initialChildren: children);
+class MainScreen extends _i7.PageRouteInfo<MainScreenArgs> {
+  MainScreen({_i8.Key? key, List<_i7.PageRouteInfo>? children})
+      : super(MainScreen.name, path: '/', args: MainScreenArgs(key: key), initialChildren: children);
 
   static const String name = 'MainScreen';
+}
+
+class MainScreenArgs {
+  const MainScreenArgs({this.key});
+
+  final _i8.Key? key;
+
+  @override
+  String toString() {
+    return 'MainScreenArgs{key: $key}';
+  }
 }
 
 /// generated route for
 /// [_i2.HomePageWrapper]
 class HomePageWrapper extends _i7.PageRouteInfo<void> {
   const HomePageWrapper({List<_i7.PageRouteInfo>? children})
-      : super(HomePageWrapper.name,
-            path: 'homePageWrapper', initialChildren: children);
+      : super(HomePageWrapper.name, path: 'homePageWrapper', initialChildren: children);
 
   static const String name = 'HomePageWrapper';
 }

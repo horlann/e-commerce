@@ -14,7 +14,6 @@ import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
 
 @lazySingleton
@@ -25,7 +24,7 @@ class RemoteDataSource {
 
   RemoteDataSource(this._firestore, this._auth);
 
-  Future<Either<Failure, AccountEntity>> authWithGoogleAccount() async {
+  Future<Either<Failure, UserTableModel>> authWithGoogleAccount() async {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return const Left(FirebaseAuthFailure());
@@ -64,8 +63,8 @@ class RemoteDataSource {
     }
   }
 
-  Future<Either<Failure, AccountEntity>> getAccountEntity() async {
-    AccountEntity accountEntity;
+  Future<Either<Failure, UserTableModel>> getAccountEntity() async {
+    UserTableModel userTableModel;
     try {
       if (_auth.currentUser != null) {
         final userCollectionRef = _firestore.collection("accounts");
@@ -79,10 +78,10 @@ class RemoteDataSource {
             AccountFirestoreSchema.imageLink: _auth.currentUser!.photoURL,
           });
         }
-        accountEntity = await userCollectionRef.doc(uuid).get().then((value) {
-          return UserTableModel.fromSnapshot(value);
-        });
-        return Right(accountEntity);
+        DocumentSnapshot snapshot = await userCollectionRef.doc(uuid).get();
+        userTableModel = UserTableModel.fromJson(snapshot.data() as Json);
+        print(userTableModel.toJson());
+        return Right(userTableModel);
       } else {
         return const Left(FirebaseForbiddenAccessFailure());
       }
@@ -107,6 +106,28 @@ class RemoteDataSource {
     final userCollectionRef = _firestore.collection("products");
     QuerySnapshot ref = await userCollectionRef.get();
 
+    List<ItemTableModel?> tempProductsList = ref.docs.map((e) {
+      Json json = e.data() as Json;
+      ItemTableModel abstractItem = ItemTableModel.fromJson(json);
+      if (abstractItem.category == ProductCategory.disposablePod.name) {
+        return DisposablePodTableModel.fromJson(json);
+      } else if (abstractItem.category == ProductCategory.snus.name) {
+        return SnusTableModel.fromJson(json);
+      } else {
+        return null;
+      }
+    }).toList();
+    List<ItemTableModel> productsList =
+        tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();
+    return productsList;
+  }
+
+  Future<List<ItemTableModel>> loadItemsWithSameId(String id) async {
+    final userCollectionRef = _firestore.collection("products");
+    QuerySnapshot ref = await userCollectionRef
+        .orderBy('orderNumber', descending: true)
+        .where(FirestoreSchema.categoryName, isEqualTo: id)
+        .get();
     List<ItemTableModel?> tempProductsList = ref.docs.map((e) {
       Json json = e.data() as Json;
       ItemTableModel abstractItem = ItemTableModel.fromJson(json);

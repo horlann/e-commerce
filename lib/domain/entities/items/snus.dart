@@ -22,7 +22,7 @@ class Snus extends Item {
       name: model.name,
       price: model.price,
       oldPrice: model.oldPrice,
-      category: model.category,
+      category: ProductCategory.values.firstWhere((e) => e.toString() == model.category),
       imageLink: model.imageLink,
       isAvailable: model.isAvailable,
       tags: model.tags,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
-import 'package:kurilki/presentation/bloc/products/products_event.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/screens/category.dart';
@@ -56,9 +54,7 @@ class CategoryCard extends StatelessWidget {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return InkWell(
-      onTap: () {
-        BlocProvider.of<ProductsBloc>(context).add(CreateItemEvent());
-      },
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(12)), color: theme.rightColor),
         child: Padding(

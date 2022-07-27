@@ -4,12 +4,16 @@ import 'package:kurilki/common/navigation/router.gr.dart';
 
 import 'bottom_bar.dart';
 
+final _innerRouterKey = GlobalKey<AutoRouterState>();
+
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
+      key: _innerRouterKey,
+
       routes: const [
         HomePageWrapper(),
         AccountRouter(),

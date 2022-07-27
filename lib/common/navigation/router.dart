@@ -20,6 +20,7 @@ import '../../presentation/pages/details/details_screen.dart';
           path: 'homePageWrapper',
           name: "HomePageWrapper",
           page: HomePageWrapper,
+          maintainState: true,
           children: [
             AutoRoute(
               path: 'details',

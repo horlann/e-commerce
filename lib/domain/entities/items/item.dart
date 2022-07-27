@@ -11,7 +11,7 @@ abstract class Item {
 
   final double oldPrice;
 
-  final String category;
+  final ProductCategory category;
 
   final String imageLink;
 
