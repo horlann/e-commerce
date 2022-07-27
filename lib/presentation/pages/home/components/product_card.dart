@@ -21,7 +21,7 @@ class ProductCard extends StatelessWidget {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return InkWell(
       onTap: () {
-        AutoRouter.of(context).push(DetailsRouter(product: product));
+        context.router.navigate(HomePageWrapper(children: [DetailsRouter(product: product)]));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
