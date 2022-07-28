@@ -19,7 +19,7 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    
+
     return BlocProvider(
       create: (_) => AdminBloc(getIt.call())..add(const InitDataEvent()),
       child: Scaffold(
@@ -34,6 +34,8 @@ class _AdminScreenState extends State<AdminScreen> {
               return Center(child: CircularProgressIndicator(color: theme.accentColor));
             } else if (state is DataLoadedState) {
               return AdminPanel(categories: state.categories);
+            } else if (state is AdminFailureState) {
+              return const Center(child: SizedBox(child: Text("Something went wrong")));
             } else {
               return Container();
             }

@@ -61,9 +61,6 @@ dependencies:
   json_annotation: ^4.4.0
   easy_localization: ^3.0.0
 
-  dartz: ^0.10.1
-
-
   #DATA
   shared_preferences: ^2.0.15
 

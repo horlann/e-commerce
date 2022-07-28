@@ -16,28 +16,31 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
   void _initAuth(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
-    final result = await _remoteRepository.getAccountEntity();
-    result.fold(
-          (l) => emit(state.unauthorized()),
-          (r) => emit(state.authorized(entity: r)),
-    );
+    try {
+      final result = await _remoteRepository.getAccountEntity();
+      emit(state.authorized(entity: result));
+    } on Exception {
+      emit(state.unauthorized());
+    }
   }
 
   void _authWithGoogleAccount(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
-    final result = await _remoteRepository.authWithGoogleAccount();
-    result.fold(
-          (l) => emit(state.failure()),
-          (r) => emit(state.authorized(entity: r)),
-    );
+    try {
+      final result = await _remoteRepository.authWithGoogleAccount();
+      emit(state.authorized(entity: result));
+    } on Exception {
+      emit(state.failure());
+    }
   }
 
   void _logout(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
-    final result = await _remoteRepository.logout();
-    result.fold(
-          (l) => emit(state.failure()),
-          (r) => emit(state.unauthorized()),
-    );
+    try {
+      await _remoteRepository.logout();
+      emit(state.unauthorized());
+    } on Exception {
+      emit(state.failure());
+    }
   }
 }

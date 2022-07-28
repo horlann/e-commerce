@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
@@ -23,10 +21,10 @@ class RemoteDataSource {
 
   RemoteDataSource(this._firestore, this._auth);
 
-  Future<Either<Failure, bool>> authWithGoogleAccount() async {
+  Future<void> authWithGoogleAccount() async {
     try {
       final googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return const Left(FirebaseAuthFailure());
+      if (googleUser == null) throw Exception("Account selection error");
 
       final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
@@ -36,20 +34,20 @@ class RemoteDataSource {
 
       try {
         await _auth.signInWithCredential(credential);
-        return const Right(true);
+        return;
       } catch (e) {
         _auth.signOut();
         rethrow;
       }
-    } catch (e) {
+    } on Exception catch (e) {
       logger.e(e);
+      _googleSignIn.disconnect();
       _auth.signOut();
-
-      return const Left(FirebaseAuthFailure());
+      rethrow;
     }
   }
 
-  Future<Either<Failure, UserTableModel>> getAccountEntity() async {
+  Future<UserTableModel> getAccountModel() async {
     try {
       if (_auth.currentUser != null) {
         final userCollectionRef = _firestore.collection("accounts");
@@ -58,29 +56,26 @@ class RemoteDataSource {
         final QuerySnapshot document =
             await userCollectionRef.where(FirestoreSchema.authId, isEqualTo: authId).limit(1).get();
         if (document.docs.isEmpty) {
-          print('no acc');
-          return const Left(NoUserFailure());
+          throw FirebaseAuthException(code: "user-not-found");
         }
         UserTableModel userTableModel = UserTableModel.fromJson(document.docs.first.data() as Json);
-        return Right(userTableModel);
+        return userTableModel;
       } else {
-        logger.e('no auth');
-        return const Left(NoUserFailure());
+        throw Exception("User is not authorized");
       }
-    } on Exception catch (e) {
-      logger.e(e);
-      return const Left(FirebaseUnknownFailure());
+    } on Exception {
+      rethrow;
     }
   }
 
-  Future<Either<Failure, UserTableModel>> createUser(UserTableModel tableModel) async {
+  Future<UserTableModel> createUser(UserTableModel tableModel) async {
     try {
       final userCollectionRef = _firestore.collection("accounts");
       await userCollectionRef.doc(tableModel.uuid).set(tableModel.toJson());
-      return Right(tableModel);
+      return tableModel;
     } on Exception catch (e) {
       logger.e(e);
-      return const Left(FirebaseUnknownFailure());
+      rethrow;
     }
   }
 
@@ -89,15 +84,15 @@ class RemoteDataSource {
       if (_auth.currentUser != null) {
         return _auth.currentUser!;
       } else {
-        throw Failure;
+        throw Exception("User is not authorized");
       }
-    } catch (e) {
+    } on Exception catch (e) {
       logger.e(e);
-      throw Failure;
+      rethrow;
     }
   }
 
-  Future<Either<Failure, List<CategoryTableModel>>> getCategoriesList() async {
+  Future<List<CategoryTableModel>> getCategoriesList() async {
     try {
       final userCollectionRef = _firestore.collection("admin");
       QuerySnapshot ref = await userCollectionRef.get();
@@ -107,21 +102,21 @@ class RemoteDataSource {
         return CategoryTableModel.fromJson(json);
       }).toList();
 
-      return Right(models);
+      return models;
     } on Exception catch (e) {
       logger.e(e);
-      return const Left(FirebaseUnknownFailure());
+      rethrow;
     }
   }
 
-  Future<Either<Failure, bool>> logout() async {
+  Future<void> logout() async {
     try {
       await _googleSignIn.disconnect();
       await _auth.signOut();
-      return const Right(true);
-    } on FirebaseAuthException catch (e) {
+      return;
+    } on Exception catch (e) {
       logger.e(e);
-      return const Left(FirebaseAuthFailure());
+      rethrow;
     }
   }
 

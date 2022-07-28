@@ -16,11 +16,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   void _init(AdminEvent event, Emitter<AdminState> emit) async {
     emit(state.inProgress());
-    final result = await _remoteRepository.getCategoriesList();
-    result.fold((l) => emit(state.failure()), (r) {
-      categories = r;
-      emit(state.dataLoaded(r));
-    });
+    try {
+      categories = await _remoteRepository.getCategoriesList();
+      emit(state.dataLoaded(categories));
+    } on Exception {
+      state.failure();
+    }
   }
 
   void _addNewCategory(AdminEvent event, Emitter<AdminState> emit) async {

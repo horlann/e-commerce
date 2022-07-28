@@ -1,5 +1,6 @@
-import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kurilki/common/exeptions/exeptions.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
@@ -102,101 +103,71 @@ class RemoteRepository {
     ));
   }
 
-  Future<Either<Failure, UserEntity>> authWithGoogleAccount() async {
-    UserEntity? entity;
-    final result = (await _remoteDataSource.authWithGoogleAccount());
-    await result.fold(
-      (l) {
-        return const Left(FirebaseUnknownFailure());
-      },
-      (r) async {
-        if (r) {
-          final response = await getAccountEntity();
-          await response.fold(
-            (l) {
-              return Left(l);
-            },
-            (r) {
-              logger.i("Successful authorization");
-              entity = r;
-              print(r.toString());
-
-              return Right(r);
-            },
-          );
-        } else {}
-
-        return Right(entity);
-      },
-    );
-    print(entity.toString());
-
-    if (entity != null) {
-      return Right(entity!);
+  Future<UserEntity> authWithGoogleAccount() async {
+    try {
+      final result = await _remoteDataSource.authWithGoogleAccount();
+      logger.i("Successful authorization");
+      return await getAccountEntity();
+    } on Exception {
+      rethrow;
     }
-    print('sho');
-
-    return const Left(FirebaseUnknownFailure());
   }
 
-  Future<Either<Failure, UserEntity>> getAccountEntity() async {
+  Future<UserEntity> getAccountEntity() async {
     UserEntity? entity;
-    final result = (await _remoteDataSource.getAccountEntity());
-    result.fold(
-      (l) async {
-        print('create1');
-
-        return await _createUser();
-      },
-      (r) {
-        print('create2');
-
-        UserTableModel userTableModel = r;
-        entity = UserEntity.fromTableModel(userTableModel);
-        return Right(entity);
-      },
-    );
-    if (entity != null) {
-      return Right(entity!);
-    }
-
-    return const Left(FirebaseUnknownFailure());
-  }
-
-  Future<Either<Failure, UserEntity>> _createUser() async {
-    final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
-    final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
-    final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
-    UserEntity entity = UserEntity(authId: authId, name: name, imageLink: imageLink);
-    final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
-
-    result.fold(
-      (l) => const Left(FirebaseUnknownFailure()),
-      (r) {
-        return Right(r);
-      },
-    );
-
-    return const Left(FirebaseUnknownFailure());
-  }
-
-  Future<Either<Failure, bool>> logout() async {
-    return await _remoteDataSource.logout();
-  }
-
-  Future<Either<Failure, List<CategoryEntity>>> getCategoriesList() async {
-    List<CategoryEntity> entity = [];
-    final result = await _remoteDataSource.getCategoriesList();
-    result.fold(
-      (l) => const Left(FirebaseUnknownFailure()),
-      (r) {
-        List<CategoryTableModel> models = r;
-        for (var model in models) {
-          entity.add(CategoryEntity.fromTableModel(model));
+    try {
+      UserTableModel? model;
+      try {
+        model = (await _remoteDataSource.getAccountModel());
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "user-not-found") {
+          return await _createUser();
         }
-        return Right(entity);
-      },
-    );
-    return Right(entity);
+      }
+      if (model != null) {
+        return entity = UserEntity.fromTableModel(model);
+      } else {
+        throw Exception("UserModel is null");
+      }
+    } on Exception catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<UserEntity> _createUser() async {
+    try {
+      final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
+      final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
+      final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
+      UserEntity entity = UserEntity(authId: authId, name: name, imageLink: imageLink);
+      final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
+      return entity;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _remoteDataSource.logout();
+      return;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<CategoryEntity>> getCategoriesList() async {
+    List<CategoryEntity> entities = [];
+    try {
+      final result = await _remoteDataSource.getCategoriesList();
+      List<CategoryTableModel> models = result;
+      for (var model in models) {
+        entities.add(CategoryEntity.fromTableModel(model));
+      }
+      return entities;
+    } on Exception {
+      rethrow;
+    }
   }
 }
