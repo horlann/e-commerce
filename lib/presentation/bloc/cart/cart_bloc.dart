@@ -77,7 +77,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     await _remoteRepository.createOrder(
       name: event.name,
-      items: (await _loadCachedCartItems()),
+      items: cartItems,
       address: event.address,
       deliveryType: deliveryType,
       payType: event.payType,
