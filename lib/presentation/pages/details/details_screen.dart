@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kurilki/common/di/locator.dart';
+import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
@@ -103,11 +105,22 @@ class DetailsScreen extends StatelessWidget {
                       style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     const SizedBox(height: 8),
+                    product is DisposablePodEntity
+                        ? Text(
+                            "Puffs ${(product as DisposablePodEntity).puffsCount}",
+                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
+                          )
+                        : const SizedBox.shrink(),
+                    product is Snus
+                        ? Text(
+                            "Strenght ${(product as Snus).strength}",
+                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
+                          )
+                        : const SizedBox.shrink(),
                     BlocBuilder<DetailsBloc, DetailsState>(
                       builder: (context, state) {
                         if (state is DetailsLoadedState) {
                           List<Item> items = state.list;
-
                           return Center(
                             child: Wrap(
                               alignment: WrapAlignment.start,

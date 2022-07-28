@@ -1,4 +1,5 @@
 import 'package:kurilki/domain/entities/category/category_entity.dart';
+import 'package:kurilki/domain/entities/order/order.dart';
 
 class AdminState {
   const AdminState();
@@ -19,6 +20,10 @@ class AdminState {
     return DataLoadedState(categories);
   }
 
+  AdminState newOrder(List<OrderEntity> orders) {
+    return NewOrderState(orders);
+  }
+
   AdminState failure() {
     return const AdminFailureState();
   }
@@ -36,4 +41,10 @@ class DataLoadedState extends AdminState {
 
 class AdminFailureState extends AdminState {
   const AdminFailureState();
+}
+
+class NewOrderState extends AdminState {
+  const NewOrderState(this.orders);
+
+  final List<OrderEntity> orders;
 }

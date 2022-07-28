@@ -1,3 +1,5 @@
+import 'package:kurilki/data/models/order/order_table_model.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 import 'package:uuid/uuid.dart';
 
 import 'delivery_details.dart';
@@ -8,7 +10,7 @@ class OrderEntity {
   final String name;
   final int number;
   final String userId;
-  final List<String> itemsUuid;
+  final List<CartItem> items;
   final DeliveryDetails deliveryDetails;
   final PriceDetails priceDetails;
   final DateTime? completedAt;
@@ -22,7 +24,7 @@ class OrderEntity {
     required this.name,
     required this.number,
     required this.userId,
-    required this.itemsUuid,
+    required this.items,
     required this.deliveryDetails,
     required this.priceDetails,
     this.completedAt,
@@ -35,7 +37,7 @@ class OrderEntity {
     String? name,
     int? number,
     String? userId,
-    List<String>? itemsUuid,
+    List<CartItem>? items,
     DeliveryDetails? deliveryDetails,
     PriceDetails? priceDetails,
     DateTime? createDate,
@@ -47,7 +49,7 @@ class OrderEntity {
       name: name ?? this.name,
       number: number ?? this.number,
       userId: userId ?? this.userId,
-      itemsUuid: itemsUuid ?? this.itemsUuid,
+      items: items ?? this.items,
       deliveryDetails: deliveryDetails ?? this.deliveryDetails,
       priceDetails: priceDetails ?? this.priceDetails,
       completedAt: createDate ?? completedAt,
@@ -55,6 +57,17 @@ class OrderEntity {
       orderStatus: status ?? orderStatus,
     );
   }
+
+  factory OrderEntity.fromTableModel(OrderTableModel model, List<CartItem> items) => OrderEntity(
+      uuid: model.uuid,
+      number: model.number,
+      userId: model.userId,
+      items: items,
+      deliveryDetails: DeliveryDetails.fromTableModel(model.deliveryDetails),
+      priceDetails: PriceDetails.fromTableModel(model.priceDetails),
+      completedAt: model.completedAt,
+      createdAt: model.createdAt,
+      orderStatus: model.orderStatus);
 }
 
 enum OrderStatus { created, cancelled, completed, inProgress }

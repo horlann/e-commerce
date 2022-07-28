@@ -18,6 +18,7 @@ import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 import 'package:uuid/uuid.dart';
 
 @lazySingleton
@@ -59,27 +60,19 @@ class RemoteRepository {
     return productsList;
   }
 
-  Future<void> createItem() async {
-    _remoteDataSource.createItem(ItemTableModel(
-        uuid: const Uuid().v4(),
-        id: '1',
-        name: 'ElfBar Grape',
-        price: 330,
-        oldPrice: 0,
-        category: 'disposablePod',
-        imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
-        tags: [],
-        isAvailable: true));
-  }
-
   Future<void> createOrder({
     required String name,
-    required List<String> items,
+    required List<CartItem> items,
     required String address,
     required DeliveryType deliveryType,
-    required PayType payType,
+    required String payType,
   }) async {
+    double price = 0;
+    for (var item in items) {
+      price += (item.count * item.item.price);
+    }
     OrderEntity order = OrderEntity(
+      items: items,
       name: name,
       number: (await _lastOrderNumber),
       userId: (await _userId),
@@ -87,11 +80,10 @@ class RemoteRepository {
         address: address,
         deliveryType: deliveryType,
       ),
-      itemsUuid: items,
       priceDetails: PriceDetails(
-        totalPrice: 10,
-        itemsPrice: 100,
-        fullPrice: 120,
+        totalPrice: price,
+        itemsPrice: price,
+        fullPrice: price,
         deliveryPrice: 20,
         type: payType,
       ),

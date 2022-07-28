@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 
 part 'item_table_model.g.dart';
 
@@ -38,6 +39,17 @@ class ItemTableModel {
   });
 
   factory ItemTableModel.fromJson(Map<String, dynamic> json) => _$ItemTableModelFromJson(json);
+
+  factory ItemTableModel.fromEntity(Item item) => ItemTableModel(
+      uuid: item.uuid,
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      oldPrice: item.oldPrice,
+      category: item.category,
+      imageLink: item.imageLink,
+      tags: item.tags,
+      isAvailable: item.isAvailable);
 
   Json toJson() => _$ItemTableModelToJson(this);
 }

@@ -15,12 +15,14 @@ class FirestoreSchema {
   //order
   static const String number = 'number';
   static const String userId = 'userId';
-  static const String itemsUuid = 'itemsUuid';
+  static const String items = 'items';
   static const String deliveryDetails = 'deliveryDetails';
   static const String priceDetails = 'priceDetails';
   static const String completedAt = 'completedAt';
   static const String createdAt = 'createdAt';
   static const String orderStatus = 'orderStatus';
+  static const String count = 'count';
+  static const String item = 'item';
 
   //price details
   static const String fullPrice = 'fullPrice';

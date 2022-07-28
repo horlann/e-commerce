@@ -10,7 +10,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   ProductsBloc(this._remoteRepository) : super(const ProductsLoadingState()) {
     on<InitEvent>(_init);
-    on<CreateItemEvent>(_createItem);
   }
 
   List<Item> productsList = [];
@@ -19,9 +18,5 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     emit(const ProductsLoadingState());
     productsList = await _remoteRepository.loadAllItems();
     emit(ProductsLoadedState(productsList));
-  }
-
-  void _createItem(CreateItemEvent event, Emitter<ProductsState> emit) async {
-    _remoteRepository.createItem();
   }
 }

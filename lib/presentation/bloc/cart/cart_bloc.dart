@@ -75,20 +75,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       deliveryType = DeliveryType.none;
     }
 
-    if (event.payType == "Bank transfer") {
-      payType = PayType.bank;
-    } else if (event.payType == "Сash on delivery") {
-      payType = PayType.cashOnDelivery;
-    } else {
-      payType = PayType.none;
-    }
-
     await _remoteRepository.createOrder(
       name: event.name,
-      items: itemsId,
+      items: (await _loadCachedCartItems()),
       address: event.address,
       deliveryType: deliveryType,
-      payType: payType,
+      payType: event.payType,
     );
     cartItems.clear();
     emit(state.orderCreated());

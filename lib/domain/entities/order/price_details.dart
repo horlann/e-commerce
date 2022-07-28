@@ -1,3 +1,5 @@
+import 'package:kurilki/data/models/order/price_details_table_model.dart';
+
 class PriceDetails {
   final double fullPrice;
   final double deliveryPrice;
@@ -5,7 +7,7 @@ class PriceDetails {
   final double salePercent;
   final double totalPrice;
   final double itemsPrice;
-  final PayType type;
+  final String type;
 
   PriceDetails({
     double? coupon,
@@ -25,7 +27,7 @@ class PriceDetails {
     double? salePercent,
     double? totalPrice,
     double? itemsPrice,
-    PayType? type,
+    String? type,
   }) {
     return PriceDetails(
       fullPrice: fullPrice ?? this.fullPrice,
@@ -37,6 +39,15 @@ class PriceDetails {
       type: type ?? this.type,
     );
   }
+
+  factory PriceDetails.fromTableModel(PriceDetailsTableModel model) => PriceDetails(
+      fullPrice: model.fullPrice,
+      deliveryPrice: model.deliveryPrice,
+      totalPrice: model.totalPrice,
+      itemsPrice: model.itemsPrice,
+      salePercent: model.salePercent,
+      coupon: model.coupon,
+      type: model.typePay);
 }
 
 enum PayType { bank, cashOnDelivery, none }
