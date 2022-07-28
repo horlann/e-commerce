@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:kurilki/common/const/const.dart';
-import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/data/repositories/local_repository.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -29,9 +29,22 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   String _address = "";
 
   @override
+  void initState() {
+    super.initState();
+    initLocalCache();
+  }
+
+  void initLocalCache() async {
+    final LocalRepository repository = LocalRepository();
+    await repository.getSharedPreferences();
+    _name = repository.cachedAccountName;
+    _phone = repository.cachedAccountPhone;
+    _address = repository.cachedAccountAddress;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
-    final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final scale = byWithScale(context);
 

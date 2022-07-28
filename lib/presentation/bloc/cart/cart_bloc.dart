@@ -61,7 +61,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     emit(state.configureOrder());
   }
 
-  void _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
+  Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
     List<String> itemsId = cartItems.map((e) => e.item.uuid).toList();
     DeliveryType deliveryType;
     PayType payType;
