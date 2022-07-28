@@ -11,6 +11,7 @@ class FirestoreSchema {
   static const String isAvailable = 'isAvailable';
   static const String puffsCount = 'puffsCount';
   static const String strength = 'strength';
+  static const String type = "typePay";
 
   //order
   static const String number = 'number';

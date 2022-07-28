@@ -13,6 +13,8 @@ part 'order_table_model.g.dart';
 class OrderTableModel {
   @JsonKey(name: FirestoreSchema.uuid)
   final String uuid;
+  @JsonKey(name: FirestoreSchema.name)
+  final String name;
   @JsonKey(name: FirestoreSchema.number)
   final int number;
   @JsonKey(name: FirestoreSchema.userId)
@@ -34,6 +36,7 @@ class OrderTableModel {
 
   factory OrderTableModel.fromEntity(OrderEntity orderEntity) => OrderTableModel(
       uuid: orderEntity.uuid,
+      name: orderEntity.name,
       number: orderEntity.number,
       userId: orderEntity.userId,
       items: orderEntity.items.map((e) => CartItemTableModel.fromEntity(e)).toList(),
@@ -47,6 +50,7 @@ class OrderTableModel {
 
   const OrderTableModel({
     required this.uuid,
+    required this.name,
     required this.number,
     required this.userId,
     required this.items,
@@ -59,9 +63,9 @@ class OrderTableModel {
 
   OrderTableModel copyWith({
     String? uuid,
+    String? name,
     int? number,
     String? userId,
-    List<String>? itemsUuid,
     List<CartItemTableModel>? items,
     DeliveryDetailsTableModel? deliveryDetails,
     PriceDetailsTableModel? priceDetails,
@@ -71,6 +75,7 @@ class OrderTableModel {
   }) {
     return OrderTableModel(
       uuid: uuid ?? this.uuid,
+      name: name ?? this.name,
       number: number ?? this.number,
       userId: userId ?? this.userId,
       items: items ?? this.items,

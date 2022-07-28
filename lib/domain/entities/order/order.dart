@@ -60,6 +60,7 @@ class OrderEntity {
 
   factory OrderEntity.fromTableModel(OrderTableModel model, List<CartItem> items) => OrderEntity(
       uuid: model.uuid,
+      name: model.name,
       number: model.number,
       userId: model.userId,
       items: items,
