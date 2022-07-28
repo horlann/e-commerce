@@ -43,9 +43,7 @@ class SharedPreferencesDao implements ISharedPreferencesDao {
   String? getString(String key) => _sharedPreferences.getString(key);
 
   @override
-  List<String>? getStringList(String key) => _sharedPreferences.getStringList(
-        key,
-      );
+  List<String>? getStringList(String key) => _sharedPreferences.getStringList(key);
 
   @override
   Future<void> reload() => _sharedPreferences.reload();
@@ -54,44 +52,17 @@ class SharedPreferencesDao implements ISharedPreferencesDao {
   Future<bool> remove(String key) => _sharedPreferences.remove(key);
 
   @override
-  Future<bool> setBool(String key, bool value) => _sharedPreferences.setBool(
-        key,
-        value,
-      );
+  Future<bool> setBool(String key, bool value) => _sharedPreferences.setBool(key, value);
 
   @override
-  Future<bool> setDouble(
-    String key,
-    double value,
-  ) =>
-      _sharedPreferences.setDouble(
-        key,
-        value,
-      );
+  Future<bool> setDouble(String key, double value) => _sharedPreferences.setDouble(key, value);
 
   @override
-  Future<bool> setInt(String key, int value) => _sharedPreferences.setInt(
-        key,
-        value,
-      );
+  Future<bool> setInt(String key, int value) => _sharedPreferences.setInt(key, value);
 
   @override
-  Future<bool> setString(
-    String key,
-    String value,
-  ) =>
-      _sharedPreferences.setString(
-        key,
-        value,
-      );
+  Future<bool> setString(String key, String value) => _sharedPreferences.setString(key, value);
 
   @override
-  Future<bool> setStringList(
-    String key,
-    List<String> value,
-  ) =>
-      _sharedPreferences.setStringList(
-        key,
-        value,
-      );
+  Future<bool> setStringList(String key, List<String> value) => _sharedPreferences.setStringList(key, value);
 }

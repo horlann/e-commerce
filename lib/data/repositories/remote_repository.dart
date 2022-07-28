@@ -72,13 +72,30 @@ class RemoteRepository {
         isAvailable: true));
   }
 
-  Future<void> createOrder({required List<String> items}) async {
+  Future<void> createOrder({
+    required String name,
+    required List<String> items,
+    required String address,
+    required DeliveryType deliveryType,
+    required PayType payType,
+  }) async {
     OrderEntity order = OrderEntity(
-        number: (await _lastOrderNumber),
-        userId: 'id',
-        deliveryDetails: const DeliveryDetails(address: 'adress', deliveryType: DeliveryType.delivery),
-        itemsUuid: items,
-        priceDetails: PriceDetails(totalPrice: 10, itemsPrice: 100, fullPrice: 120, deliveryPrice: 20));
+      name: name,
+      number: (await _lastOrderNumber),
+      userId: (await _userId),
+      deliveryDetails: DeliveryDetails(
+        address: address,
+        deliveryType: deliveryType,
+      ),
+      itemsUuid: items,
+      priceDetails: PriceDetails(
+        totalPrice: 10,
+        itemsPrice: 100,
+        fullPrice: 120,
+        deliveryPrice: 20,
+        type: payType,
+      ),
+    );
     await _remoteDataSource.createOrder(OrderTableModel.fromEntity(order));
   }
 
@@ -92,6 +109,18 @@ class RemoteRepository {
     } catch (e) {
       return 1;
     }
+  }
+
+  Future<String> get _userId async {
+    try {
+      User user = await _remoteDataSource.userFromGoogleAuth;
+      return user.uid;
+    } on Exception catch (e) {
+      if (e == Exception("User is not authorized")) {
+        return "User is not authorized";
+      }
+    }
+    return "";
   }
 
   Future<void> createCategory(String name, String imageLink) async {
@@ -127,7 +156,7 @@ class RemoteRepository {
       if (model != null) {
         return entity = UserEntity.fromTableModel(model);
       } else {
-        throw Exception("UserModel is null");
+        throw Exception("UserModel is empty");
       }
     } on Exception catch (e) {
       logger.e(e);

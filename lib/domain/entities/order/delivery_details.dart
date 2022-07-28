@@ -18,4 +18,4 @@ class DeliveryDetails {
   }
 }
 
-enum DeliveryType { pickUp, delivery }
+enum DeliveryType { pickUp, deliveryNovaPost, deliveryUkrPost, none }
