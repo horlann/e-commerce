@@ -1,3 +1,5 @@
+import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
+
 class DeliveryDetails {
   final DeliveryType deliveryType;
   final String address;
@@ -16,6 +18,9 @@ class DeliveryDetails {
       address: address ?? this.address,
     );
   }
+
+  factory DeliveryDetails.fromTableModel(DeliveryDetailsTableModel model) =>
+      DeliveryDetails(deliveryType: model.deliveryType, address: model.address);
 }
 
 enum DeliveryType { pickUp, delivery }

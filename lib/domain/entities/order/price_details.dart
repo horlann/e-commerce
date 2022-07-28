@@ -1,3 +1,5 @@
+import 'package:kurilki/data/models/order/price_details_table_model.dart';
+
 class PriceDetails {
   final double fullPrice;
   final double deliveryPrice;
@@ -33,4 +35,12 @@ class PriceDetails {
     required this.itemsPrice,
   })  : coupon = coupon ?? 0,
         salePercent = salePercent ?? 0;
+
+  factory PriceDetails.fromTableModel(PriceDetailsTableModel model) => PriceDetails(
+      fullPrice: model.fullPrice,
+      deliveryPrice: model.deliveryPrice,
+      totalPrice: model.totalPrice,
+      itemsPrice: model.itemsPrice,
+      salePercent: model.salePercent,
+      coupon: model.coupon);
 }

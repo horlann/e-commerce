@@ -19,7 +19,7 @@ class SnusTableModel extends ItemTableModel {
       required super.isAvailable,
       required this.strength});
 
-  @JsonKey(name: FirestoreSchema.puffsCount, defaultValue: 0)
+  @JsonKey(name: FirestoreSchema.strength, defaultValue: 0)
   final int strength;
 
   factory SnusTableModel.fromJson(Map<String, dynamic> json) => _$SnusTableModelFromJson(json);

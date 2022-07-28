@@ -10,6 +10,7 @@ import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
+import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
@@ -191,5 +192,38 @@ class RemoteDataSource {
     } else {
       throw Exception('Orders empty');
     }
+  }
+
+  //admin
+  Stream<List<OrderTableModel>> ordersStream() {
+    final ref = _firestore.collection("orders");
+    Stream<QuerySnapshot> snapStream = ref.orderBy('createdAt', descending: true).snapshots();
+
+    Stream<List<OrderTableModel>> ordersStream = snapStream.map((event) => event.docs.map((e) {
+          Map<String, dynamic> data = e.data() as Map<String, dynamic>;
+          OrderTableModel tableModel = OrderTableModel.fromJson(data);
+          List<dynamic?> tempProductsList = data[FirestoreSchema.items].map((e) {
+            Json json = e[FirestoreSchema.item] as Json;
+            ItemTableModel abstractItem = ItemTableModel.fromJson(json);
+            if (abstractItem.category == ProductCategory.disposablePod.name) {
+              return DisposablePodTableModel.fromJson(json);
+            } else if (abstractItem.category == ProductCategory.snus.name) {
+              return SnusTableModel.fromJson(json);
+            } else {
+              return null;
+            }
+          }).toList();
+          List<ItemTableModel> productsList =
+              tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();
+          List<CartItemTableModel> cartItems = [];
+
+          for (int i = 0; i < productsList.length; i++) {
+            cartItems.add(CartItemTableModel(item: productsList[i], count: tableModel.items[i].count));
+          }
+
+          tableModel = tableModel.copyWith(items: cartItems);
+          return tableModel;
+        }).toList());
+    return ordersStream;
   }
 }

@@ -55,8 +55,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _checkout(CheckoutEvent event, Emitter<CartState> emit) async {
-    List<String> itemsId = cartItems.map((e) => e.item.uuid).toList();
-    await _remoteRepository.createOrder(items: itemsId);
+    await _remoteRepository.createOrder(items: cartItems);
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));

@@ -17,7 +17,7 @@ import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
-import 'package:uuid/uuid.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 
 @lazySingleton
 class RemoteRepository {
@@ -58,25 +58,15 @@ class RemoteRepository {
     return productsList;
   }
 
-  Future<void> createItem() async {
-    _remoteDataSource.createItem(ItemTableModel(
-        uuid: const Uuid().v4(),
-        id: '1',
-        name: 'ElfBar Grape',
-        price: 330,
-        oldPrice: 0,
-        category: 'disposablePod',
-        imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
-        tags: [],
-        isAvailable: true));
-  }
+  Future<void> createOrder({required List<CartItem> items}) async {
+    List<String> itemsId = items.map((e) => e.item.uuid).toList();
 
-  Future<void> createOrder({required List<String> items}) async {
     OrderEntity order = OrderEntity(
         number: (await _lastOrderNumber),
         userId: 'id',
         deliveryDetails: const DeliveryDetails(address: 'adress', deliveryType: DeliveryType.delivery),
-        itemsUuid: items,
+        itemsUuid: itemsId,
+        items: items,
         priceDetails: PriceDetails(totalPrice: 10, itemsPrice: 100, fullPrice: 120, deliveryPrice: 20));
     await _remoteDataSource.createOrder(OrderTableModel.fromEntity(order));
   }
@@ -91,15 +81,6 @@ class RemoteRepository {
     } catch (e) {
       return 1;
     }
-  }
-
-  Future<void> createCategory(String name, String imageLink) async {
-    await _remoteDataSource.createCategory(CategoryTableModel(
-      id: 1,
-      name: name,
-      imageLink: imageLink,
-      uuid: const Uuid().v4(),
-    ));
   }
 
   Future<Either<Failure, UserEntity>> authWithGoogleAccount() async {
