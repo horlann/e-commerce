@@ -15,7 +15,6 @@ class FirestoreSchema {
   //order
   static const String number = 'number';
   static const String userId = 'userId';
-  static const String itemsUuid = 'itemsUuid';
   static const String items = 'items';
   static const String deliveryDetails = 'deliveryDetails';
   static const String priceDetails = 'priceDetails';

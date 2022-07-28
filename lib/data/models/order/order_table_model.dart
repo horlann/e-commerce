@@ -17,8 +17,6 @@ class OrderTableModel {
   final int number;
   @JsonKey(name: FirestoreSchema.userId)
   final String userId;
-  @JsonKey(name: FirestoreSchema.itemsUuid)
-  final List<String> itemsUuid;
   @JsonKey(name: FirestoreSchema.items)
   final List<CartItemTableModel> items;
   @JsonKey(name: FirestoreSchema.deliveryDetails)
@@ -38,7 +36,6 @@ class OrderTableModel {
       uuid: orderEntity.uuid,
       number: orderEntity.number,
       userId: orderEntity.userId,
-      itemsUuid: orderEntity.itemsUuid,
       items: orderEntity.items.map((e) => CartItemTableModel.fromEntity(e)).toList(),
       deliveryDetails: DeliveryDetailsTableModel.fromEntity(orderEntity.deliveryDetails),
       priceDetails: PriceDetailsTableModel.fromEntity(orderEntity.priceDetails),
@@ -52,7 +49,6 @@ class OrderTableModel {
     required this.uuid,
     required this.number,
     required this.userId,
-    required this.itemsUuid,
     required this.items,
     required this.deliveryDetails,
     required this.priceDetails,
@@ -77,7 +73,6 @@ class OrderTableModel {
       uuid: uuid ?? this.uuid,
       number: number ?? this.number,
       userId: userId ?? this.userId,
-      itemsUuid: itemsUuid ?? this.itemsUuid,
       items: items ?? this.items,
       deliveryDetails: deliveryDetails ?? this.deliveryDetails,
       priceDetails: priceDetails ?? this.priceDetails,

@@ -59,13 +59,10 @@ class RemoteRepository {
   }
 
   Future<void> createOrder({required List<CartItem> items}) async {
-    List<String> itemsId = items.map((e) => e.item.uuid).toList();
-
     OrderEntity order = OrderEntity(
         number: (await _lastOrderNumber),
         userId: 'id',
         deliveryDetails: const DeliveryDetails(address: 'adress', deliveryType: DeliveryType.delivery),
-        itemsUuid: itemsId,
         items: items,
         priceDetails: PriceDetails(totalPrice: 10, itemsPrice: 100, fullPrice: 120, deliveryPrice: 20));
     await _remoteDataSource.createOrder(OrderTableModel.fromEntity(order));

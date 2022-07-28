@@ -44,10 +44,17 @@ class _AdminOrderListTile extends StatelessWidget {
             order.number.toString(),
             style: TextStyle(color: theme.infoTextColor),
           ),
-          Text(
-            'order.items.first.item.name *${order.items.first.count}',
-            style: TextStyle(color: theme.infoTextColor),
+          const SizedBox(
+            width: 10,
           ),
+          Column(
+            children: order.items
+                .map((e) => Text(
+                      '${e.item.name} *${e.count}',
+                      style: TextStyle(color: theme.infoTextColor),
+                    ))
+                .toList(),
+          )
         ],
       ),
     );

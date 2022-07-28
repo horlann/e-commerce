@@ -202,7 +202,7 @@ class RemoteDataSource {
     Stream<List<OrderTableModel>> ordersStream = snapStream.map((event) => event.docs.map((e) {
           Map<String, dynamic> data = e.data() as Map<String, dynamic>;
           OrderTableModel tableModel = OrderTableModel.fromJson(data);
-          List<dynamic?> tempProductsList = data[FirestoreSchema.items].map((e) {
+          List<dynamic> tempProductsList = data[FirestoreSchema.items].map((e) {
             Json json = e[FirestoreSchema.item] as Json;
             ItemTableModel abstractItem = ItemTableModel.fromJson(json);
             if (abstractItem.category == ProductCategory.disposablePod.name) {

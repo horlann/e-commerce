@@ -9,7 +9,6 @@ class OrderEntity {
   final String uuid;
   final int number;
   final String userId;
-  final List<String> itemsUuid;
   final List<CartItem> items;
   final DeliveryDetails deliveryDetails;
   final PriceDetails priceDetails;
@@ -23,7 +22,6 @@ class OrderEntity {
     OrderStatus? orderStatus,
     required this.number,
     required this.userId,
-    required this.itemsUuid,
     required this.items,
     required this.deliveryDetails,
     required this.priceDetails,
@@ -36,7 +34,6 @@ class OrderEntity {
     String? uuid,
     int? number,
     String? userId,
-    List<String>? itemsUuid,
     List<CartItem>? items,
     DeliveryDetails? deliveryDetails,
     PriceDetails? priceDetails,
@@ -48,7 +45,6 @@ class OrderEntity {
       uuid: uuid ?? this.uuid,
       number: number ?? this.number,
       userId: userId ?? this.userId,
-      itemsUuid: itemsUuid ?? this.itemsUuid,
       items: items ?? this.items,
       deliveryDetails: deliveryDetails ?? this.deliveryDetails,
       priceDetails: priceDetails ?? this.priceDetails,
@@ -62,7 +58,6 @@ class OrderEntity {
       uuid: model.uuid,
       number: model.number,
       userId: model.userId,
-      itemsUuid: model.itemsUuid,
       items: items,
       deliveryDetails: DeliveryDetails.fromTableModel(model.deliveryDetails),
       priceDetails: PriceDetails.fromTableModel(model.priceDetails),
