@@ -3,8 +3,8 @@ import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
+import 'package:kurilki/data/models/order/user_details_table_model.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
-
 import 'price_details_table_model.dart';
 
 part 'order_table_model.g.dart';
@@ -14,11 +14,9 @@ class OrderTableModel {
   @JsonKey(name: FirestoreSchema.uuid)
   final String uuid;
   @JsonKey(name: FirestoreSchema.name)
-  final String name;
+  final UserDetailsTableModel user;
   @JsonKey(name: FirestoreSchema.number)
   final int number;
-  @JsonKey(name: FirestoreSchema.userId)
-  final String userId;
   @JsonKey(name: FirestoreSchema.items)
   final List<CartItemTableModel> items;
   @JsonKey(name: FirestoreSchema.deliveryDetails)
@@ -36,9 +34,8 @@ class OrderTableModel {
 
   factory OrderTableModel.fromEntity(OrderEntity orderEntity) => OrderTableModel(
       uuid: orderEntity.uuid,
-      name: orderEntity.name,
+      user: UserDetailsTableModel.fromEntity(orderEntity.user),
       number: orderEntity.number,
-      userId: orderEntity.userId,
       items: orderEntity.items.map((e) => CartItemTableModel.fromEntity(e)).toList(),
       deliveryDetails: DeliveryDetailsTableModel.fromEntity(orderEntity.deliveryDetails),
       priceDetails: PriceDetailsTableModel.fromEntity(orderEntity.priceDetails),
@@ -50,9 +47,8 @@ class OrderTableModel {
 
   const OrderTableModel({
     required this.uuid,
-    required this.name,
+    required this.user,
     required this.number,
-    required this.userId,
     required this.items,
     required this.deliveryDetails,
     required this.priceDetails,
@@ -60,12 +56,11 @@ class OrderTableModel {
     required this.createdAt,
     required this.orderStatus,
   });
-
+  
   OrderTableModel copyWith({
     String? uuid,
-    String? name,
+    UserDetailsTableModel? user,
     int? number,
-    String? userId,
     List<CartItemTableModel>? items,
     DeliveryDetailsTableModel? deliveryDetails,
     PriceDetailsTableModel? priceDetails,
@@ -75,9 +70,8 @@ class OrderTableModel {
   }) {
     return OrderTableModel(
       uuid: uuid ?? this.uuid,
-      name: name ?? this.name,
+      user: user ?? this.user,
       number: number ?? this.number,
-      userId: userId ?? this.userId,
       items: items ?? this.items,
       deliveryDetails: deliveryDetails ?? this.deliveryDetails,
       priceDetails: priceDetails ?? this.priceDetails,

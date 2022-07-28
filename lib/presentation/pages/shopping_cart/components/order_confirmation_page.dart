@@ -10,7 +10,7 @@ import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
-import '../../../resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/size_utils.dart';
 
 class OrderConfirmationPage extends StatefulWidget {
   const OrderConfirmationPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class OrderConfirmationPage extends StatefulWidget {
 }
 
 class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
-  final List<String> _deliveryTypes = [Const.pickUp, Const.deliveryUkr, Const.deliveryNova];
+  final List<String> _deliveryTypes = [Const.pickUp, Const.deliveryNova];
   final List<String> _payTypes = [Const.bankTransfer, Const.cashOnDelivery];
   String _deliveryType = Const.pickUp;
   String _payType = Const.bankTransfer;
@@ -29,25 +29,10 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   String _address = "";
 
   @override
-  void initState() {
-    super.initState();
-    initLocalCache();
-  }
-
-  void initLocalCache() async {
-    final LocalRepository repository = LocalRepository();
-    await repository.getSharedPreferences();
-    _name = repository.cachedAccountName;
-    _phone = repository.cachedAccountPhone;
-    _address = repository.cachedAccountAddress;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final scale = byWithScale(context);
-
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     return Center(
       child: SingleChildScrollView(
         child: SizedBox(

@@ -16,6 +16,7 @@ import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
+import 'package:kurilki/domain/entities/order/user_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
@@ -61,9 +62,10 @@ class RemoteRepository {
   }
 
   Future<void> createOrder({
-    required String name,
     required List<CartItem> items,
+    required String name,
     required String address,
+    required String phone,
     required DeliveryType deliveryType,
     required String payType,
   }) async {
@@ -73,9 +75,12 @@ class RemoteRepository {
     }
     OrderEntity order = OrderEntity(
       items: items,
-      name: name,
+      user: UserDetails(
+        name: name,
+        number: phone,
+        userId: (await _userId),
+      ),
       number: (await _lastOrderNumber),
-      userId: (await _userId),
       deliveryDetails: DeliveryDetails(
         address: address,
         deliveryType: deliveryType,

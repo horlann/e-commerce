@@ -49,5 +49,3 @@ class PriceDetails {
       coupon: model.coupon,
       type: model.typePay);
 }
-
-enum PayType { bank, cashOnDelivery, none }

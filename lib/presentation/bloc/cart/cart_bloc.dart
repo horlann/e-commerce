@@ -64,15 +64,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
     List<String> itemsId = cartItems.map((e) => e.item.uuid).toList();
     DeliveryType deliveryType;
-    PayType payType;
     if (event.deliveryType == "Pick up") {
       deliveryType = DeliveryType.pickUp;
     } else if (event.deliveryType == "Delivery NovaPoshta") {
       deliveryType = DeliveryType.deliveryNovaPost;
-    } else if (event.deliveryType == "Delivery UkrPoshta") {
-      deliveryType = DeliveryType.deliveryUkrPost;
     } else {
-      deliveryType = DeliveryType.none;
+      deliveryType = DeliveryType.undefined;
     }
 
     await _remoteRepository.createOrder(
@@ -81,6 +78,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       address: event.address,
       deliveryType: deliveryType,
       payType: event.payType,
+      phone: event.phone,
     );
     cartItems.clear();
     emit(state.orderCreated());
