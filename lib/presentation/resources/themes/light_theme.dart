@@ -29,6 +29,9 @@ class LightTheme implements AbstractTheme {
 
   @override
   AppShadows get appShadows => _LightAppShadows();
+
+  @override
+  FontStyles get fontStyles => FontStyles();
 }
 
 class _LightAppShadows implements AppShadows {

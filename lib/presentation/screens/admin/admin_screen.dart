@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/di/locator.dart';
+import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -32,41 +34,51 @@ class _AdminScreenState extends State<AdminScreen> {
             const Expanded(child: OrdersList()),
             Expanded(
                 child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          color: Colors.red,
-                          child: Column(children: [
-                            Text(
-                              'Создать новый товар',
-                              style: TextStyle(color: theme.infoTextColor),
-                            )
-                          ], mainAxisAlignment: MainAxisAlignment.center),
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            context.navigateTo(const CreateItem());
+                          },
+                          child: Container(
+                            color: theme.wrongColor,
+                            child: Column(children: [
+                              Text(
+                                'Создать новый товар',
+                                style: TextStyle(color: theme.infoTextColor),
+                              )
+                            ], mainAxisAlignment: MainAxisAlignment.center),
+                          ),
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          color: Colors.green,
-                          child: Column(children: [
-                            Text(
-                              'Список товаров',
-                              style: TextStyle(color: theme.infoTextColor),
-                            )
-                          ], mainAxisAlignment: MainAxisAlignment.center),
+                          Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            context.navigateTo(const AllItems());
+                          },
+                          child: Container(
+                            color: theme.rightColor,
+                            child: Column(children: [
+                              Text(
+                                'Список товаров',
+                                style: TextStyle(color: theme.infoTextColor),
+                              )
+                            ], mainAxisAlignment: MainAxisAlignment.center),
+                          ),
                         ),
                       )
                     ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          color: Colors.green,
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              color: theme.rightColor,
                           child: Column(children: [
                             Text(
                               'Что-то',
@@ -74,10 +86,10 @@ class _AdminScreenState extends State<AdminScreen> {
                             )
                           ], mainAxisAlignment: MainAxisAlignment.center),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          color: Colors.red,
+                          ),
+                          Expanded(
+                            child: Container(
+                              color: theme.wrongColor,
                           child: Column(children: [
                             Text(
                               'Что-то',
@@ -85,26 +97,12 @@ class _AdminScreenState extends State<AdminScreen> {
                             )
                           ], mainAxisAlignment: MainAxisAlignment.center),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ))
-            // Expanded(
-            //   child: BlocBuilder<AdminBloc, AdminState>(
-            //     buildWhen: (previous, current) => previous != current && current is DataLoadedState,
-            //     builder: ((context, state) {
-            //       if (state is InProgressLoadingState) {
-            //         return Center(child: CircularProgressIndicator(color: theme.accentColor));
-            //       } else if (state is DataLoadedState) {
-            //         return AdminPanel(categories: state.categories);
-            //       } else {
-            //         return const Text('error');
-            //       }
-            //     }),
-            //   ),
-            // ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

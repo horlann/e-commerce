@@ -6,9 +6,9 @@ part 'delivery_details_table_model.g.dart';
 
 @JsonSerializable()
 class DeliveryDetailsTableModel {
-  @JsonKey(name: FirestoreSchema.deliveryType)
+  @JsonKey(name: FirestoreSchema.deliveryType, defaultValue: DeliveryType.undefined)
   final DeliveryType deliveryType;
-  @JsonKey(name: FirestoreSchema.address)
+  @JsonKey(name: FirestoreSchema.address, defaultValue: 'error')
   final String address;
 
   factory DeliveryDetailsTableModel.fromJson(Map<String, dynamic> json) => _$DeliveryDetailsTableModelFromJson(json);

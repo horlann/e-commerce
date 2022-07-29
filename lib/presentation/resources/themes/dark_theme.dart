@@ -29,6 +29,9 @@ class DarkTheme implements AbstractTheme {
 
   @override
   AppShadows get appShadows => _DarkAppShadows();
+
+  @override
+  FontStyles get fontStyles => FontStyles();
 }
 
 class _DarkAppShadows implements AppShadows {

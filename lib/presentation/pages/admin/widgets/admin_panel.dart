@@ -5,8 +5,9 @@ import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/screens/admin/components/create_category.dart';
-import 'package:kurilki/presentation/screens/admin/components/create_item.dart';
+
+import 'create_category.dart';
+import 'create_item.dart';
 
 class AdminPanel extends StatelessWidget {
   const AdminPanel({Key? key, required this.categories}) : super(key: key);
