@@ -26,3 +26,19 @@ class RemoveFromCartEvent extends CartEvent {
 class CheckoutEvent extends CartEvent {
   const CheckoutEvent();
 }
+
+class ConfirmOrderEvent extends CartEvent {
+  const ConfirmOrderEvent({
+    required this.name,
+    required this.phone,
+    required this.deliveryType,
+    required this.payType,
+    this.address = "",
+  });
+
+  final String name;
+  final String phone;
+  final String deliveryType;
+  final String payType;
+  final String address;
+}

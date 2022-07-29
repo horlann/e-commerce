@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:kurilki/data/repositories/remote_repository.dart';
+import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/order/price_details.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 
 import 'cart_event.dart';
@@ -13,6 +15,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<AddToCartEvent>(_addToCart);
     on<RemoveFromCartEvent>(_removeFromCartEvent);
     on<CheckoutEvent>(_checkout);
+    on<ConfirmOrderEvent>(_confirm);
   }
 
   List<CartItem> cartItems = [];
@@ -28,11 +31,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   void _init(InitCartEvent event, Emitter<CartState> emit) async {
-    cartItems = await _loadCashedCartItems();
+    cartItems = await _loadCachedCartItems();
     emit(state.cartLoadedState(cartItems));
   }
 
-  Future<List<CartItem>> _loadCashedCartItems() async {
+  Future<List<CartItem>> _loadCachedCartItems() async {
     List<CartItem> cartItems = [];
     return cartItems;
   }
@@ -55,7 +58,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _checkout(CheckoutEvent event, Emitter<CartState> emit) async {
-    await _remoteRepository.createOrder(items: cartItems);
+    emit(state.configureOrder());
+  }
+
+  Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
+    List<String> itemsId = cartItems.map((e) => e.item.uuid).toList();
+    DeliveryType deliveryType;
+    if (event.deliveryType == "Pick up") {
+      deliveryType = DeliveryType.pickUp;
+    } else if (event.deliveryType == "Delivery NovaPoshta") {
+      deliveryType = DeliveryType.deliveryNovaPost;
+    } else {
+      deliveryType = DeliveryType.undefined;
+    }
+
+    await _remoteRepository.createOrder(
+      name: event.name,
+      items: cartItems,
+      address: event.address,
+      deliveryType: deliveryType,
+      payType: event.payType,
+      phone: event.phone,
+    );
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));

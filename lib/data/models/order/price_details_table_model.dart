@@ -18,6 +18,8 @@ class PriceDetailsTableModel {
   final double totalPrice;
   @JsonKey(name: FirestoreSchema.itemsPrice)
   final double itemsPrice;
+  @JsonKey(name: FirestoreSchema.type)
+  final String typePay;
 
   const PriceDetailsTableModel({
     required this.fullPrice,
@@ -26,17 +28,20 @@ class PriceDetailsTableModel {
     required this.salePercent,
     required this.totalPrice,
     required this.itemsPrice,
+    required this.typePay,
   });
 
   factory PriceDetailsTableModel.fromJson(Map<String, dynamic> json) => _$PriceDetailsTableModelFromJson(json);
 
   factory PriceDetailsTableModel.fromEntity(PriceDetails priceDetails) => PriceDetailsTableModel(
-      coupon: priceDetails.coupon,
-      deliveryPrice: priceDetails.deliveryPrice,
-      fullPrice: priceDetails.fullPrice,
-      itemsPrice: priceDetails.itemsPrice,
-      salePercent: priceDetails.salePercent,
-      totalPrice: priceDetails.totalPrice);
+        coupon: priceDetails.coupon,
+        deliveryPrice: priceDetails.deliveryPrice,
+        fullPrice: priceDetails.fullPrice,
+        itemsPrice: priceDetails.itemsPrice,
+        salePercent: priceDetails.salePercent,
+        totalPrice: priceDetails.totalPrice,
+        typePay: priceDetails.type,
+      );
 
   Map<String, dynamic> toJson() => _$PriceDetailsTableModelToJson(this);
 }

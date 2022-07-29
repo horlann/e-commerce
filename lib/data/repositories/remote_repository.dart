@@ -1,5 +1,6 @@
-import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kurilki/common/exeptions/exeptions.dart';
 import 'package:kurilki/common/failures/failures.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
@@ -15,9 +16,11 @@ import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
+import 'package:kurilki/domain/entities/order/user_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
+import 'package:uuid/uuid.dart';
 
 @lazySingleton
 class RemoteRepository {
@@ -58,13 +61,38 @@ class RemoteRepository {
     return productsList;
   }
 
-  Future<void> createOrder({required List<CartItem> items}) async {
+  Future<void> createOrder({
+    required List<CartItem> items,
+    required String name,
+    required String address,
+    required String phone,
+    required DeliveryType deliveryType,
+    required String payType,
+  }) async {
+    double price = 0;
+    for (var item in items) {
+      price += (item.count * item.item.price);
+    }
     OrderEntity order = OrderEntity(
-        number: (await _lastOrderNumber),
-        userId: 'id',
-        deliveryDetails: const DeliveryDetails(address: 'adress', deliveryType: DeliveryType.delivery),
-        items: items,
-        priceDetails: PriceDetails(totalPrice: 10, itemsPrice: 100, fullPrice: 120, deliveryPrice: 20));
+      items: items,
+      user: UserDetails(
+        name: name,
+        number: phone,
+        userId: (await _userId),
+      ),
+      number: (await _lastOrderNumber),
+      deliveryDetails: DeliveryDetails(
+        address: address,
+        deliveryType: deliveryType,
+      ),
+      priceDetails: PriceDetails(
+        totalPrice: price,
+        itemsPrice: price,
+        fullPrice: price,
+        deliveryPrice: 20,
+        type: payType,
+      ),
+    );
     await _remoteDataSource.createOrder(OrderTableModel.fromEntity(order));
   }
 
@@ -80,101 +108,92 @@ class RemoteRepository {
     }
   }
 
-  Future<Either<Failure, UserEntity>> authWithGoogleAccount() async {
-    UserEntity? entity;
-    final result = (await _remoteDataSource.authWithGoogleAccount());
-    await result.fold(
-      (l) {
-        return const Left(FirebaseUnknownFailure());
-      },
-      (r) async {
-        if (r) {
-          final response = await getAccountEntity();
-          await response.fold(
-            (l) {
-              return Left(l);
-            },
-            (r) {
-              logger.i("Successful authorization");
-              entity = r;
-              print(r.toString());
-
-              return Right(r);
-            },
-          );
-        } else {}
-
-        return Right(entity);
-      },
-    );
-    print(entity.toString());
-
-    if (entity != null) {
-      return Right(entity!);
+  Future<String> get _userId async {
+    try {
+      User user = await _remoteDataSource.userFromGoogleAuth;
+      return user.uid;
+    } on Exception catch (e) {
+      if (e == Exception("User is not authorized")) {
+        return "User is not authorized";
+      }
     }
-    print('sho');
-
-    return const Left(FirebaseUnknownFailure());
+    return "";
   }
 
-  Future<Either<Failure, UserEntity>> getAccountEntity() async {
-    UserEntity? entity;
-    final result = (await _remoteDataSource.getAccountEntity());
-    result.fold(
-      (l) async {
-        print('create1');
+  Future<void> createCategory(String name, String imageLink) async {
+    await _remoteDataSource.createCategory(CategoryTableModel(
+      id: 1,
+      name: name,
+      imageLink: imageLink,
+      uuid: const Uuid().v4(),
+    ));
+  }
 
-        return await _createUser();
-      },
-      (r) {
-        print('create2');
-
-        UserTableModel userTableModel = r;
-        entity = UserEntity.fromTableModel(userTableModel);
-        return Right(entity);
-      },
-    );
-    if (entity != null) {
-      return Right(entity!);
+  Future<UserEntity> authWithGoogleAccount() async {
+    try {
+      final result = await _remoteDataSource.authWithGoogleAccount();
+      logger.i("Successful authorization");
+      return await getAccountEntity();
+    } on Exception {
+      rethrow;
     }
-
-    return const Left(FirebaseUnknownFailure());
   }
 
-  Future<Either<Failure, UserEntity>> _createUser() async {
-    final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
-    final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
-    final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
-    UserEntity entity = UserEntity(authId: authId, name: name, imageLink: imageLink);
-    final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
-
-    result.fold(
-      (l) => const Left(FirebaseUnknownFailure()),
-      (r) {
-        return Right(r);
-      },
-    );
-
-    return const Left(FirebaseUnknownFailure());
-  }
-
-  Future<Either<Failure, bool>> logout() async {
-    return await _remoteDataSource.logout();
-  }
-
-  Future<Either<Failure, List<CategoryEntity>>> getCategoriesList() async {
-    List<CategoryEntity> entity = [];
-    final result = await _remoteDataSource.getCategoriesList();
-    result.fold(
-      (l) => const Left(FirebaseUnknownFailure()),
-      (r) {
-        List<CategoryTableModel> models = r;
-        for (var model in models) {
-          entity.add(CategoryEntity.fromTableModel(model));
+  Future<UserEntity> getAccountEntity() async {
+    UserEntity? entity;
+    try {
+      UserTableModel? model;
+      try {
+        model = (await _remoteDataSource.getAccountModel());
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "user-not-found") {
+          return await _createUser();
         }
-        return Right(entity);
-      },
-    );
-    return Right(entity);
+      }
+      if (model != null) {
+        return entity = UserEntity.fromTableModel(model);
+      } else {
+        throw Exception("UserModel is empty");
+      }
+    } on Exception catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<UserEntity> _createUser() async {
+    try {
+      final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
+      final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
+      final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
+      UserEntity entity = UserEntity(authId: authId, name: name, imageLink: imageLink);
+      final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
+      return entity;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _remoteDataSource.logout();
+      return;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<CategoryEntity>> getCategoriesList() async {
+    List<CategoryEntity> entities = [];
+    try {
+      final result = await _remoteDataSource.getCategoriesList();
+      List<CategoryTableModel> models = result;
+      for (var model in models) {
+        entities.add(CategoryEntity.fromTableModel(model));
+      }
+      return entities;
+    } on Exception {
+      rethrow;
+    }
   }
 }

@@ -22,6 +22,10 @@ class CartState {
   CartState cartLoadedState(List<CartItem> cartItems) {
     return CartLoadedState(cartItems);
   }
+
+  CartState configureOrder() {
+    return const ConfigureOrderState();
+  }
 }
 
 class InProgressCartState extends CartState {
@@ -40,4 +44,12 @@ class CartFailureState extends CartState {
 
 class OrderCreated extends CartState {
   const OrderCreated();
+}
+
+class ConfigureOrderState extends CartState {
+  const ConfigureOrderState();
+}
+
+class ConfirmOrderState extends CartState {
+  const ConfirmOrderState();
 }
