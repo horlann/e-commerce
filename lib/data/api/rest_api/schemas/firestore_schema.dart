@@ -4,17 +4,16 @@ class FirestoreSchema {
   static const String authId = 'authId';
   static const String categoryName = 'category';
   static const String imageLink = 'imageLink';
-  static const String name = 'name';
   static const String price = 'price';
   static const String oldPrice = 'oldPrice';
   static const String tags = 'tags';
   static const String isAvailable = 'isAvailable';
   static const String puffsCount = 'puffsCount';
   static const String strength = 'strength';
+  static const String type = "typePay";
 
   //order
   static const String number = 'number';
-  static const String userId = 'userId';
   static const String items = 'items';
   static const String deliveryDetails = 'deliveryDetails';
   static const String priceDetails = 'priceDetails';
@@ -35,4 +34,9 @@ class FirestoreSchema {
   //delivery details
   static const String deliveryType = 'deliveryType';
   static const String address = 'address';
+
+  //user details
+  static const String name = 'name';
+  static const String phone = 'phone';
+  static const String userId = 'userId';
 }

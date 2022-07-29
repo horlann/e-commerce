@@ -23,4 +23,4 @@ class DeliveryDetails {
       DeliveryDetails(deliveryType: model.deliveryType, address: model.address);
 }
 
-enum DeliveryType { pickUp, delivery }
+enum DeliveryType { pickUp, deliveryNovaPost, undefined }
