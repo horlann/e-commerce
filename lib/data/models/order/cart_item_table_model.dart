@@ -10,7 +10,7 @@ part 'cart_item_table_model.g.dart';
 class CartItemTableModel {
   @JsonKey(name: FirestoreSchema.item)
   final ItemTableModel item;
-  @JsonKey(name: FirestoreSchema.count)
+  @JsonKey(name: FirestoreSchema.count, defaultValue: 0)
   final int count;
 
   const CartItemTableModel({

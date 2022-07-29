@@ -11,7 +11,6 @@ import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/bloc/details/details_bloc.dart';
 import 'package:kurilki/presentation/bloc/details/details_event.dart';
-import 'package:kurilki/presentation/bloc/details/details_state.dart';
 import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -117,31 +116,21 @@ class DetailsScreen extends StatelessWidget {
                             style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                           )
                         : const SizedBox.shrink(),
-                    BlocBuilder<DetailsBloc, DetailsState>(
-                      builder: (context, state) {
-                        if (state is DetailsLoadedState) {
-                          List<Item> items = state.list;
-                          return Center(
-                            child: Wrap(
-                              alignment: WrapAlignment.start,
-                              runSpacing: 10,
-                              spacing: 10,
-                              children: items
-                                  .map((e) => Container(
-                                        width: 80,
-                                        height: 80,
-                                        decoration: BoxDecoration(border: Border.all()),
-                                        child:
-                                            CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
-                                      ))
-                                  .toList(),
-                            ),
-                          );
-                        } else {
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                      },
-                    ),
+                    if (product is DisposablePodEntity)
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        runSpacing: 10,
+                        spacing: 10,
+                        children: (product as DisposablePodEntity)
+                            .itemSettings
+                            .map((e) => Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(border: Border.all()),
+                                  child: CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                                ))
+                            .toList(),
+                      ),
                     const SizedBox(height: 32),
                   ],
                 ),
