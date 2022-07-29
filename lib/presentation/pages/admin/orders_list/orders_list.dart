@@ -21,7 +21,7 @@ class OrdersList extends StatelessWidget {
                   itemBuilder: (context, index) => _AdminOrderListTile(order: orders[index]),
                   itemCount: orders.length,
                 )
-              : Text('empty');
+              : const Text('empty');
         } else {
           return const Center(child: CircularProgressIndicator());
         }

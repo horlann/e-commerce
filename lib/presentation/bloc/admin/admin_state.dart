@@ -16,8 +16,8 @@ class AdminState {
     return const InProgressLoadingState();
   }
 
-  AdminState dataLoaded(List<CategoryEntity> categories) {
-    return DataLoadedState(categories);
+  AdminState categoriesLoaded(List<CategoryEntity> categories) {
+    return CategoriesLoadedState(categories);
   }
 
   AdminState newOrder(List<OrderEntity> orders) {
@@ -33,8 +33,8 @@ class InProgressLoadingState extends AdminState {
   const InProgressLoadingState();
 }
 
-class DataLoadedState extends AdminState {
-  const DataLoadedState(this.categories);
+class CategoriesLoadedState extends AdminState {
+  const CategoriesLoadedState(this.categories);
 
   final List<CategoryEntity> categories;
 }

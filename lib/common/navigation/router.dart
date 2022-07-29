@@ -1,4 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:kurilki/presentation/pages/admin/create_category/create_category.dart';
+import 'package:kurilki/presentation/pages/admin/create_item/create_item.dart';
+import 'package:kurilki/presentation/pages/admin/orders_list/orders_list.dart';
+import 'package:kurilki/presentation/pages/admin/products_list/products_list.dart';
 import 'package:kurilki/presentation/pages/home/home_page.dart';
 import 'package:kurilki/presentation/pages/home/home_page_wrapper.dart';
 import 'package:kurilki/presentation/pages/shopping_cart/shopping_cart_page.dart';
@@ -47,10 +51,35 @@ import '../../presentation/pages/details/details_screen.dart';
         ),
       ],
     ),
+    //admin route
+
     AutoRoute(
-      path: 'admin',
+      path: '/admin',
       name: "AdminRouter",
       page: AdminScreen,
+      maintainState: true,
+      children: [
+        AutoRoute(
+          path: 'create_item',
+          name: "CreateItemRouter",
+          page: CreateItem,
+        ),
+        AutoRoute(
+          path: 'create_category',
+          name: "CreateCategoryRouter",
+          page: CreateCategory,
+        ),
+        AutoRoute(
+          path: 'orders_list',
+          name: "OrdersListRouter",
+          page: OrdersList,
+        ),
+        AutoRoute(
+          path: 'products_list',
+          name: "ProductsListRouter",
+          page: ProductsList,
+        ),
+      ],
     ),
   ],
 )

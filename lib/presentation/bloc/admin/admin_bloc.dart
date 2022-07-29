@@ -12,18 +12,19 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   List<CategoryEntity> categories = [];
 
   AdminBloc(this._remoteRepository, this._remoteAdminRepository) : super(const AdminState().inProgress()) {
-    on<InitDataEvent>(_init);
+    on<InitCategoriesEvent>(_initCategories);
+    on<InitOrdersEvent>(_listenOrdersStream);
     on<AddNewItemEvent>(_createItem);
     on<AddNewCategoryEvent>(_addNewCategory);
   }
 
   List<OrderEntity> orders = [];
 
-  void _init(AdminEvent event, Emitter<AdminState> emit) async {
+  void _initCategories(AdminEvent event, Emitter<AdminState> emit) async {
     emit(state.inProgress());
     try {
       categories = await _remoteRepository.getCategoriesList();
-      emit(state.dataLoaded(categories));
+      emit(state.categoriesLoaded(categories));
     } on Exception {
       state.failure();
     }
@@ -32,14 +33,14 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   Future<void> _addNewCategory(AdminEvent event, Emitter<AdminState> emit) async {
     emit(state.inProgress());
     await _remoteAdminRepository.createCategory((event as AddNewCategoryEvent).category, "image");
-    emit(state.dataLoaded(categories));
+    emit(state.categoriesLoaded(categories));
   }
 
-  void _createItem(AddNewItemEvent event, Emitter<AdminState> emit) async {
+  void _createItem(AdminEvent event, Emitter<AdminState> emit) async {
     await _remoteAdminRepository.createItem();
   }
 
-  Future<void> _listenOrdersStream(Emitter<AdminState> emit) async =>
+  Future<void> _listenOrdersStream(AdminEvent event, Emitter<AdminState> emit) async =>
       await emit.onEach(_remoteAdminRepository.ordersStream(), onData: (message) {
         emit(NewOrderState(message as List<OrderEntity>));
       });
