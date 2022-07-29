@@ -6,6 +6,8 @@ abstract class AbstractTheme {
     this.infoTextColor,
     this.inactiveTextColor,
     this.accentColor,
+    this.lightAccentColor,
+    this.darkAccentColor,
     this.cardColor,
     this.wrongColor,
     this.rightColor,
@@ -17,6 +19,8 @@ abstract class AbstractTheme {
   final Color infoTextColor;
   final Color inactiveTextColor;
   final Color accentColor;
+  final Color lightAccentColor;
+  final Color darkAccentColor;
   final Color cardColor;
   final Color wrongColor;
   final Color rightColor;

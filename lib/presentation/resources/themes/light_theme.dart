@@ -13,7 +13,13 @@ class LightTheme implements AbstractTheme {
   Color get inactiveTextColor => const Color(0xFF6f6e75);
 
   @override
-  Color get accentColor => const Color(0xFF5530b3);
+  Color get accentColor => const Color(0xFFFFC100);
+
+  @override
+  Color get darkAccentColor => const Color(0xFFFF9400);
+
+  @override
+  Color get lightAccentColor => const Color.fromARGB(255, 255, 207, 64);
 
   @override
   Color get cardColor => const Color(0xFFf9f8fd);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:kurilki/common/const/const.dart';
-import 'package:kurilki/data/repositories/local_repository.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -63,8 +62,8 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioGroup<String>.builder(
-                    activeColor: theme.whiteTextColor,
-                    textStyle: TextStyle(color: theme.whiteTextColor),
+                    activeColor: theme.infoTextColor,
+                    textStyle: TextStyle(color: theme.infoTextColor),
                     spacebetween: 40,
                     groupValue: _deliveryType,
                     onChanged: (value) => setState(() {
@@ -97,8 +96,8 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioGroup<String>.builder(
-                    activeColor: theme.whiteTextColor,
-                    textStyle: TextStyle(color: theme.whiteTextColor),
+                    activeColor: theme.infoTextColor,
+                    textStyle: TextStyle(color: theme.infoTextColor),
                     spacebetween: 40,
                     groupValue: _payType,
                     onChanged: (value) => setState(() {
@@ -117,6 +116,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     child: MainRoundedButton(
                       text: "Back",
                       color: theme.accentColor,
+                      textStyle: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                       callback: () => cartBloc.add(const InitCartEvent()), //TODO: implement loading CachedCartItems
                       theme: theme,
                     ),
@@ -127,6 +127,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     child: MainRoundedButton(
                       text: "Confirm",
                       color: theme.accentColor,
+                      textStyle: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                       callback: () {
                         if (_name.isNotEmpty && _phone.isNotEmpty) {
                           if (_deliveryType != Const.pickUp && _address.isEmpty) {

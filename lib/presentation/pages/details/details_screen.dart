@@ -35,6 +35,7 @@ class DetailsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(color: theme.whiteTextColor),
+          backgroundColor: theme.darkAccentColor,
           actions: [
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {

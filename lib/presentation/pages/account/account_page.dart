@@ -20,16 +20,14 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: InkWell(
-          onTap: () {
-            context.navigateTo(const AdminRouter());
-          },
+          onTap: () => context.navigateTo(const AdminRouter()),
           child: Text(
             "Account",
-            style: TextStyle(color: theme.backgroundColor),
+            style: TextStyle(color: theme.whiteTextColor),
           ),
         ),
         centerTitle: true,
-        backgroundColor: theme.accentColor,
+        backgroundColor: theme.darkAccentColor,
       ),
       body: BlocConsumer<AccountBloc, AccountState>(
         listener: (context, state) {

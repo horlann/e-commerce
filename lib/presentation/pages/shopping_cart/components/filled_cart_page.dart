@@ -122,6 +122,7 @@ class _FilledCartPageState extends State<_FilledCartPage> {
                   callback: () {
                     BlocProvider.of<CartBloc>(context).add(const CheckoutEvent());
                   },
+                  textStyle: TextStyle(color: theme.infoTextColor, fontSize: 17, fontWeight: FontWeight.w500),
                   color: theme.accentColor,
                   text: 'Check Out',
                   paddingVert: 14,

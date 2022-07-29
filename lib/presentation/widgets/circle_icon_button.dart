@@ -26,7 +26,10 @@ class CircleIconButton extends StatelessWidget {
         height: height,
         width: width,
         alignment: Alignment.center,
-        decoration: const BoxDecoration(shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: theme.accentColor,
+        ),
         child: SvgPicture.asset(
           icon,
           height: height - 10,

@@ -10,12 +10,8 @@ import 'package:kurilki/presentation/pages/shopping_cart/components/filled_cart_
 import 'package:kurilki/presentation/pages/shopping_cart/components/order_confirmation_page.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
-import 'components/cart_product_card.dart';
 
 class ShoppingCartPage extends StatelessWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);
@@ -28,9 +24,9 @@ class ShoppingCartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cart", style: TextStyle(color: theme.backgroundColor)),
+        title: Text("Cart", style: TextStyle(color: theme.whiteTextColor)),
         centerTitle: true,
-        backgroundColor: theme.accentColor,
+        backgroundColor: theme.darkAccentColor,
       ),
       body: BlocConsumer<CartBloc, CartState>(
         listener: (context, state) {
@@ -48,7 +44,7 @@ class ShoppingCartPage extends StatelessWidget {
               return const FilledCartPage();
             }
           } else if (state is ConfigureOrderState) {
-            return const OrderConfirmationPage();
+            return Container(color: theme.backgroundColor, child: const OrderConfirmationPage());
           } else {
             return const Text('error');
           }

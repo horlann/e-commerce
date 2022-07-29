@@ -35,6 +35,7 @@ class UnauthorizedPage extends StatelessWidget {
               width: scale * 200,
               child: MainRoundedButton(
                 text: "Login with Google",
+                textStyle: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 18),
                 color: theme.accentColor,
                 theme: theme,
                 callback: () => bloc.add(

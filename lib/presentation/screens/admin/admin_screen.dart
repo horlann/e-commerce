@@ -24,8 +24,8 @@ class _AdminScreenState extends State<AdminScreen> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Admin Panel", style: TextStyle(color: theme.backgroundColor)),
-          backgroundColor: theme.accentColor,
+          title: Text("Admin Panel", style: TextStyle(color: theme.whiteTextColor)),
+          backgroundColor: theme.darkAccentColor,
         ),
         body: Column(
           children: [
