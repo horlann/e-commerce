@@ -3,13 +3,13 @@ import 'package:kurilki/presentation/pages/admin/create_category/create_category
 import 'package:kurilki/presentation/pages/admin/create_item/create_item.dart';
 import 'package:kurilki/presentation/pages/admin/orders_list/orders_list.dart';
 import 'package:kurilki/presentation/pages/admin/products_list/products_list.dart';
+import 'package:kurilki/presentation/pages/cart/shopping_cart_page.dart';
 import 'package:kurilki/presentation/pages/home/home_page.dart';
 import 'package:kurilki/presentation/pages/home/home_page_wrapper.dart';
-import 'package:kurilki/presentation/pages/shopping_cart/shopping_cart_page.dart';
 import 'package:kurilki/presentation/screens/admin/admin_screen.dart';
 import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
-import '../../presentation/pages/account/account_page.dart';
-import '../../presentation/pages/details/details_screen.dart';
+import 'package:kurilki/presentation/pages/account/account_page.dart';
+import 'package:kurilki/presentation/pages/details/details_screen.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',

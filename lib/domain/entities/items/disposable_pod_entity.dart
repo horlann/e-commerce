@@ -1,4 +1,5 @@
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
 
 import 'item.dart';
 
@@ -13,9 +14,11 @@ class DisposablePodEntity extends Item {
       required super.imageLink,
       required super.isAvailable,
       required super.tags,
-      required this.puffsCount});
+      required this.puffsCount,
+      required this.itemSettings});
 
   final int puffsCount;
+  final List<ItemSettings> itemSettings;
   factory DisposablePodEntity.fromTableModel(DisposablePodTableModel model) => DisposablePodEntity(
       uuid: model.uuid,
       id: model.id,
@@ -26,5 +29,6 @@ class DisposablePodEntity extends Item {
       imageLink: model.imageLink,
       isAvailable: model.isAvailable,
       tags: model.tags,
-      puffsCount: model.puffsCount);
+      puffsCount: model.puffsCount,
+      itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
 }

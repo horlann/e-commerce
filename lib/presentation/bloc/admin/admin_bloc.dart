@@ -13,6 +13,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   AdminBloc(this._remoteRepository, this._remoteAdminRepository) : super(const AdminState().inProgress()) {
     on<InitCategoriesEvent>(_initCategories);
+    on<InitProductsEvent>(_initProducts);
     on<InitOrdersEvent>(_listenOrdersStream);
     on<AddNewItemEvent>(_createItem);
     on<AddNewCategoryEvent>(_addNewCategory);
@@ -38,6 +39,10 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   void _createItem(AdminEvent event, Emitter<AdminState> emit) async {
     await _remoteAdminRepository.createItem();
+  }
+
+  void _initProducts(AdminEvent event, Emitter<AdminState> emit) async {
+   
   }
 
   Future<void> _listenOrdersStream(AdminEvent event, Emitter<AdminState> emit) async =>

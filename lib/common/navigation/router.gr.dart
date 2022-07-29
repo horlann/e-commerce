@@ -21,10 +21,10 @@ import '../../presentation/pages/admin/create_item/create_item.dart' as _i8;
 import '../../presentation/pages/admin/orders_list/orders_list.dart' as _i10;
 import '../../presentation/pages/admin/products_list/products_list.dart'
     as _i11;
+import '../../presentation/pages/cart/shopping_cart_page.dart' as _i5;
 import '../../presentation/pages/details/details_screen.dart' as _i7;
 import '../../presentation/pages/home/home_page.dart' as _i6;
 import '../../presentation/pages/home/home_page_wrapper.dart' as _i3;
-import '../../presentation/pages/shopping_cart/shopping_cart_page.dart' as _i5;
 import '../../presentation/screens/admin/admin_screen.dart' as _i2;
 import '../../presentation/screens/main_screen/main_screen.dart' as _i1;
 
