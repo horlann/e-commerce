@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
+
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({Key? key, required this.item}) : super(key: key);
@@ -54,7 +53,7 @@ class ItemCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
