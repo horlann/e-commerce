@@ -11,13 +11,13 @@ import 'package:kurilki/domain/entities/category/category_entity.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
 import 'package:kurilki/domain/entities/order/user_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 import 'package:uuid/uuid.dart';
 
 @lazySingleton

@@ -4,9 +4,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/common/services/connection/custom_connection_checker.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
-import 'bottom_bar.dart';
 
-final _innerRouterKey = GlobalKey<AutoRouterState>();
+import 'bottom_bar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -29,8 +28,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      key: _innerRouterKey,
-
       routes: const [
         HomePageWrapper(),
         AccountRouter(),

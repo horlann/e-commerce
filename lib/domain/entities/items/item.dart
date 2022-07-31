@@ -1,5 +1,7 @@
 import 'package:uuid/uuid.dart';
 
+import 'item_settings.dart';
+
 abstract class Item {
   final String uuid;
 
@@ -19,6 +21,8 @@ abstract class Item {
 
   final bool isAvailable;
 
+  final List<ItemSettings> itemSettings;
+
   Item({
     String? uuid,
     required this.id,
@@ -29,6 +33,7 @@ abstract class Item {
     required this.imageLink,
     required this.tags,
     required this.isAvailable,
+    required this.itemSettings,
   }) : uuid = uuid ?? const Uuid().v4();
 }
 
