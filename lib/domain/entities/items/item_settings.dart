@@ -32,19 +32,21 @@ class ItemSettings extends AbstractItemSettings {
     required super.type,
   }) : uuid = uuid ?? const Uuid().v4();
 
-ItemSettings copyWith({
-  String? uuid,
-  String? imageLink,
-  bool? isAvailable,
-  int? count,
-}) {
+  ItemSettings copyWith({
+    String? uuid,
+    String? imageLink,
+    bool? isAvailable,
+    int? count,
+    String? name,
+    ItemSettingsType? type,
+  }) {
     return ItemSettings(
         uuid: uuid ?? this.uuid,
         imageLink: imageLink ?? this.imageLink,
         isAvailable: isAvailable ?? this.isAvailable,
         count: count ?? this.count,
-        name: name,
-        type: type);
+        name: name ?? this.name,
+        type: type ?? this.type);
   }
 
   factory ItemSettings.fromTableModel(ItemSettingsTableModel model) => ItemSettings(
