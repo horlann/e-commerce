@@ -55,7 +55,10 @@ class CategoryCard extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Container(
-        decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(12)), color: theme.rightColor),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            border: Border.all(color: theme.inactiveColor, width: 2),
+            color: theme.cardColor),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: Column(

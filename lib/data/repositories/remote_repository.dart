@@ -2,15 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
-import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
-import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
-import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
@@ -30,13 +26,7 @@ class RemoteRepository {
     List<Item?> items = [];
     List<ItemTableModel> preItems = await _remoteDataSource.loadAllItems();
     items = preItems.map((e) {
-      if (e.category == ProductCategory.disposablePod.name) {
-        return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
-      } else if (e.category == ProductCategory.snus.name) {
-        return Snus.fromTableModel(e as SnusTableModel);
-      } else {
-        return null;
-      }
+      return Item.fromTableModel(e);
     }).toList();
     List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
     return productsList;
@@ -47,13 +37,7 @@ class RemoteRepository {
     List<ItemTableModel> preItems = await _remoteDataSource.loadItemsWithSameId(item.category);
 
     items = preItems.map((e) {
-      if (e.category == ProductCategory.disposablePod.name) {
-        return DisposablePodEntity.fromTableModel(e as DisposablePodTableModel);
-      } else if (e.category == ProductCategory.snus.name) {
-        return Snus.fromTableModel(e as SnusTableModel);
-      } else {
-        return null;
-      }
+      return Item.fromTableModel(e);
     }).toList();
     List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
     return productsList;

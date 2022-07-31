@@ -148,14 +148,7 @@ class RemoteDataSource {
     QuerySnapshot ref = await userCollectionRef.where(FirestoreSchema.categoryName, isEqualTo: id).get();
     List<ItemTableModel?> tempProductsList = ref.docs.map((e) {
       Json json = e.data() as Json;
-      ItemTableModel abstractItem = ItemTableModel.fromJson(json);
-      if (abstractItem.category == ProductCategory.disposablePod.name) {
-        return DisposablePodTableModel.fromJson(json);
-      } else if (abstractItem.category == ProductCategory.snus.name) {
-        return SnusTableModel.fromJson(json);
-      } else {
-        return null;
-      }
+      return ItemTableModel.fromJson(json);
     }).toList();
     List<ItemTableModel> productsList =
         tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();
@@ -207,13 +200,6 @@ class RemoteDataSource {
           List<dynamic> tempProductsList = data[FirestoreSchema.items].map((e) {
             Json json = e[FirestoreSchema.item] as Json;
             ItemTableModel abstractItem = ItemTableModel.fromJson(json);
-            if (abstractItem.category == ProductCategory.disposablePod.name) {
-              return DisposablePodTableModel.fromJson(json);
-            } else if (abstractItem.category == ProductCategory.snus.name) {
-              return SnusTableModel.fromJson(json);
-            } else {
-              return null;
-            }
           }).toList();
           List<ItemTableModel> productsList =
               tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();

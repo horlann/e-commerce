@@ -13,9 +13,10 @@ class CustomImageProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-
+//https://www.flavorbar.es/wp-content/uploads/2022/05/elf-bar-disposable-vape-barcelona-1.jpg
     return CachedNetworkImage(
       imageUrl: imageLink,
+      fit: BoxFit.cover,
       placeholder: (context, url) => Shimmer.fromColors(
           baseColor: (Colors.grey[300]) ?? Colors.white,
           highlightColor: (Colors.grey[100]) ?? Colors.green,

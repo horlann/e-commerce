@@ -15,7 +15,7 @@ import 'package:kurilki/presentation/bloc/details/details_event.dart';
 import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/widgets/Image_provider.dart';
+import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
@@ -47,7 +47,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(color: theme.whiteTextColor),
-          backgroundColor: theme.backgroundColor,
+          backgroundColor: theme.accentColor,
           actions: [
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {
@@ -87,9 +87,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
               CachedNetworkImage(
                 imageUrl: itemSettings?.imageLink ?? widget.product.imageLink,
                 height: MediaQuery.of(context).size.height * 0.4,
+                width: double.infinity,
                 fit: BoxFit.cover,
               ),
-              const SizedBox(height: 25),
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
                 decoration: const BoxDecoration(
@@ -112,7 +112,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         const SizedBox(width: 16),
                         Text(
-                          "\$" + widget.product.price.toString(),
+                          "₴" + widget.product.price.toStringAsFixed(0),
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ],
@@ -131,10 +131,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           )
                         : const SizedBox.shrink(),
                     const SizedBox(height: 12),
-                    Text(
-                      "Tastes",
-                      style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
-                    ),
+                    itemSettings != null
+                        ? Text(
+                            "Taste: ${itemSettings!.name}",
+                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
+                          )
+                        : const SizedBox.shrink(),
+                    const SizedBox(height: 12),
                     if (widget.product is DisposablePodEntity)
                       Wrap(
                         alignment: WrapAlignment.start,
@@ -142,22 +145,36 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         spacing: 10,
                         children: (widget.product as DisposablePodEntity).itemSettings.map((e) {
                           final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
+                          final bool canBeDisplayed = e.count > 0 && e.isAvailable;
                           return GestureDetector(
                             onTap: () {
-                              if (!isSelected) {
+                              if (!isSelected && e.count > 0 && e.isAvailable) {
                                 setState(() {
                                   itemSettings = e;
                                 });
                               }
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 80,
                               height: 80,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
-                                      width: 2.5)),
-                              child: CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
+                                            width: 2.5)),
+                                    child: CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                                  ),
+                                  if (!canBeDisplayed)
+                                    Container(
+                                      color: theme.inactiveColor.withOpacity(0.6),
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      child: Icon(Icons.clear, color: theme.wrongColor, size: 40),
+                                    ),
+                                ],
+                              ),
                             ),
                           );
                         }).toList(),

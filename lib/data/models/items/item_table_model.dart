@@ -1,7 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
+import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/items/snus_table_model.dart';
+import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/snus.dart';
 
 import 'item_settings_table_model.dart';
 
@@ -43,19 +47,58 @@ class ItemTableModel {
     required this.itemSettings,
   });
 
-  factory ItemTableModel.fromJson(Map<String, dynamic> json) => _$ItemTableModelFromJson(json);
+  factory ItemTableModel.fromJson(Map<String, dynamic> json) {
+    ItemTableModel model = _$ItemTableModelFromJson(json);
+    if (model.category == ProductCategory.disposablePod.name) {
+      return DisposablePodTableModel.fromJson(json);
+    } else if (model.category == ProductCategory.snus.name) {
+      return SnusTableModel.fromJson(json);
+    }
+    throw Exception();
+  }
 
-  factory ItemTableModel.fromEntity(Item item) => ItemTableModel(
-      uuid: item.uuid,
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      oldPrice: item.oldPrice,
-      category: item.category,
-      imageLink: item.imageLink,
-      tags: item.tags,
-      isAvailable: item.isAvailable,
-      itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList());
+  factory ItemTableModel.fromEntity(Item item) {
+    if (item.category == ProductCategory.disposablePod.name) {
+      return DisposablePodTableModel(
+          uuid: item.uuid,
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          category: item.category,
+          imageLink: item.imageLink,
+          tags: item.tags,
+          isAvailable: item.isAvailable,
+          itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList(),
+          puffsCount: (item as DisposablePodEntity).puffsCount);
+    } else if (item.category == ProductCategory.snus.name) {
+      return SnusTableModel(
+          uuid: item.uuid,
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          category: item.category,
+          imageLink: item.imageLink,
+          tags: item.tags,
+          isAvailable: item.isAvailable,
+          itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList(),
+          strength: (item as Snus).strength);
+    }
+    return ItemTableModel(
+        uuid: item.uuid,
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        oldPrice: item.oldPrice,
+        category: item.category,
+        imageLink: item.imageLink,
+        tags: item.tags,
+        isAvailable: item.isAvailable,
+        itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList());
+  }
 
-  Json toJson() => _$ItemTableModelToJson(this);
+  Json toJson() {
+    return _$ItemTableModelToJson(this);
+  }
 }
