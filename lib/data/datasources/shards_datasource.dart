@@ -17,7 +17,6 @@ class ShardsDataSource extends SharedPreferencesDao implements IKeyValueDataSour
   Future<void> cacheCart(List<CartItemTableModel> items) async {
     List<Json> json = items.map((e) => e.toJson()).toList();
     await setString('cartCache', json.toString());
-    print(json);
   }
 
   @override

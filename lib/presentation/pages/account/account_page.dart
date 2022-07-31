@@ -23,7 +23,7 @@ class AccountPage extends StatelessWidget {
           onTap: () => context.navigateTo(const AdminRouter()),
           child: Text(
             "Account",
-            style: TextStyle(color: theme.whiteTextColor),
+            style: TextStyle(color: theme.mainTextColor),
           ),
         ),
         centerTitle: true,

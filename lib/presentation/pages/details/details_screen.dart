@@ -55,9 +55,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 return ElevatedButton(
                   onPressed: () {
                     if (itemSettings != null) {
-                      Item item;
                       if (widget.product is DisposablePodEntity) {}
-                      cartBloc.add(AddToCartEvent(widget.product, countInCart + 1));
+                      cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
                     }
                   },
                   style: ElevatedButton.styleFrom(

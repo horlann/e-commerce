@@ -25,7 +25,7 @@ class _BottomBarState extends State<BottomBar> {
       height: 60,
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(width: 1.5, color: Colors.black)),
-        color: BlocProvider.of<ThemesBloc>(context).theme.accentColor,
+        color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
       ),
       child: Row(
         children: [
@@ -41,9 +41,9 @@ class _BottomBarState extends State<BottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.home,
+                      CustomIcons.home,
                   width: 26,
-                  color: activePage == 1 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 1 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),
@@ -60,9 +60,9 @@ class _BottomBarState extends State<BottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.profile,
+                      CustomIcons.profile,
                   width: 24,
-                  color: activePage == 2 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 2 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),
@@ -79,9 +79,9 @@ class _BottomBarState extends State<BottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.cart,
+                      CustomIcons.cart,
                   width: 26,
-                  color: activePage == 3 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 3 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),

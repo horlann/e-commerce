@@ -18,7 +18,7 @@ class PriceDetailsTableModel {
   final double totalPrice;
   @JsonKey(name: FirestoreSchema.itemsPrice)
   final double itemsPrice;
-  @JsonKey(name: FirestoreSchema.type)
+  @JsonKey(name: FirestoreSchema.typePay)
   final String typePay;
 
   const PriceDetailsTableModel({

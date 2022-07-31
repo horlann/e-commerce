@@ -1,4 +1,5 @@
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
 
 abstract class CartEvent {
   const CartEvent();
@@ -9,9 +10,10 @@ class InitCartEvent extends CartEvent {
 }
 
 class AddToCartEvent extends CartEvent {
-  const AddToCartEvent(this.item, this.count);
+  const AddToCartEvent(this.item, this.count, this.itemSettings);
 
   final Item item;
+  final AbstractItemSettings itemSettings;
   final int count;
 }
 

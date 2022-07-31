@@ -15,6 +15,7 @@ class NewArrivalProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(
           title: "New Arrival",
@@ -30,6 +31,7 @@ class NewArrivalProducts extends StatelessWidget {
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 scrollDirection: Axis.horizontal,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: List.generate(
                     items.length,
                     (index) => Padding(

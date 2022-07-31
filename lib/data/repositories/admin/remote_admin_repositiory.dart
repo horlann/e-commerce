@@ -9,6 +9,7 @@ import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
@@ -91,7 +92,10 @@ class RemoteAdminRepository {
           List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
           List<CartItem> cartItems = [];
           for (int i = 0; i < productsList.length; i++) {
-            cartItems.add(CartItem(item: productsList[i], count: preItems[i].count));
+            cartItems.add(CartItem(
+                item: productsList[i],
+                count: preItems[i].count,
+                itemSettings: NoItemSettings(type: ItemSettingsType.empty, name: 'empty')));
           }
 
           return OrderEntity.fromTableModel(model, cartItems);

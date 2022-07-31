@@ -47,7 +47,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       cartItems.insert(index + 1, cartItems[index].copyWith(count: countOfItemsInCart(event.item.uuid) + 1));
       cartItems.removeAt(index);
     } else {
-      cartItems.add(CartItem(item: event.item, count: 1));
+      cartItems.add(CartItem(item: event.item, count: 1, itemSettings: event.itemSettings));
     }
     emit(state.cartLoadedState(cartItems));
     _localRepository.cacheCart(cartItems);

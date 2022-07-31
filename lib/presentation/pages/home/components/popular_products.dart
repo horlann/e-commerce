@@ -15,6 +15,7 @@ class PopularProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(
           title: "Popular",
@@ -32,7 +33,7 @@ class PopularProducts extends StatelessWidget {
                 child: Row(
                   children: List.generate(
                     items.length,
-                    (index) => Padding(
+                        (index) => Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: ProductCard(
                         product: items[index],

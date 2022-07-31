@@ -27,6 +27,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   void _initCategories(AdminEvent event, Emitter<AdminState> emit) async {
     emit(state.inProgress());
+    // await  _listenOrdersStream(emit);
     try {
       categories = await _remoteRepository.getCategoriesList();
       emit(state.categoriesLoaded(categories));

@@ -18,11 +18,6 @@ class ShoppingCartPage extends StatelessWidget {
     AbstractTheme theme = Provider.of<ThemesBloc>(context).theme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Cart", style: TextStyle(color: theme.whiteTextColor)),
-        centerTitle: true,
-        backgroundColor: theme.backgroundColor,
-      ),
       body: BlocConsumer<CartBloc, CartState>(
         listener: (context, state) {
           if (state is OrderCreated) {

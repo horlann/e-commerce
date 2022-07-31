@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
+import 'package:kurilki/data/models/items/abstract_item_settings_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 
@@ -12,9 +13,14 @@ class CartItemTableModel {
   final ItemTableModel item;
   @JsonKey(name: FirestoreSchema.count, defaultValue: 0)
   final int count;
+  @JsonKey(
+    name: FirestoreSchema.itemSettings,
+  )
+  final AbstractItemsSettingsTableModel itemSettings;
 
   const CartItemTableModel({
     required this.item,
+    required this.itemSettings,
     required this.count,
   });
 
@@ -24,6 +30,7 @@ class CartItemTableModel {
       item: ItemTableModel.fromEntity(
         cartItem.item,
       ),
+      itemSettings: AbstractItemsSettingsTableModel.fromEntity(cartItem.itemSettings),
       count: cartItem.count);
 
   Json toJson() => _$CartItemTableModelToJson(this);
