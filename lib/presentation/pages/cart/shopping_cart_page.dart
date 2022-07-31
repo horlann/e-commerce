@@ -21,7 +21,7 @@ class ShoppingCartPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Cart", style: TextStyle(color: theme.whiteTextColor)),
         centerTitle: true,
-        backgroundColor: theme.darkAccentColor,
+        backgroundColor: theme.backgroundColor,
       ),
       body: BlocConsumer<CartBloc, CartState>(
         listener: (context, state) {

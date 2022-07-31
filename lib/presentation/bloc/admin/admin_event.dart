@@ -37,7 +37,9 @@ class UpdateDisposableItemEvent extends AdminEvent {
 }
 
 class AddNewItemEvent extends AdminEvent {
-  const AddNewItemEvent();
+  const AddNewItemEvent(this.item);
+
+  final Item item;
 }
 
 class AddNewCategoryEvent extends AdminEvent {

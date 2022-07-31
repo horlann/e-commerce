@@ -34,10 +34,40 @@ class LightTheme implements AbstractTheme {
   Color get whiteTextColor => const Color(0xFFFFFFFF);
 
   @override
+  Color get mainTextColor => const Color(0xff35383F);
+
+  @override
+  Color get secondaryTextColor => const Color(0xff425567);
+
+  @override
+  Color get tertiaryTextColor => const Color(0xff97A9B9);
+
+  @override
+  Color get secondaryAccentColor => const Color(0xffFF7933);
+
+  @override
+  Color get baseColor => const Color(0xff3B6EA5);
+
+  @override
+  Color get mainColor => const Color(0xff498FD4);
+
+  @override
+  Color get navigationActiveColor => const Color(0xffEFF2F6);
+
+  @override
+  Color get inactiveColor => const Color(0xffBAC5D9);
+
+  @override
+  Color get fillColor => const Color(0xffE1E7EF);
+
+  @override
   AppShadows get appShadows => _LightAppShadows();
 
   @override
   FontStyles get fontStyles => FontStyles();
+
+  @override
+  Color get secondBackgroundColor => const Color(0xFFeff2f6);
 }
 
 class _LightAppShadows implements AppShadows {

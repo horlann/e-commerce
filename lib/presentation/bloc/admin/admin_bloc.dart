@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/data/repositories/admin/remote_admin_repositiory.dart';
 import 'package:kurilki/data/repositories/remote_repository.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
-import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
@@ -38,12 +37,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   Future<void> _addNewCategory(AdminEvent event, Emitter<AdminState> emit) async {
     emit(state.inProgress());
-    await _remoteAdminRepository.createCategory((event as AddNewCategoryEvent).category, "image");
+    await _remoteRepository.createCategory((event as AddNewCategoryEvent).category, "image");
     emit(state.categoriesLoaded(categories));
   }
 
-  void _createItem(AdminEvent event, Emitter<AdminState> emit) async {
-    await _remoteAdminRepository.createItem();
+  void _createItem(AddNewItemEvent event, Emitter<AdminState> emit) async {
+    await _remoteAdminRepository.createItem(event.item);
   }
 
   void _initProducts(AdminEvent event, Emitter<AdminState> emit) async {

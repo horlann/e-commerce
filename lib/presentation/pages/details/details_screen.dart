@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:kurilki/common/di/locator.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
@@ -16,7 +17,7 @@ import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/Image_provider.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
     Key? key,
     required this.product,
@@ -25,25 +26,43 @@ class DetailsScreen extends StatelessWidget {
   final Item product;
 
   @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  ItemSettings? itemSettings;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     final ProductsBloc productsBloc = BlocProvider.of<ProductsBloc>(context);
     return BlocProvider(
-      create: (context) => DetailsBloc(product, productsBloc, getIt.call())..add(const InitDetailsPageEvent()),
+      create: (context) => DetailsBloc(widget.product, productsBloc, getIt.call())..add(const InitDetailsPageEvent()),
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(color: theme.whiteTextColor),
-          backgroundColor: theme.darkAccentColor,
+          backgroundColor: theme.backgroundColor,
           actions: [
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {
-                final int countInCart = cartBloc.countOfItemsInCart(product.uuid);
+                final int countInCart = cartBloc.countOfItemsInCart(widget.product.uuid);
                 return ElevatedButton(
                   onPressed: () {
-                    cartBloc.add(AddToCartEvent(product, countInCart + 1));
+                    if (itemSettings != null) {
+                      Item item;
+                      if (widget.product is DisposablePodEntity) {}
+                      cartBloc.add(AddToCartEvent(widget.product, countInCart + 1));
+                    }
                   },
-                  style: ElevatedButton.styleFrom(primary: theme.accentColor, shape: const StadiumBorder()),
+                  style: ElevatedButton.styleFrom(
+                      primary: itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor,
+                      shape: const StadiumBorder()),
                   child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
                 );
               },
@@ -67,7 +86,7 @@ class DetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               CachedNetworkImage(
-                imageUrl: product.imageLink,
+                imageUrl: itemSettings?.imageLink ?? widget.product.imageLink,
                 height: MediaQuery.of(context).size.height * 0.4,
                 fit: BoxFit.cover,
               ),
@@ -88,49 +107,61 @@ class DetailsScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            product.name,
+                            widget.product.name,
                             style: Theme.of(context).textTheme.headline6,
                           ),
                         ),
                         const SizedBox(width: 16),
                         Text(
-                          "\$" + product.price.toString(),
+                          "\$" + widget.product.price.toString(),
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ],
                     ),
+                    const SizedBox(height: 8),
+                    widget.product is DisposablePodEntity
+                        ? Text(
+                            "Puffs ${(widget.product as DisposablePodEntity).puffsCount}",
+                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
+                          )
+                        : const SizedBox.shrink(),
+                    widget.product is Snus
+                        ? Text(
+                            "Strenght ${(widget.product as Snus).strength}",
+                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
+                          )
+                        : const SizedBox.shrink(),
                     const SizedBox(height: 12),
                     Text(
                       "Tastes",
                       style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                     ),
-                    const SizedBox(height: 8),
-                    product is DisposablePodEntity
-                        ? Text(
-                            "Puffs ${(product as DisposablePodEntity).puffsCount}",
-                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
-                          )
-                        : const SizedBox.shrink(),
-                    product is Snus
-                        ? Text(
-                            "Strenght ${(product as Snus).strength}",
-                            style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
-                          )
-                        : const SizedBox.shrink(),
-                    if (product is DisposablePodEntity)
+                    if (widget.product is DisposablePodEntity)
                       Wrap(
                         alignment: WrapAlignment.start,
                         runSpacing: 10,
                         spacing: 10,
-                        children: (product as DisposablePodEntity)
-                            .itemSettings
-                            .map((e) => Container(
-                                  width: 80,
-                                  height: 80,
-                                  decoration: BoxDecoration(border: Border.all()),
-                                  child: CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
-                                ))
-                            .toList(),
+                        children: (widget.product as DisposablePodEntity).itemSettings.map((e) {
+                          final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
+                          return GestureDetector(
+                            onTap: () {
+                              if (!isSelected) {
+                                setState(() {
+                                  itemSettings = e;
+                                });
+                              }
+                            },
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
+                                      width: 2.5)),
+                              child: CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     const SizedBox(height: 32),
                   ],

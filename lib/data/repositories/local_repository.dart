@@ -1,17 +1,22 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:injectable/injectable.dart';
+import 'package:kurilki/data/datasources/shards_datasource.dart';
+import 'package:kurilki/data/models/order/cart_item_table_model.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 
+@singleton
 class LocalRepository {
-  late final SharedPreferences prefs;
+  final IKeyValueDataSource shardsDao;
 
-  getSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
+  LocalRepository(this.shardsDao);
+
+  Future<void> cacheCart(List<CartItem> items) async {
+    List<CartItemTableModel> cartItems = items.map((e) => CartItemTableModel.fromEntity(e)).toList();
+    await shardsDao.cacheCart(cartItems);
   }
 
-  String get cachedAccountName => prefs.getString("account_cache_name") ?? "";
-  String get cachedAccountPhone => prefs.getString("account_cache_phone") ?? "";
-  String get cachedAccountAddress => prefs.getString("account_cache_address") ?? "";
-
-  set setCachedAccountName(String value) => prefs.setString("account_cache_name", value);
-  set setCachedAccountPhone(String value) => prefs.setString("account_cache_phone", value);
-  set setCachedAccountAddress(String value) => prefs.setString("account_cache_address", value);
+  Future<List<CartItem>> getCartCache() async {
+    List<CartItemTableModel> cartItems = await shardsDao.loadCachedCart();
+    //List<CartItem> items=cartItems.map((e) => CartItem.)
+    return [];
+  }
 }

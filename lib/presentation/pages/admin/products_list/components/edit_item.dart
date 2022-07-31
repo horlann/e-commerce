@@ -124,6 +124,7 @@ class _EditItemState extends State<EditItem> {
                     tags: [],
                     strength: (widget.item as Snus).strength,
                     uuid: (widget.item as Snus).uuid,
+                    itemSettings: [], //TODO itemSettings
                   ),
                 )
             ],

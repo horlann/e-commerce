@@ -10,8 +10,8 @@ import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 import 'package:uuid/uuid.dart';
 
 @lazySingleton
@@ -19,21 +19,6 @@ class RemoteAdminRepository {
   final RemoteDataSource _remoteDataSource;
 
   const RemoteAdminRepository(this._remoteDataSource);
-
-  Future<void> createItem() async {
-    _remoteDataSource.createItem(
-      ItemTableModel(
-          uuid: const Uuid().v4(),
-          id: '1',
-          name: 'ElfBar Grape',
-          price: 330,
-          oldPrice: 0,
-          category: 'disposablePod',
-          imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
-          tags: [],
-          isAvailable: true),
-    );
-  }
 
   Future<void> updateItem(Item updatedItem) async {
     if (updatedItem is Snus) {
@@ -49,6 +34,7 @@ class RemoteAdminRepository {
           tags: updatedItem.tags,
           isAvailable: updatedItem.isAvailable,
           strength: updatedItem.strength,
+          itemSettings: [],
         ),
       );
     } else if (updatedItem is DisposablePodEntity) {
@@ -72,6 +58,10 @@ class RemoteAdminRepository {
         ),
       );
     }
+  }
+
+  Future<void> createItem(Item item) async {
+    _remoteDataSource.createItem(ItemTableModel.fromEntity(item));
   }
 
   Future<void> createCategory(String name, String imageLink) async {

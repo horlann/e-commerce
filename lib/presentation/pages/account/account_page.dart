@@ -27,7 +27,7 @@ class AccountPage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: theme.darkAccentColor,
+        backgroundColor: theme.backgroundColor,
       ),
       body: BlocConsumer<AccountBloc, AccountState>(
         listener: (context, state) {

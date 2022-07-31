@@ -41,7 +41,7 @@ class _AdminScreenState extends State<AdminScreen> {
             appBar: AppBar(
               centerTitle: true,
               title: Text("Admin Panel", style: TextStyle(color: theme.whiteTextColor)),
-              backgroundColor: theme.darkAccentColor,
+              backgroundColor: theme.backgroundColor,
             ),
             body: child,
             bottomNavigationBar: const AdminBottomBar(),
