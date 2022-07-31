@@ -200,6 +200,7 @@ class RemoteDataSource {
           List<dynamic> tempProductsList = data[FirestoreSchema.items].map((e) {
             Json json = e[FirestoreSchema.item] as Json;
             ItemTableModel abstractItem = ItemTableModel.fromJson(json);
+            return abstractItem;
           }).toList();
           List<ItemTableModel> productsList =
               tempProductsList.where((element) => (element != null)).map((e) => e as ItemTableModel).toList();

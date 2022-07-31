@@ -8,4 +8,6 @@ class Const {
 
   static String bankTransfer = "Bank transfer";
   static String cashOnDelivery = "Сash on delivery";
+
+  static bool isSmallPhone = false;
 }

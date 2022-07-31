@@ -39,6 +39,8 @@ dependencies:
   internet_connection_checker: ^0.0.1+2
   connectivity_plus: ^2.2.0
   auto_route: ^4.2.1
+  sized_context: ^1.0.0+1
+
 
 
   #DESIGN

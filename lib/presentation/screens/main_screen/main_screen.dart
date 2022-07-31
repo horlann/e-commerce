@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/common/services/connection/custom_connection_checker.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
+import 'package:sized_context/sized_context.dart';
 
 import 'bottom_bar.dart';
 
@@ -23,6 +26,14 @@ class _MainScreenState extends State<MainScreen> {
         CustomSnackBar.showSnackNar(context, "Warning", "No internet connection");
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setScreenHeight(MediaQuery.of(context).size.height);
+    setScreenWidth(MediaQuery.of(context).size.width);
+    Const.isSmallPhone = context.diagonalInches <= 4.5;
   }
 
   @override

@@ -79,17 +79,7 @@ class RemoteAdminRepository {
     return stream.map((event) => event.map((e) {
           OrderTableModel model = e;
           List<CartItemTableModel> preItems = e.items;
-
-          List<Item?> items = preItems.map((e) {
-            if (e.item.category == ProductCategory.disposablePod.name) {
-              return DisposablePodEntity.fromTableModel(e.item as DisposablePodTableModel);
-            } else if (e.item.category == ProductCategory.snus.name) {
-              return Snus.fromTableModel(e.item as SnusTableModel);
-            } else {
-              return null;
-            }
-          }).toList();
-          List<Item> productsList = items.where((element) => element != null).map((e) => e as Item).toList();
+          List<Item> productsList = preItems.map((e) => Item.fromTableModel(e.item)).toList();
           List<CartItem> cartItems = [];
           for (int i = 0; i < productsList.length; i++) {
             cartItems.add(CartItem(

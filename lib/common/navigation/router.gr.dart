@@ -77,8 +77,7 @@ class AppRouter extends _i12.RootStackRouter {
           routeData: routeData, child: const _i10.OrdersList());
     },
     ProductsListRouter.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i11.ProductsList());
+      return _i12.MaterialPageX<dynamic>(routeData: routeData, child: const _i11.ProductsListPage());
     }
   };
 
@@ -105,14 +104,11 @@ class AppRouter extends _i12.RootStackRouter {
               path: 'cart', parent: MainScreen.name)
         ]),
         _i12.RouteConfig(AdminRouter.name, path: '/admin', children: [
-          _i12.RouteConfig(CreateItemRouter.name,
-              path: 'create_item', parent: AdminRouter.name),
-          _i12.RouteConfig(CreateCategoryRouter.name,
-              path: 'create_category', parent: AdminRouter.name),
-          _i12.RouteConfig(OrdersListRouter.name,
-              path: 'orders_list', parent: AdminRouter.name),
-          _i12.RouteConfig(ProductsListRouter.name,
-              path: 'products_list', parent: AdminRouter.name)
+          _i12.RouteConfig('#redirect', path: '', parent: AdminRouter.name, redirectTo: 'orders_list', fullMatch: true),
+          _i12.RouteConfig(CreateItemRouter.name, path: 'create_item', parent: AdminRouter.name),
+          _i12.RouteConfig(CreateCategoryRouter.name, path: 'create_category', parent: AdminRouter.name),
+          _i12.RouteConfig(OrdersListRouter.name, path: 'orders_list', parent: AdminRouter.name),
+          _i12.RouteConfig(ProductsListRouter.name, path: 'products_list', parent: AdminRouter.name)
         ])
       ];
 }
@@ -219,7 +215,7 @@ class OrdersListRouter extends _i12.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.ProductsList]
+/// [_i11.ProductsListPage]
 class ProductsListRouter extends _i12.PageRouteInfo<void> {
   const ProductsListRouter()
       : super(ProductsListRouter.name, path: 'products_list');
