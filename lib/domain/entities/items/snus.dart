@@ -27,4 +27,30 @@ class Snus extends Item {
       isAvailable: model.isAvailable,
       tags: model.tags,
       strength: model.strength);
+
+  Snus copyWith({
+    int? strength,
+    String? name,
+    String? category,
+    String? id,
+    String? imageLink,
+    bool? isAvailable,
+    double? oldPrice,
+    double? price,
+    List<String>? tags,
+    String? uuid,
+  }) {
+    return Snus(
+      strength: strength ?? this.strength,
+      category: category ?? this.category,
+      id: id ?? this.id,
+      imageLink: imageLink ?? this.imageLink,
+      isAvailable: isAvailable ?? this.isAvailable,
+      name: name ?? this.name,
+      oldPrice: oldPrice ?? this.oldPrice,
+      price: price ?? this.price,
+      tags: tags ?? this.tags,
+      uuid: uuid ?? this.uuid,
+    );
+  }
 }

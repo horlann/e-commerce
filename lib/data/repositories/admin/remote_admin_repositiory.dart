@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/items/item_settings_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/cart_item_table_model.dart';
@@ -20,16 +21,57 @@ class RemoteAdminRepository {
   const RemoteAdminRepository(this._remoteDataSource);
 
   Future<void> createItem() async {
-    _remoteDataSource.createItem(ItemTableModel(
-        uuid: const Uuid().v4(),
-        id: '1',
-        name: 'ElfBar Grape',
-        price: 330,
-        oldPrice: 0,
-        category: 'disposablePod',
-        imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
-        tags: [],
-        isAvailable: true));
+    _remoteDataSource.createItem(
+      ItemTableModel(
+          uuid: const Uuid().v4(),
+          id: '1',
+          name: 'ElfBar Grape',
+          price: 330,
+          oldPrice: 0,
+          category: 'disposablePod',
+          imageLink: 'https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-2.jpg',
+          tags: [],
+          isAvailable: true),
+    );
+  }
+
+  Future<void> updateItem(Item updatedItem) async {
+    if (updatedItem is Snus) {
+      _remoteDataSource.updateItem(
+        SnusTableModel(
+          uuid: updatedItem.uuid,
+          id: updatedItem.id,
+          name: updatedItem.name,
+          price: updatedItem.price,
+          oldPrice: updatedItem.oldPrice,
+          category: updatedItem.category,
+          imageLink: updatedItem.imageLink,
+          tags: updatedItem.tags,
+          isAvailable: updatedItem.isAvailable,
+          strength: updatedItem.strength,
+        ),
+      );
+    } else if (updatedItem is DisposablePodEntity) {
+      final List<ItemSettingsTableModel> itemSettings = [];
+      for (var settings in updatedItem.itemSettings) {
+        itemSettings.add(ItemSettingsTableModel.fromEntity(settings));
+      }
+      _remoteDataSource.updateItem(
+        DisposablePodTableModel(
+          uuid: updatedItem.uuid,
+          id: updatedItem.id,
+          name: updatedItem.name,
+          price: updatedItem.price,
+          oldPrice: updatedItem.oldPrice,
+          category: updatedItem.category,
+          imageLink: updatedItem.imageLink,
+          tags: updatedItem.tags,
+          isAvailable: updatedItem.isAvailable,
+          itemSettings: itemSettings,
+          puffsCount: updatedItem.puffsCount,
+        ),
+      );
+    }
   }
 
   Future<void> createCategory(String name, String imageLink) async {

@@ -27,6 +27,10 @@ class ItemSettings {
     );
   }
 
-  factory ItemSettings.fromTableModel(ItemSettingsTableModel model) =>
-      ItemSettings(name: model.name, imageLink: model.imageLink, isAvailable: model.isAvailable, count: model.count);
+  factory ItemSettings.fromTableModel(ItemSettingsTableModel model) => ItemSettings(
+        name: model.name,
+        imageLink: model.imageLink,
+        isAvailable: model.isAvailable,
+        count: model.count,
+      );
 }

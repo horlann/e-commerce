@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/snus.dart';
+import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -27,6 +31,7 @@ class _DataLoadedState extends State<DataLoaded> {
   Widget build(BuildContext context) {
     final scale = byWithScale(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
 
     return SingleChildScrollView(
       child: Center(
@@ -85,7 +90,7 @@ class _DataLoadedState extends State<DataLoaded> {
                 text: "Create item",
                 color: theme.accentColor,
                 textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
-                callback: () {}, // bloc.add(const AddNewItemEvent()),
+                callback: () {}, //bloc.add(const AddNewItemEvent()),
                 theme: theme,
               ),
             ],

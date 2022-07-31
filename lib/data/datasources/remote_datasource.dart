@@ -165,6 +165,11 @@ class RemoteDataSource {
     await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 
+  Future<void> updateItem(ItemTableModel model) async {
+    final userCollectionRef = _firestore.collection("products");
+    await userCollectionRef.doc(model.uuid).update(model.toJson());
+  }
+
   Future<void> createCategory(CategoryTableModel model) async {
     final userCollectionRef = _firestore.collection("admin");
     await userCollectionRef.doc(model.uuid).set(model.toJson());
