@@ -1,5 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
+import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
 class ItemCard extends StatelessWidget {
   const ItemCard({
@@ -12,17 +16,37 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: Material(
-        child: InkWell(
-          onTap: callback,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(item.name),
-              Text(item.category),
-            ],
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        child: Material(
+          color: theme.accentColor,
+          child: SizedBox(
+            height: 50,
+            child: InkWell(
+              onTap: callback,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AutoSizeText(
+                    "Name: ${item.name}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: theme.mainTextColor, fontSize: 15),
+                  ),
+                  const SizedBox(height: 2),
+                  AutoSizeText(
+                    "Category: ${item.category}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: theme.mainTextColor, fontSize: 15),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

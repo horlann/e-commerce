@@ -71,14 +71,14 @@ class _EditItemState extends State<EditItem> {
               SizedBox(height: scale * 10),
               Container(
                 decoration: BoxDecoration(
-                  color: theme.accentColor,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(29),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioGroup<String>.builder(
-                    activeColor: theme.infoTextColor,
-                    textStyle: TextStyle(color: theme.infoTextColor),
+                    activeColor: theme.mainTextColor,
+                    textStyle: TextStyle(color: theme.mainTextColor),
                     spacebetween: 40,
                     groupValue: isAvailable,
                     onChanged: (value) => setState(() {

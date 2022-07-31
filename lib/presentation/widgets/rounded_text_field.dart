@@ -48,7 +48,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
-        color: theme.accentColor,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(29),
       ),
       child: TextField(
@@ -60,15 +60,12 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
         maxLines: widget.maxLines,
         textAlign: TextAlign.start,
         inputFormatters: [LengthLimitingTextInputFormatter(widget.maxLength)],
-        style: TextStyle(color: theme.infoTextColor),
+        style: TextStyle(color: theme.mainTextColor),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
-          icon: Icon(
-            widget.icon,
-            color: theme.infoTextColor,
-          ),
+          icon: Icon(widget.icon, color: theme.mainTextColor),
           hintText: widget.hint,
-          hintStyle: TextStyle(color: theme.infoTextColor, fontSize: 15),
+          hintStyle: TextStyle(color: theme.mainTextColor, fontSize: 15),
           contentPadding: EdgeInsets.zero,
           alignLabelWithHint: true,
           isCollapsed: true,
@@ -81,11 +78,11 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
                   },
                   child: Icon(
                     isPasswordHiden ? Icons.visibility : Icons.visibility_off,
-                    color: theme.infoTextColor,
+                    color: theme.mainTextColor,
                   ))
               : Icon(
                   widget.suffixIcon,
-                  color: theme.infoTextColor,
+                  color: theme.mainTextColor,
                 ),
           border: InputBorder.none,
         ),

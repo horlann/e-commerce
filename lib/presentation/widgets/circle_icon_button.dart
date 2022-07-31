@@ -28,9 +28,10 @@ class CircleIconButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: theme.accentColor,
+          color: theme.cardColor,
         ),
         child: SvgPicture.asset(
+          color: theme.mainTextColor,
           icon,
           height: height - 10,
           width: width - 10,
@@ -38,7 +39,6 @@ class CircleIconButton extends StatelessWidget {
       ),
       style: ButtonStyle(
         shape: MaterialStateProperty.all(const CircleBorder()),
-        backgroundColor: MaterialStateProperty.all(theme.cardColor),
       ),
     );
   }
