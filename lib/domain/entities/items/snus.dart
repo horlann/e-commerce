@@ -30,4 +30,32 @@ class Snus extends Item {
       tags: model.tags,
       strength: model.strength,
       itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
+
+  Snus copyWith({
+    int? strength,
+    String? name,
+    String? category,
+    String? id,
+    String? imageLink,
+    bool? isAvailable,
+    double? oldPrice,
+    double? price,
+    List<String>? tags,
+    String? uuid,
+    List<ItemSettings>? itemSettings,
+  }) {
+    return Snus(
+      strength: strength ?? this.strength,
+      category: category ?? this.category,
+      id: id ?? this.id,
+      imageLink: imageLink ?? this.imageLink,
+      isAvailable: isAvailable ?? this.isAvailable,
+      name: name ?? this.name,
+      oldPrice: oldPrice ?? this.oldPrice,
+      price: price ?? this.price,
+      tags: tags ?? this.tags,
+      uuid: uuid ?? this.uuid,
+      itemSettings: itemSettings ?? this.itemSettings,
+    );
+  }
 }

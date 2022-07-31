@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/domain/entities/category/category_entity.dart';
+import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
@@ -9,15 +9,22 @@ import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
 
-class CreateCategory extends StatefulWidget {
-  const CreateCategory({Key? key, required this.categories}) : super(key: key);
-  final List<CategoryEntity> categories;
+class EditDisposableItem extends StatefulWidget {
+  const EditDisposableItem({Key? key, required this.item}) : super(key: key);
+  final DisposablePodEntity item;
+
   @override
-  State<CreateCategory> createState() => _CreateCategoryState();
+  State<EditDisposableItem> createState() => _EditDisposableItemState();
 }
 
-class _CreateCategoryState extends State<CreateCategory> {
-  String _category = "";
+class _EditDisposableItemState extends State<EditDisposableItem> {
+  int puffsCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    puffsCount = widget.item.puffsCount;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +33,23 @@ class _CreateCategoryState extends State<CreateCategory> {
     final scale = byWithScale(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: scale * 10),
+        const Text("Disposable item"),
         RoundedInputField(
-          hint: "Category ",
-          callback: (String callback) => _category = callback,
+          inputType: TextInputType.number,
+          hint: puffsCount.toString(),
+          callback: (String callback) => puffsCount = int.tryParse(callback) ?? puffsCount,
         ),
         SizedBox(height: scale * 10),
         MainRoundedButton(
-          text: "Create category",
+          text: "Update item",
           color: theme.accentColor,
+          textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           callback: () {
-            if (_category.isNotEmpty) {
-              bloc
-                ..add(AddNewCategoryEvent(_category))
-                ..add(const InitDataEvent());
-            }
+            bloc.add(
+              //TODO implement itemSettings
+              UpdateDisposableItemEvent(widget.item.copyWith(itemSettings: [], puffsCount: puffsCount)),
+            );
           },
           theme: theme,
         ),

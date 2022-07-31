@@ -19,9 +19,9 @@ class SocialNetworks extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(24)),
-          color: theme.whiteTextColor,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          color: Colors.white,
         ),
         height: 60,
         child: Row(
@@ -36,8 +36,9 @@ class SocialNetworks extends StatelessWidget {
               child: MainRoundedButton(
                   //TODO: Кнопку перемістити
                   text: "Logout",
+                  textStyle: TextStyle(color: theme.infoTextColor, fontSize: 17, fontWeight: FontWeight.w500),
                   color: theme.accentColor,
-                  callback: () => bloc.add(LogoutFromAccountEvent()),
+                  callback: () => bloc.add(const LogoutFromAccountEvent()),
                   theme: theme),
             ),
           ],

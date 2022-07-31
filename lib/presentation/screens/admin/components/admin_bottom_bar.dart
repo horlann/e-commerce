@@ -2,23 +2,26 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
-class BottomBar extends StatefulWidget {
-  const BottomBar({Key? key}) : super(key: key);
+class AdminBottomBar extends StatefulWidget {
+  const AdminBottomBar({Key? key}) : super(key: key);
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  State<AdminBottomBar> createState() => _AdminBottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
+class _AdminBottomBarState extends State<AdminBottomBar> {
   int activePage = 1;
 
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
     final tabsRouter = AutoTabsRouter.of(context);
 
     return Container(
@@ -35,13 +38,14 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 1;
                 });
+                bloc.add(const InitCategoriesEvent());
                 tabsRouter.setActiveIndex(0);
               },
               child: SizedBox(
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.home,
+                  CustomIcons.newItem,
                   width: 26,
                   color: activePage == 1 ? theme.infoTextColor : theme.whiteTextColor,
                 )),
@@ -54,13 +58,14 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 2;
                 });
+                bloc.add(const InitProductsEvent());
                 tabsRouter.setActiveIndex(1);
               },
               child: SizedBox(
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.profile,
+                  CustomIcons.redactItem,
                   width: 24,
                   color: activePage == 2 ? theme.infoTextColor : theme.whiteTextColor,
                 )),
@@ -73,15 +78,36 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 3;
                 });
+                bloc.add(const InitCategoriesEvent());
                 tabsRouter.setActiveIndex(2);
               },
               child: SizedBox(
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.cart,
+                  CustomIcons.newCategory,
                   width: 26,
                   color: activePage == 3 ? theme.infoTextColor : theme.whiteTextColor,
+                )),
+              ),
+            ),
+          ),
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  activePage = 4;
+                });
+                bloc.add(const InitOrdersEvent());
+                tabsRouter.setActiveIndex(3);
+              },
+              child: SizedBox(
+                width: double.infinity,
+                child: Center(
+                    child: SvgPicture.asset(
+                  CustomIcons.orders,
+                  width: 26,
+                  color: activePage == 4 ? theme.infoTextColor : theme.whiteTextColor,
                 )),
               ),
             ),

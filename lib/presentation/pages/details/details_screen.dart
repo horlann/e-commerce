@@ -47,6 +47,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(color: theme.whiteTextColor),
+          backgroundColor: theme.backgroundColor,
           actions: [
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {

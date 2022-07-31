@@ -1,4 +1,5 @@
 import 'package:kurilki/domain/entities/category/category_entity.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 
 class AdminState {
@@ -16,8 +17,16 @@ class AdminState {
     return const InProgressLoadingState();
   }
 
-  AdminState dataLoaded(List<CategoryEntity> categories) {
-    return DataLoadedState(categories);
+  AdminState categoriesLoaded(List<CategoryEntity> categories) {
+    return CategoriesLoadedState(categories);
+  }
+
+  AdminState productsLoaded(List<Item> products) {
+    return ProductsLoadedState(products);
+  }
+
+  AdminState editItem(Item item) {
+    return EditItemState(item);
   }
 
   AdminState newOrder(List<OrderEntity> orders) {
@@ -33,10 +42,22 @@ class InProgressLoadingState extends AdminState {
   const InProgressLoadingState();
 }
 
-class DataLoadedState extends AdminState {
-  const DataLoadedState(this.categories);
+class CategoriesLoadedState extends AdminState {
+  const CategoriesLoadedState(this.categories);
 
   final List<CategoryEntity> categories;
+}
+
+class ProductsLoadedState extends AdminState {
+  const ProductsLoadedState(this.products);
+
+  final List<Item> products;
+}
+
+class EditItemState extends AdminState {
+  const EditItemState(this.item);
+
+  final Item item;
 }
 
 class AdminFailureState extends AdminState {

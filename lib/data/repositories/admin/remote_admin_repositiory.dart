@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/items/item_settings_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/cart_item_table_model.dart';
@@ -18,6 +19,46 @@ class RemoteAdminRepository {
   final RemoteDataSource _remoteDataSource;
 
   const RemoteAdminRepository(this._remoteDataSource);
+
+  Future<void> updateItem(Item updatedItem) async {
+    if (updatedItem is Snus) {
+      _remoteDataSource.updateItem(
+        SnusTableModel(
+          uuid: updatedItem.uuid,
+          id: updatedItem.id,
+          name: updatedItem.name,
+          price: updatedItem.price,
+          oldPrice: updatedItem.oldPrice,
+          category: updatedItem.category,
+          imageLink: updatedItem.imageLink,
+          tags: updatedItem.tags,
+          isAvailable: updatedItem.isAvailable,
+          strength: updatedItem.strength,
+          itemSettings: [],
+        ),
+      );
+    } else if (updatedItem is DisposablePodEntity) {
+      final List<ItemSettingsTableModel> itemSettings = [];
+      for (var settings in updatedItem.itemSettings) {
+        itemSettings.add(ItemSettingsTableModel.fromEntity(settings));
+      }
+      _remoteDataSource.updateItem(
+        DisposablePodTableModel(
+          uuid: updatedItem.uuid,
+          id: updatedItem.id,
+          name: updatedItem.name,
+          price: updatedItem.price,
+          oldPrice: updatedItem.oldPrice,
+          category: updatedItem.category,
+          imageLink: updatedItem.imageLink,
+          tags: updatedItem.tags,
+          isAvailable: updatedItem.isAvailable,
+          itemSettings: itemSettings,
+          puffsCount: updatedItem.puffsCount,
+        ),
+      );
+    }
+  }
 
   Future<void> createItem(Item item) async {
     _remoteDataSource.createItem(ItemTableModel.fromEntity(item));

@@ -60,15 +60,15 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
         maxLines: widget.maxLines,
         textAlign: TextAlign.start,
         inputFormatters: [LengthLimitingTextInputFormatter(widget.maxLength)],
-        style: TextStyle(color: theme.whiteTextColor),
+        style: TextStyle(color: theme.infoTextColor),
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           icon: Icon(
             widget.icon,
-            color: theme.whiteTextColor,
+            color: theme.infoTextColor,
           ),
           hintText: widget.hint,
-          hintStyle: TextStyle(color: theme.whiteTextColor, fontSize: 15),
+          hintStyle: TextStyle(color: theme.infoTextColor, fontSize: 15),
           contentPadding: EdgeInsets.zero,
           alignLabelWithHint: true,
           isCollapsed: true,
