@@ -7,6 +7,8 @@ part 'item_settings_table_model.g.dart';
 
 @JsonSerializable()
 class ItemSettingsTableModel {
+  @JsonKey(name: FirestoreSchema.uuid)
+  final String uuid;
   @JsonKey(name: FirestoreSchema.name, defaultValue: 'error')
   final String name;
   @JsonKey(name: FirestoreSchema.imageLink, defaultValue: '')
@@ -17,6 +19,7 @@ class ItemSettingsTableModel {
   final int count;
 
   const ItemSettingsTableModel({
+    required this.uuid,
     required this.name,
     required this.imageLink,
     required this.isAvailable,
@@ -28,6 +31,7 @@ class ItemSettingsTableModel {
   Json toJson() => _$ItemSettingsTableModelToJson(this);
 
   factory ItemSettingsTableModel.fromEntity(ItemSettings itemSettings) => ItemSettingsTableModel(
+      uuid: itemSettings.uuid,
       name: itemSettings.name,
       imageLink: itemSettings.imageLink,
       count: itemSettings.count,

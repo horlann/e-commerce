@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class ISharedPreferencesDao implements SharedPreferences {
   String key(String name);
 }
-
 class SharedPreferencesDao implements ISharedPreferencesDao {
   static const namespace = 'shared_preferences';
 

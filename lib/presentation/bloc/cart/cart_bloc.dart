@@ -1,16 +1,17 @@
 import 'package:bloc/bloc.dart';
+import 'package:kurilki/data/repositories/local_repository.dart';
 import 'package:kurilki/data/repositories/remote_repository.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
-import 'package:kurilki/domain/entities/order/price_details.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final RemoteRepository _remoteRepository;
+  final LocalRepository _localRepository;
 
-  CartBloc(this._remoteRepository) : super(const CartState().inProgress()) {
+  CartBloc(this._remoteRepository, this._localRepository) : super(const CartState().inProgress()) {
     on<InitCartEvent>(_init);
     on<AddToCartEvent>(_addToCart);
     on<RemoveFromCartEvent>(_removeFromCartEvent);
@@ -49,6 +50,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       cartItems.add(CartItem(item: event.item, count: 1));
     }
     emit(state.cartLoadedState(cartItems));
+    _localRepository.cacheCart(cartItems);
   }
 
   Future<void> _removeFromCartEvent(RemoveFromCartEvent event, Emitter<CartState> emit) async {
@@ -62,7 +64,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
-    List<String> itemsId = cartItems.map((e) => e.item.uuid).toList();
     DeliveryType deliveryType;
     if (event.deliveryType == "Pick up") {
       deliveryType = DeliveryType.pickUp;

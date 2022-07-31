@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/user_details.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
 import 'package:uuid/uuid.dart';
 
 import 'delivery_details.dart';

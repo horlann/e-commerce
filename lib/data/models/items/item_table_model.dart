@@ -3,9 +3,11 @@ import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 
+import 'item_settings_table_model.dart';
+
 part 'item_table_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ItemTableModel {
   @JsonKey(name: FirestoreSchema.uuid)
   final String uuid;
@@ -25,6 +27,8 @@ class ItemTableModel {
   final List<String> tags;
   @JsonKey(name: FirestoreSchema.isAvailable, defaultValue: false)
   final bool isAvailable;
+  @JsonKey(name: FirestoreSchema.itemSettings, defaultValue: [])
+  final List<ItemSettingsTableModel> itemSettings;
 
   const ItemTableModel({
     required this.uuid,
@@ -36,6 +40,7 @@ class ItemTableModel {
     required this.imageLink,
     required this.tags,
     required this.isAvailable,
+    required this.itemSettings,
   });
 
   factory ItemTableModel.fromJson(Map<String, dynamic> json) => _$ItemTableModelFromJson(json);
@@ -49,7 +54,8 @@ class ItemTableModel {
       category: item.category,
       imageLink: item.imageLink,
       tags: item.tags,
-      isAvailable: item.isAvailable);
+      isAvailable: item.isAvailable,
+      itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList());
 
   Json toJson() => _$ItemTableModelToJson(this);
 }

@@ -36,7 +36,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   }
 
   void _createItem(AddNewItemEvent event, Emitter<AdminState> emit) async {
-    await _remoteAdminRepository.createItem();
+    await _remoteAdminRepository.createItem(event.item);
   }
 
   Future<void> _listenOrdersStream(Emitter<AdminState> emit) async =>

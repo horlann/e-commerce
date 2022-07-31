@@ -28,6 +28,36 @@ class DarkTheme implements AbstractTheme {
   Color get whiteTextColor => const Color(0xFFFFFFFF);
 
   @override
+  Color get mainTextColor => const Color(0xffFFFFFF);
+
+  @override
+  Color get secondaryTextColor => const Color(0xffFFFFFF);
+
+  @override
+  Color get tertiaryTextColor => const Color(0xff97A9B9);
+
+  @override
+  Color get secondaryAccentColor => const Color(0xffFF7933);
+
+  @override
+  Color get baseColor => const Color(0xff3B6EA5);
+
+  @override
+  Color get mainColor => const Color(0xff498FD4);
+
+  @override
+  Color get navigationActiveColor => const Color(0xff3B6EA5);
+
+  @override
+  Color get inactiveColor => const Color(0xff65738C);
+
+  @override
+  Color get fillColor => const Color(0xff2E3D50);
+
+  @override
+  Color get secondBackgroundColor => const Color(0xff19202B);
+
+  @override
   AppShadows get appShadows => _DarkAppShadows();
 
   @override

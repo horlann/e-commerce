@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<ThemesBloc>(create: (_) => ThemesBloc()..add(const ThemeInitEvent())),
         BlocProvider<AccountBloc>(create: (_) => getIt<AccountBloc>()..add(const InitAuthEvent())),
-        BlocProvider<CartBloc>(create: (_) => CartBloc(getIt.call())..add(const InitCartEvent())),
+        BlocProvider<CartBloc>(create: (_) => CartBloc(getIt.call(), getIt.call())..add(const InitCartEvent())),
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

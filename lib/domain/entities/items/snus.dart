@@ -1,6 +1,7 @@
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 
 import 'item.dart';
+import 'item_settings.dart';
 
 class Snus extends Item {
   Snus(
@@ -13,6 +14,7 @@ class Snus extends Item {
       required super.imageLink,
       required super.isAvailable,
       required super.tags,
+      required super.itemSettings,
       required this.strength});
 
   final int strength;
@@ -26,5 +28,6 @@ class Snus extends Item {
       imageLink: model.imageLink,
       isAvailable: model.isAvailable,
       tags: model.tags,
-      strength: model.strength);
+      strength: model.strength,
+      itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
 }

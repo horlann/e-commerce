@@ -1,4 +1,4 @@
-import 'package:kurilki/presentation/bloc/cart/cart_item.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 
 class CartState {
   const CartState();

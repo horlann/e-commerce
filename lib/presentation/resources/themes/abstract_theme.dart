@@ -1,23 +1,41 @@
 import 'package:flutter/material.dart';
 
 abstract class AbstractTheme {
-  AbstractTheme(
-    this.backgroundColor,
-    this.infoTextColor,
-    this.inactiveTextColor,
-    this.accentColor,
-    this.cardColor,
-    this.wrongColor,
-    this.rightColor,
-    this.whiteTextColor,
-    this.appShadows,
-    this.fontStyles,
-  );
+  AbstractTheme(this.backgroundColor,
+      this.infoTextColor,
+      this.inactiveTextColor,
+      this.accentColor,
+      this.cardColor,
+      this.wrongColor,
+      this.rightColor,
+      this.whiteTextColor,
+      this.appShadows,
+      this.fontStyles,
+      this.mainTextColor,
+      this.secondaryTextColor,
+      this.tertiaryTextColor,
+      this.secondaryAccentColor,
+      this.baseColor,
+      this.mainColor,
+      this.navigationActiveColor,
+      this.secondBackgroundColor,
+      this.inactiveColor,
+      this.fillColor,);
 
   final Color backgroundColor;
+  final Color mainTextColor;
+  final Color secondaryTextColor;
+  final Color tertiaryTextColor;
   final Color infoTextColor;
   final Color inactiveTextColor;
   final Color accentColor;
+  final Color secondaryAccentColor;
+  final Color baseColor;
+  final Color mainColor;
+  final Color navigationActiveColor;
+  final Color secondBackgroundColor;
+  final Color inactiveColor;
+  final Color fillColor;
   final Color cardColor;
   final Color wrongColor;
   final Color rightColor;
