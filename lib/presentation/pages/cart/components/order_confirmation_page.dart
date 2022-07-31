@@ -56,14 +56,14 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
               SizedBox(height: scale * 10),
               Container(
                 decoration: BoxDecoration(
-                  color: theme.accentColor,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(29),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioGroup<String>.builder(
-                    activeColor: theme.infoTextColor,
-                    textStyle: TextStyle(color: theme.infoTextColor),
+                    activeColor: theme.mainTextColor,
+                    textStyle: TextStyle(color: theme.mainTextColor),
                     spacebetween: 40,
                     groupValue: _deliveryType,
                     onChanged: (value) => setState(() {
@@ -90,14 +90,14 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                   : const SizedBox(),
               Container(
                 decoration: BoxDecoration(
-                  color: theme.accentColor,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(29),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioGroup<String>.builder(
-                    activeColor: theme.infoTextColor,
-                    textStyle: TextStyle(color: theme.infoTextColor),
+                    activeColor: theme.mainTextColor,
+                    textStyle: TextStyle(color: theme.mainTextColor),
                     spacebetween: 40,
                     groupValue: _payType,
                     onChanged: (value) => setState(() {
@@ -116,7 +116,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     child: MainRoundedButton(
                       text: "Back",
                       color: theme.accentColor,
-                      textStyle: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w500, fontSize: 18),
+                      textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                       callback: () => cartBloc.add(const InitCartEvent()), //TODO: implement loading CachedCartItems
                       theme: theme,
                     ),
@@ -127,7 +127,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     child: MainRoundedButton(
                       text: "Confirm",
                       color: theme.accentColor,
-                      textStyle: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w500, fontSize: 18),
+                      textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                       callback: () {
                         if (_name.isNotEmpty && _phone.isNotEmpty) {
                           if (_deliveryType != Const.pickUp && _address.isEmpty) {
