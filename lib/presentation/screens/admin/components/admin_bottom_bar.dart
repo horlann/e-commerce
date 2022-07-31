@@ -28,7 +28,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
       height: 60,
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(width: 1.5, color: Colors.black)),
-        color: BlocProvider.of<ThemesBloc>(context).theme.accentColor,
+        color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
       ),
       child: Row(
         children: [
@@ -47,7 +47,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                     child: SvgPicture.asset(
                   CustomIcons.newItem,
                   width: 26,
-                  color: activePage == 1 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 1 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),
@@ -67,7 +67,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                     child: SvgPicture.asset(
                   CustomIcons.redactItem,
                   width: 24,
-                  color: activePage == 2 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 2 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),
@@ -87,7 +87,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                     child: SvgPicture.asset(
                   CustomIcons.newCategory,
                   width: 26,
-                  color: activePage == 3 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 3 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),
@@ -107,7 +107,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                     child: SvgPicture.asset(
                   CustomIcons.orders,
                   width: 26,
-                  color: activePage == 4 ? theme.infoTextColor : theme.whiteTextColor,
+                  color: activePage == 4 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),

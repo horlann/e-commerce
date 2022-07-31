@@ -35,14 +35,22 @@ class _EditSnusItemState extends State<EditSnusItem> {
 
     return Column(
       children: [
-        const Text("Snus item"),
+        Row(
+          children: [
+            SizedBox(width: scale * 20),
+            Text(
+              "Strength: ",
+              style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+            ),
+          ],
+        ),
         RoundedInputField(
             inputType: TextInputType.number,
             hint: strength.toString(),
             callback: (String callback) {
-              try{
-              strength = int.parse(callback);
-              } on FormatException catch (e){} 
+              try {
+                strength = int.parse(callback);
+              } on FormatException catch (e) {}
             }),
         SizedBox(height: scale * 10),
         MainRoundedButton(

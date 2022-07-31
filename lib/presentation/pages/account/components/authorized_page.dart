@@ -46,14 +46,14 @@ class AuthorizedPage extends StatelessWidget {
                 user.name,
                 minFontSize: 16,
                 maxFontSize: 20,
-                style: TextStyle(color: theme.infoTextColor, fontSize: 20),
+                style: TextStyle(color: theme.mainTextColor, fontSize: 20),
               ),
             ),
           ),
           SizedBox(height: scale * 20),
           Text(
             "Purchase history",
-            style: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+            style: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           ),
           SizedBox(height: scale * 10),
           Expanded(

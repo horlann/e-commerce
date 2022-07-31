@@ -17,32 +17,25 @@ class SocialNetworks extends StatelessWidget {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-          color: Colors.white,
-        ),
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleIconButton(icon: CustomIcons.instagram, callback: () {}, theme: theme),
-            CircleIconButton(icon: CustomIcons.telegram, callback: () {}, theme: theme),
-            CircleIconButton(icon: CustomIcons.facebook, callback: () {}, theme: theme),
-            SizedBox(
-              width: 96,
-              height: 48,
-              child: MainRoundedButton(
-                  //TODO: Кнопку перемістити
-                  text: "Logout",
-                  textStyle: TextStyle(color: theme.infoTextColor, fontSize: 17, fontWeight: FontWeight.w500),
-                  color: theme.accentColor,
-                  callback: () => bloc.add(const LogoutFromAccountEvent()),
-                  theme: theme),
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleIconButton(icon: CustomIcons.instagram, callback: () {}, theme: theme),
+          CircleIconButton(icon: CustomIcons.telegram, callback: () {}, theme: theme),
+          CircleIconButton(icon: CustomIcons.facebook, callback: () {}, theme: theme),
+          SizedBox(
+            width: 96,
+            height: 48,
+            child: MainRoundedButton(
+                //TODO: Кнопку перемістити
+                text: "Logout",
+                textStyle: TextStyle(color: theme.mainTextColor, fontSize: 17, fontWeight: FontWeight.w500),
+                color: theme.accentColor,
+                callback: () => bloc.add(const LogoutFromAccountEvent()),
+                theme: theme),
+          ),
+        ],
       ),
     );
   }

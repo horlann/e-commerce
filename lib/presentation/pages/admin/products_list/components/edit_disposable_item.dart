@@ -34,7 +34,15 @@ class _EditDisposableItemState extends State<EditDisposableItem> {
 
     return Column(
       children: [
-        const Text("Disposable item"),
+        Row(
+          children: [
+            SizedBox(width: scale * 20),
+            Text(
+              "Puffs: ",
+              style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+            ),
+          ],
+        ),
         RoundedInputField(
           inputType: TextInputType.number,
           hint: puffsCount.toString(),

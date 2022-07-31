@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
-import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -97,7 +96,7 @@ class _FilledCartPageState extends State<_FilledCartPage> {
   @override
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
+    
     for (var element in widget.cartItems) {
       totalPrice += element.count * element.item.price;
     }

@@ -46,7 +46,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       create: (context) => DetailsBloc(widget.product, productsBloc, getIt.call())..add(const InitDetailsPageEvent()),
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(color: theme.whiteTextColor),
+          leading: BackButton(color: theme.accentColor),
           backgroundColor: theme.backgroundColor,
           actions: [
             BlocBuilder<CartBloc, CartState>(

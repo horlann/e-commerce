@@ -52,8 +52,18 @@ class _EditItemState extends State<EditItem> {
         child: SizedBox(
           width: scale * 200,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: scale * 10),
+              Row(
+                children: [
+                  SizedBox(width: scale * 20),
+                  Text(
+                    "Name: ",
+                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+                  ),
+                ],
+              ),
               RoundedInputField(
                 hint: name,
                 callback: (String callback) => name = callback,
@@ -62,23 +72,41 @@ class _EditItemState extends State<EditItem> {
               /*RoundedInputField(
                 hint: category,
                 callback: (String callback) => category = callback,
-              ),*/
-              SizedBox(height: scale * 10),
+              ),
+              SizedBox(height: scale * 10),*/
+              Row(
+                children: [
+                  SizedBox(width: scale * 20),
+                  Text(
+                    "Image link: ",
+                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+                  ),
+                ],
+              ),
               RoundedInputField(
                 hint: imageLink,
                 callback: (String callback) => imageLink = callback,
               ),
               SizedBox(height: scale * 10),
+              Row(
+                children: [
+                  SizedBox(width: scale * 20),
+                  Text(
+                    "Available: ",
+                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+                  ),
+                ],
+              ),
               Container(
                 decoration: BoxDecoration(
-                  color: theme.accentColor,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(29),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioGroup<String>.builder(
-                    activeColor: theme.infoTextColor,
-                    textStyle: TextStyle(color: theme.infoTextColor),
+                    activeColor: theme.mainTextColor,
+                    textStyle: TextStyle(color: theme.mainTextColor),
                     spacebetween: 40,
                     groupValue: isAvailable,
                     onChanged: (value) => setState(() {
@@ -90,6 +118,15 @@ class _EditItemState extends State<EditItem> {
                 ),
               ),
               SizedBox(height: scale * 10),
+              Row(
+                children: [
+                  SizedBox(width: scale * 20),
+                  Text(
+                    "Price: ",
+                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+                  ),
+                ],
+              ),
               RoundedInputField(
                 inputType: TextInputType.number,
                 hint: price.toString(),

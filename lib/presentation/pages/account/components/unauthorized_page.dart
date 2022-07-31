@@ -24,10 +24,10 @@ class UnauthorizedPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
+            SizedBox(
               child: Text(
                 "Connect your account to make purchases easier",
-                style: TextStyle(color: Colors.black, fontSize: 16),
+                style: TextStyle(color: theme.mainTextColor, fontSize: 16),
               ),
             ),
             SizedBox(height: scale * 10),
@@ -35,7 +35,7 @@ class UnauthorizedPage extends StatelessWidget {
               width: scale * 200,
               child: MainRoundedButton(
                 text: "Login with Google",
-                textStyle: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 18),
+                textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w600, fontSize: 18),
                 color: theme.accentColor,
                 theme: theme,
                 callback: () => bloc.add(

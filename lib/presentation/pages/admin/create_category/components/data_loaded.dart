@@ -26,31 +26,34 @@ class _DataLoadedState extends State<DataLoaded> {
     final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
     final scale = byWithScale(context);
 
-    return Center(
-      child: SizedBox(
-        width: scale * 200,
-        child: Column(
-          children: [
-            SizedBox(height: scale * 10),
-            RoundedInputField(
-              hint: "Category ",
-              callback: (String callback) => _category = callback,
-            ),
-            SizedBox(height: scale * 10),
-            MainRoundedButton(
-              text: "Create category",
-              color: theme.accentColor,
-              textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
-              callback: () {
-                if (_category.isNotEmpty) {
-                  bloc
-                    ..add(AddNewCategoryEvent(_category))
-                    ..add(const InitCategoriesEvent());
-                }
-              },
-              theme: theme,
-            ),
-          ],
+    return Container(
+      color: theme.backgroundColor,
+      child: Center(
+        child: SizedBox(
+          width: scale * 200,
+          child: Column(
+            children: [
+              SizedBox(height: scale * 10),
+              RoundedInputField(
+                hint: "Category ",
+                callback: (String callback) => _category = callback,
+              ),
+              SizedBox(height: scale * 10),
+              MainRoundedButton(
+                text: "Create category",
+                color: theme.accentColor,
+                textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                callback: () {
+                  if (_category.isNotEmpty) {
+                    bloc
+                      ..add(AddNewCategoryEvent(_category))
+                      ..add(const InitCategoriesEvent());
+                  }
+                },
+                theme: theme,
+              ),
+            ],
+          ),
         ),
       ),
     );

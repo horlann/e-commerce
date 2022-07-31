@@ -48,7 +48,7 @@ class ProductCardHistory extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: theme.infoTextColor,
+                    color: theme.mainTextColor,
                   ),
                 ),
               ),
@@ -57,15 +57,15 @@ class ProductCardHistory extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11.0,
                   fontWeight: FontWeight.w600,
-                  color: theme.inactiveTextColor,
+                  color: theme.secondaryTextColor,
                 ),
               ),
               Text(
                 item.data,
                 style: TextStyle(
                   fontSize: 11.0,
-                  fontWeight: FontWeight.w500,
-                  color: theme.inactiveTextColor,
+                  fontWeight: FontWeight.w600,
+                  color: theme.secondaryTextColor,
                 ),
               ),
             ],

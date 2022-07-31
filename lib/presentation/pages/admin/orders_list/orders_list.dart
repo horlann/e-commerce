@@ -42,7 +42,7 @@ class _AdminOrderListTile extends StatelessWidget {
         children: [
           Text(
             order.number.toString(),
-            style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+            style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),
           ),
           const SizedBox(
             width: 10,
@@ -53,21 +53,21 @@ class _AdminOrderListTile extends StatelessWidget {
             children: order.items
                 .map((e) => Text(
                       '${e.item.name} *${e.count}',
-                      style: theme.fontStyles.regular16.copyWith(color: theme.infoTextColor),
+                      style: theme.fontStyles.regular16.copyWith(color: theme.mainTextColor),
                     ))
                 .toList(),
           ),
           const Spacer(),
           Text(
             order.deliveryDetails.deliveryType.name,
-            style: theme.fontStyles.regular16.copyWith(color: theme.infoTextColor),
+            style: theme.fontStyles.regular16.copyWith(color: theme.mainTextColor),
           ),
           const SizedBox(
             width: 10,
           ),
           Text(
             order.priceDetails.itemsPrice.toStringAsFixed(0),
-            style: theme.fontStyles.regular16.copyWith(color: theme.infoTextColor),
+            style: theme.fontStyles.regular16.copyWith(color: theme.mainTextColor),
           )
         ],
       ),

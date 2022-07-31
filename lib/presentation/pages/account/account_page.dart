@@ -37,7 +37,9 @@ class AccountPage extends StatelessWidget {
         },
         builder: ((context, state) {
           if (state is InProgressAuthState) {
-            return Center(child: CircularProgressIndicator(color: theme.accentColor));
+            return Center(
+              child: CircularProgressIndicator(color: theme.accentColor)
+            );
           } else if (state is UnauthorizedState) {
             return const UnauthorizedPage();
           } else if (state is AuthorizationFailureState) {
