@@ -1,3 +1,8 @@
+import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
+import 'package:kurilki/data/models/items/item_table_model.dart';
+import 'package:kurilki/data/models/items/snus_table_model.dart';
+import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
+import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:uuid/uuid.dart';
 
 import 'item_settings.dart';
@@ -35,6 +40,37 @@ abstract class Item {
     required this.isAvailable,
     required this.itemSettings,
   }) : uuid = uuid ?? const Uuid().v4();
+
+  factory Item.fromTableModel(ItemTableModel item) {
+    if (item.category == ProductCategory.disposablePod.name) {
+      return DisposablePodEntity(
+          uuid: item.uuid,
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          category: item.category,
+          imageLink: item.imageLink,
+          tags: item.tags,
+          isAvailable: item.isAvailable,
+          itemSettings: item.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList(),
+          puffsCount: (item as DisposablePodTableModel).puffsCount);
+    } else if (item.category == ProductCategory.snus.name) {
+      return Snus(
+          uuid: item.uuid,
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          oldPrice: item.oldPrice,
+          category: item.category,
+          imageLink: item.imageLink,
+          tags: item.tags,
+          isAvailable: item.isAvailable,
+          itemSettings: item.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList(),
+          strength: (item as SnusTableModel).strength);
+    }
+    throw Exception();
+  }
 }
 
 enum ProductCategory { disposablePod, snus, unidentified }
