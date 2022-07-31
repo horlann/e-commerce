@@ -65,49 +65,17 @@ class _EditItemState extends State<EditItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: scale * 10),
-              Row(
-                children: [
-                  SizedBox(width: scale * 20),
-                  Text(
-                    "Name: ",
-                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
-                  ),
-                ],
-              ),
+              const _Divider("Name: ", textSize: 16),
               RoundedInputField(
                 hint: name,
                 callback: (String callback) => name = callback,
               ),
-              SizedBox(height: scale * 10),
-              /*RoundedInputField(
-                hint: category,
-                callback: (String callback) => category = callback,
-              ),
-              SizedBox(height: scale * 10),*/
-              Row(
-                children: [
-                  SizedBox(width: scale * 20),
-                  Text(
-                    "Image link: ",
-                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
-                  ),
-                ],
-              ),
+              const _Divider("Image link: ", textSize: 16),
               RoundedInputField(
                 hint: imageLink,
                 callback: (String callback) => imageLink = callback,
               ),
-              SizedBox(height: scale * 10),
-              Row(
-                children: [
-                  SizedBox(width: scale * 20),
-                  Text(
-                    "Available: ",
-                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
-                  ),
-                ],
-              ),
+              const _Divider("Available: ", textSize: 16),
               Container(
                 decoration: BoxDecoration(
                   color: theme.cardColor,
@@ -128,31 +96,13 @@ class _EditItemState extends State<EditItem> {
                   ),
                 ),
               ),
-              SizedBox(height: scale * 10),
-              Row(
-                children: [
-                  SizedBox(width: scale * 20),
-                  Text(
-                    "Price: ",
-                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
-                  ),
-                ],
-              ),
+              const _Divider("Price: ", textSize: 16),
               RoundedInputField(
                 inputType: TextInputType.number,
                 hint: price.toString(),
                 callback: (String callback) => price = double.tryParse(callback) ?? price,
               ),
-              SizedBox(height: scale * 10),
-              Row(
-                children: [
-                  SizedBox(width: scale * 20),
-                  Text(
-                    "ItemSettings: ",
-                    style: TextStyle(color: theme.infoTextColor, fontSize: 16),
-                  ),
-                ],
-              ),
+              const _Divider("ItemSettings: ", textSize: 16),
               Container(
                 decoration: BoxDecoration(
                   color: theme.secondBackgroundColor,
@@ -166,121 +116,77 @@ class _EditItemState extends State<EditItem> {
                         shrinkWrap: true,
                         itemBuilder: ((context, index) {
                           return ExpandedTile(
-                            content: Container(
-                              color: theme.secondBackgroundColor,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(width: scale * 20),
-                                      Text(
-                                        "Name: ",
-                                        style: TextStyle(color: theme.infoTextColor, fontSize: 14),
-                                      ),
-                                    ],
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const _Divider("Name: "),
+                                RoundedInputField(
+                                  hint: itemsSettings[index].name,
+                                  callback: (String callback) {
+                                    itemsSettings[index] = itemsSettings[index].copyWith(name: callback);
+                                  },
+                                ),
+                                const _Divider("Image link: "),
+                                RoundedInputField(
+                                  hint: itemsSettings[index].imageLink,
+                                  callback: (String callback) =>
+                                      itemsSettings[index] = itemsSettings[index].copyWith(imageLink: imageLink),
+                                ),
+                                const _Divider("Count: "),
+                                RoundedInputField(
+                                  inputType: TextInputType.number,
+                                  hint: itemsSettings[index].count.toString(),
+                                  callback: (String callback) => itemsSettings[index] = itemsSettings[index]
+                                      .copyWith(count: int.tryParse(callback) ?? itemsSettings[index].count),
+                                ),
+                                const _Divider("Available:"),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: theme.cardColor,
+                                    borderRadius: BorderRadius.circular(29),
                                   ),
-                                  RoundedInputField(
-                                    hint: itemsSettings[index].name,
-                                    callback: (String callback) {
-                                      itemsSettings[index] = itemsSettings[index].copyWith(name: callback);
-                                    },
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: scale * 20),
-                                      Text(
-                                        "Image Link: ",
-                                        style: TextStyle(color: theme.infoTextColor, fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  RoundedInputField(
-                                    hint: itemsSettings[index].imageLink,
-                                    callback: (String callback) =>
-                                        itemsSettings[index] = itemsSettings[index].copyWith(imageLink: imageLink),
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: scale * 20),
-                                      Text(
-                                        "Count: ",
-                                        style: TextStyle(color: theme.infoTextColor, fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  RoundedInputField(
-                                    inputType: TextInputType.number,
-                                    hint: itemsSettings[index].count.toString(),
-                                    callback: (String callback) => itemsSettings[index] = itemsSettings[index]
-                                        .copyWith(count: int.tryParse(callback) ?? itemsSettings[index].count),
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: scale * 20),
-                                      Text(
-                                        "Available: ",
-                                        style: TextStyle(color: theme.infoTextColor, fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: theme.cardColor,
-                                      borderRadius: BorderRadius.circular(29),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: RadioGroup<String>.builder(
-                                        activeColor: theme.mainTextColor,
-                                        textStyle: TextStyle(color: theme.mainTextColor),
-                                        spacebetween: 40,
-                                        groupValue: itemsSettings[index].isAvailable == true ? "true" : "false",
-                                        onChanged: (value) => setState(() {
-                                          itemsSettings[index] = itemsSettings[index]
-                                              .copyWith(isAvailable: value as String == "true" ? true : false);
-                                        }),
-                                        items: availableList,
-                                        itemBuilder: (item) => RadioButtonBuilder(item),
-                                      ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: RadioGroup<String>.builder(
+                                      activeColor: theme.mainTextColor,
+                                      textStyle: TextStyle(color: theme.mainTextColor),
+                                      spacebetween: 35,
+                                      groupValue: itemsSettings[index].isAvailable == true ? "true" : "false",
+                                      onChanged: (value) => setState(() {
+                                        itemsSettings[index] = itemsSettings[index]
+                                            .copyWith(isAvailable: value as String == "true" ? true : false);
+                                      }),
+                                      items: availableList,
+                                      itemBuilder: (item) => RadioButtonBuilder(item),
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: scale * 20),
-                                      Text(
-                                        "Type: ",
-                                        style: TextStyle(color: theme.infoTextColor, fontSize: 14),
-                                      ),
-                                    ],
+                                ),
+                                const _Divider("Type: "),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: theme.cardColor,
+                                    borderRadius: BorderRadius.circular(29),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: theme.cardColor,
-                                      borderRadius: BorderRadius.circular(29),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: RadioGroup<String>.builder(
-                                        activeColor: theme.mainTextColor,
-                                        textStyle: TextStyle(color: theme.mainTextColor),
-                                        spacebetween: 40,
-                                        groupValue:
-                                            itemsSettings[index].type == ItemSettingsType.empty ? "empty" : "filled",
-                                        onChanged: (value) => setState(() {
-                                          itemsSettings[index] = itemsSettings[index].copyWith(
-                                              type: value as String == "empty"
-                                                  ? ItemSettingsType.empty
-                                                  : ItemSettingsType.filled);
-                                        }),
-                                        items: typeList,
-                                        itemBuilder: (item) => RadioButtonBuilder(item),
-                                      ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: RadioGroup<String>.builder(
+                                      activeColor: theme.mainTextColor,
+                                      textStyle: TextStyle(color: theme.mainTextColor),
+                                      spacebetween: 35,
+                                      groupValue:
+                                          itemsSettings[index].type == ItemSettingsType.empty ? "empty" : "filled",
+                                      onChanged: (value) => setState(() {
+                                        itemsSettings[index] = itemsSettings[index].copyWith(
+                                            type: value as String == "empty"
+                                                ? ItemSettingsType.empty
+                                                : ItemSettingsType.filled);
+                                      }),
+                                      items: typeList,
+                                      itemBuilder: (item) => RadioButtonBuilder(item),
                                     ),
                                   ),
-                                  SizedBox(height: scale * 5),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             title: AutoSizeText(
                               itemsSettings[index].name,
@@ -288,11 +194,13 @@ class _EditItemState extends State<EditItem> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
+                            contentSeperator: 4,
                             theme: ExpandedTileThemeData(
                               headerColor: theme.cardColor,
                               headerRadius: 29.0,
+                              contentRadius: 29,
                               contentBackgroundColor: theme.cardColor,
-                              contentPadding: const EdgeInsets.all(0),
+                              contentPadding: const EdgeInsets.all(4),
                             ),
                             controller: controllers[index],
                           );
@@ -348,6 +256,24 @@ class _EditItemState extends State<EditItem> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Divider extends StatelessWidget {
+  const _Divider(this.text, {Key? key, this.textSize = 14}) : super(key: key);
+  final String text;
+  final double textSize;
+
+  @override
+  Widget build(BuildContext context) {
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final scale = byWithScale(context);
+    return Row(
+      children: [
+        SizedBox(width: scale * 20),
+        Text(text, style: TextStyle(color: theme.infoTextColor, fontSize: textSize)),
+      ],
     );
   }
 }
