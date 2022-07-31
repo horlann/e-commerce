@@ -22,21 +22,21 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-
     return BlocProvider(
       create: (_) => AdminBloc(getIt.call(), getIt.call())..add(const InitCategoriesEvent()),
       child: AutoTabsRouter(
         key: _innerRouterKey,
-
+        homeIndex: 3,
         routes: const [
           CreateItemRouter(),
           ProductsListRouter(),
           CreateCategoryRouter(),
           OrdersListRouter(),
         ],
-        //TODO:should be false
         lazyLoad: true,
         builder: (context, child, animation) {
+          final tabsRouter = AutoTabsRouter.of(context);
+
           return Scaffold(
             body: child,
             bottomNavigationBar: const AdminBottomBar(),
@@ -44,5 +44,19 @@ class _AdminScreenState extends State<AdminScreen> {
         },
       ),
     );
+  }
+
+  String _appBarText(int index) {
+    switch (index) {
+      case 0:
+        return 'Добавить товар';
+      case 1:
+        return 'Товары';
+      case 2:
+        return 'Категории';
+      case 3:
+        return 'Заказы';
+    }
+    return '';
   }
 }
