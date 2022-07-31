@@ -11,21 +11,30 @@ class OrdersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AdminBloc, AdminState>(
-      builder: (context, state) {
-        if (state is NewOrderState) {
-          List<OrderEntity> orders = state.orders;
-          return orders.isNotEmpty
-              ? ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => _AdminOrderListTile(order: orders[index]),
-                  itemCount: orders.length,
-                )
-              : const Text('empty');
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Orders list", style: TextStyle(color: theme.mainTextColor)),
+        foregroundColor: theme.accentColor,
+        backgroundColor: theme.backgroundColor,
+      ),
+      body: BlocBuilder<AdminBloc, AdminState>(
+        builder: (context, state) {
+          if (state is NewOrderState) {
+            List<OrderEntity> orders = state.orders;
+            return orders.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => _AdminOrderListTile(order: orders[index]),
+                    itemCount: orders.length,
+                  )
+                : const Text('empty');
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 }

@@ -38,12 +38,6 @@ class _AdminScreenState extends State<AdminScreen> {
         lazyLoad: true,
         builder: (context, child, animation) {
           return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text("Admin Panel", style: TextStyle(color: theme.mainTextColor)),
-              foregroundColor: theme.accentColor,
-              backgroundColor: theme.backgroundColor,
-            ),
             body: child,
             bottomNavigationBar: const AdminBottomBar(),
           );

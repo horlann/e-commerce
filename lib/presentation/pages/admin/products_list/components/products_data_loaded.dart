@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/pages/admin/products_list/components/item_card.dart';
 
 class ProductsDataLoaded extends StatelessWidget {
@@ -16,10 +15,7 @@ class ProductsDataLoaded extends StatelessWidget {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
-        return ItemCard(
-          item: items[index],
-          callback: () => bloc.add(EditItemEvent(items[index])),
-        );
+        return ItemCard(item: items[index]);
       },
     );
   }

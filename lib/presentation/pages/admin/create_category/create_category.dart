@@ -13,16 +13,24 @@ class CreateCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
-    return BlocBuilder<AdminBloc, AdminState>(
-      builder: ((context, state) {
-        if (state is InProgressLoadingState) {
-          return Center(child: CircularProgressIndicator(color: theme.accentColor));
-        } else if (state is CategoriesLoadedState) {
-          return DataLoaded(categories: state.categories);
-        } else {
-          return const Text("Something went wrong");
-        }
-      }),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Create category", style: TextStyle(color: theme.mainTextColor)),
+        foregroundColor: theme.accentColor,
+        backgroundColor: theme.backgroundColor,
+      ),
+      body: BlocBuilder<AdminBloc, AdminState>(
+        builder: ((context, state) {
+          if (state is InProgressLoadingState) {
+            return Center(child: CircularProgressIndicator(color: theme.accentColor));
+          } else if (state is CategoriesLoadedState) {
+            return DataLoaded(categories: state.categories);
+          } else {
+            return const Text("Something went wrong");
+          }
+        }),
+      ),
     );
   }
 }
