@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -18,12 +20,12 @@ class EditDisposableItem extends StatefulWidget {
 }
 
 class _EditDisposableItemState extends State<EditDisposableItem> {
-  int puffsCount = 0;
+  int _puffsCount = 0;
 
   @override
   void initState() {
     super.initState();
-    puffsCount = widget.item.puffsCount;
+    _puffsCount = widget.item.puffsCount;
   }
 
   @override
@@ -45,8 +47,10 @@ class _EditDisposableItemState extends State<EditDisposableItem> {
         ),
         RoundedInputField(
           inputType: TextInputType.number,
-          hint: puffsCount.toString(),
-          callback: (String callback) => puffsCount = int.tryParse(callback) ?? puffsCount,
+          hint: _puffsCount.toString(),
+          callback: (String callback) => _puffsCount = int.tryParse(callback) ?? _puffsCount,
+          validation:
+              ValidationBuilder().minLength(1, Strings.minCharacters).maxLength(30, Strings.max30Characters).build(),
         ),
         SizedBox(height: scale * 10),
         MainRoundedButton(
@@ -54,8 +58,8 @@ class _EditDisposableItemState extends State<EditDisposableItem> {
           color: theme.accentColor,
           textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           callback: () {
-            bloc.add(  
-              UpdateDisposableItemEvent(widget.item.copyWith(puffsCount: puffsCount)),
+            bloc.add(
+              UpdateDisposableItemEvent(widget.item.copyWith(puffsCount: _puffsCount)),
             );
           },
           theme: theme,

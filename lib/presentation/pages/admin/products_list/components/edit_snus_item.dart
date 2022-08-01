@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -45,13 +47,17 @@ class _EditSnusItemState extends State<EditSnusItem> {
           ],
         ),
         RoundedInputField(
-            inputType: TextInputType.number,
-            hint: strength.toString(),
-            callback: (String callback) {
-              try {
-                strength = int.parse(callback);
-              } on FormatException catch (e) {}
-            }),
+          inputType: TextInputType.number,
+          hint: strength.toString(),
+          callback: (String callback) {
+            strength = int.tryParse(callback) ?? 0;
+          },
+          validation: ValidationBuilder()
+                      .minLength(1, Strings.minCharacters)
+                      .maxLength(30, Strings.max30Characters)
+                      .phone(Strings.onlyNumbers)
+                      .build(),
+        ),
         SizedBox(height: scale * 10),
         MainRoundedButton(
           text: "Update item",
