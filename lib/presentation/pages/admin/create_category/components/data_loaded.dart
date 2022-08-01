@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
 import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -18,6 +20,7 @@ class DataLoaded extends StatefulWidget {
 }
 
 class _DataLoadedState extends State<DataLoaded> {
+  final _formKey = GlobalKey<FormState>();
   String _category = "";
 
   @override
@@ -29,30 +32,37 @@ class _DataLoadedState extends State<DataLoaded> {
     return Container(
       color: theme.backgroundColor,
       child: Center(
-        child: SizedBox(
-          width: scale * 200,
-          child: Column(
-            children: [
-              SizedBox(height: scale * 10),
-              RoundedInputField(
-                hint: "Category ",
-                callback: (String callback) => _category = callback,
-              ),
-              SizedBox(height: scale * 10),
-              MainRoundedButton(
-                text: "Create category",
-                color: theme.accentColor,
-                textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
-                callback: () {
-                  if (_category.isNotEmpty) {
-                    bloc
-                      ..add(AddNewCategoryEvent(_category))
-                      ..add(const InitCategoriesEvent());
-                  }
-                },
-                theme: theme,
-              ),
-            ],
+        child: Form(
+          key: _formKey,
+          child: SizedBox(
+            width: scale * 200,
+            child: Column(
+              children: [
+                SizedBox(height: scale * 10),
+                RoundedInputField(
+                  hint: "Category ",
+                  callback: (String callback) => _category = callback,
+                  validation: ValidationBuilder()
+                      .minLength(1, Strings.minCharacters)
+                      .maxLength(20, Strings.max20Characters)
+                      .build(),
+                ),
+                SizedBox(height: scale * 10),
+                MainRoundedButton(
+                  text: "Create category",
+                  color: theme.accentColor,
+                  textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                  callback: () {
+                    if (_formKey.currentState!.validate() && _category.isNotEmpty) {
+                      bloc
+                        ..add(AddNewCategoryEvent(_category))
+                        ..add(const InitCategoriesEvent());
+                    }
+                  },
+                  theme: theme,
+                ),
+              ],
+            ),
           ),
         ),
       ),

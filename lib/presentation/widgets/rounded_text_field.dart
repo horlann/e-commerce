@@ -14,19 +14,21 @@ class RoundedInputField extends StatefulWidget {
   final int maxLength;
   final int maxLines;
   final TextInputType inputType;
+  final String? Function(String? value) validation;
 
-  const RoundedInputField(
-      {Key? key,
-      this.icon = Icons.person,
-      this.hint = '',
-      required this.callback,
-      this.isPassword = false,
-      this.isPasswordCanBeVisible = true,
-      this.maxLength = 30,
-      this.maxLines = 1,
-      this.inputType = TextInputType.text,
-      this.suffixIcon})
-      : super(key: key);
+  const RoundedInputField({
+    Key? key,
+    this.icon = Icons.person,
+    this.hint = '',
+    required this.callback,
+    this.isPassword = false,
+    this.isPasswordCanBeVisible = true,
+    this.maxLength = 30,
+    this.maxLines = 1,
+    this.inputType = TextInputType.text,
+    this.suffixIcon,
+    required this.validation,
+  }) : super(key: key);
 
   @override
   State<RoundedInputField> createState() => _RoundedInputFieldState();
@@ -45,13 +47,16 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
   @override
   Widget build(BuildContext context) {
     AbstractTheme theme = Provider.of<ThemesBloc>(context).theme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(29),
       ),
-      child: TextField(
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: widget.validation,
         keyboardType: widget.inputType,
         cursorColor: Colors.green,
         obscureText: isPasswordHiden,
