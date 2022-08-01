@@ -16,7 +16,7 @@ class AdminBottomBar extends StatefulWidget {
 }
 
 class _AdminBottomBarState extends State<AdminBottomBar> {
-  int activePage = 1;
+  int activePage = 4;
 
   @override
   Widget build(BuildContext context) {
