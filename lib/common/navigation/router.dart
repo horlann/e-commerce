@@ -3,7 +3,9 @@ import 'package:kurilki/presentation/pages/account/account_page.dart';
 import 'package:kurilki/presentation/pages/admin/create_category/create_category.dart';
 import 'package:kurilki/presentation/pages/admin/create_item/create_item.dart';
 import 'package:kurilki/presentation/pages/admin/orders_list/orders_list.dart';
-import 'package:kurilki/presentation/pages/admin/products_list/products_list.dart';
+import 'package:kurilki/presentation/pages/admin/products_list/components/admin_products_list.dart';
+import 'package:kurilki/presentation/pages/admin/products_list/components/edit_item.dart';
+import 'package:kurilki/presentation/pages/admin/products_list/products_list_wrapper.dart';
 import 'package:kurilki/presentation/pages/cart/shopping_cart_page.dart';
 import 'package:kurilki/presentation/pages/details/details_screen.dart';
 import 'package:kurilki/presentation/pages/home/home_page.dart';
@@ -75,9 +77,21 @@ import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
           page: OrdersList,
             initial: true),
         AutoRoute(
-          path: 'products_list',
+          path: 'productsListWrapper',
           name: "ProductsListRouter",
-          page: ProductsListPage,
+          page: ProductsListWrapper,
+          children: [
+            AutoRoute(
+              path: '',
+              name: "ProductsList",
+              page: ProductsList,
+            ),
+            AutoRoute(
+              path: 'edit_item',
+              name: "EditItemRouter",
+              page: EditItem,
+            ),
+          ],
         ),
       ],
     ),

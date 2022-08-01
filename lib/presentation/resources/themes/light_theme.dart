@@ -60,7 +60,7 @@ class LightTheme implements AbstractTheme {
   FontStyles get fontStyles => FontStyles();
 
   @override
-  Color get secondBackgroundColor => const Color(0xFFeff2f6);
+  Color get secondBackgroundColor => Color.fromARGB(255, 224, 227, 231);
 }
 
 class _LightAppShadows implements AppShadows {

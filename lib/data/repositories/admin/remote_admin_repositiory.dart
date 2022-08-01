@@ -22,6 +22,10 @@ class RemoteAdminRepository {
   const RemoteAdminRepository(this._remoteDataSource);
 
   Future<void> updateItem(Item updatedItem) async {
+    final List<ItemSettingsTableModel> itemSettings = [];
+    for (var settings in updatedItem.itemSettings) {
+      itemSettings.add(ItemSettingsTableModel.fromEntity(settings));
+    }
     if (updatedItem is Snus) {
       _remoteDataSource.updateItem(
         SnusTableModel(
@@ -35,14 +39,10 @@ class RemoteAdminRepository {
           tags: updatedItem.tags,
           isAvailable: updatedItem.isAvailable,
           strength: updatedItem.strength,
-          itemSettings: [],
+          itemSettings: itemSettings,
         ),
       );
     } else if (updatedItem is DisposablePodEntity) {
-      final List<ItemSettingsTableModel> itemSettings = [];
-      for (var settings in updatedItem.itemSettings) {
-        itemSettings.add(ItemSettingsTableModel.fromEntity(settings));
-      }
       _remoteDataSource.updateItem(
         DisposablePodTableModel(
           uuid: updatedItem.uuid,

@@ -38,12 +38,6 @@ class _AdminScreenState extends State<AdminScreen> {
           final tabsRouter = AutoTabsRouter.of(context);
 
           return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(_appBarText(tabsRouter.activeIndex), style: TextStyle(color: theme.mainTextColor)),
-              foregroundColor: theme.accentColor,
-              backgroundColor: theme.backgroundColor,
-            ),
             body: child,
             bottomNavigationBar: const AdminBottomBar(),
           );

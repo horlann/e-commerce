@@ -54,9 +54,8 @@ class _EditDisposableItemState extends State<EditDisposableItem> {
           color: theme.accentColor,
           textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           callback: () {
-            bloc.add(
-              //TODO implement itemSettings
-              UpdateDisposableItemEvent(widget.item.copyWith(itemSettings: [], puffsCount: puffsCount)),
+            bloc.add(  
+              UpdateDisposableItemEvent(widget.item.copyWith(puffsCount: puffsCount)),
             );
           },
           theme: theme,

@@ -1,23 +1,22 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
+
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class ItemCard extends StatelessWidget {
-  const ItemCard({
-    Key? key,
-    required this.item,
-    required this.callback,
-  }) : super(key: key);
+  const ItemCard({Key? key, required this.item}) : super(key: key);
   final Item item;
-  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
 
     return Container(
       width: double.infinity,
@@ -29,18 +28,14 @@ class ItemCard extends StatelessWidget {
           border: Border.all(color: theme.inactiveColor),
           boxShadow: [theme.appShadows.mediumShadow]),
       child: ClipRRect(
-        clipBehavior: Clip.hardEdge,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: InkWell(
-          onTap: callback,
-          child: Row(
-            children: [
-              CustomImageProvider(imageFrom: ImageFrom.network, imageLink: item.imageLink),
-              const SizedBox(
-                width: 15,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        child: Material(
+          color: theme.accentColor,
+          child: SizedBox(
+            height: 50,
+            child: InkWell(
+              onTap: () => AutoRouter.of(context).push(EditItemRouter(item: item)),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AutoSizeText(
@@ -58,7 +53,7 @@ class ItemCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
