@@ -5,6 +5,7 @@ import 'package:kurilki/common/di/locator.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
+
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/screens/admin/components/admin_bottom_bar.dart';
@@ -23,13 +24,13 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return BlocProvider(
-      create: (_) => AdminBloc(getIt.call(), getIt.call())..add(const InitCategoriesEvent()),
+      create: (_) => AdminBloc(getIt.call(), getIt.call())..add(const InitOrdersEvent()),
       child: AutoTabsRouter(
         key: _innerRouterKey,
         homeIndex: 3,
         routes: const [
           CreateItemRouter(),
-          ProductsListRouter(),
+          ProductsListWrapper(),
           CreateCategoryRouter(),
           OrdersListRouter(),
         ],
@@ -38,6 +39,15 @@ class _AdminScreenState extends State<AdminScreen> {
           final tabsRouter = AutoTabsRouter.of(context);
 
           return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                _appBarText(tabsRouter.activeIndex),
+                style: TextStyle(color: theme.mainTextColor),
+              ),
+              foregroundColor: theme.accentColor,
+              backgroundColor: theme.backgroundColor,
+            ),
             body: child,
             bottomNavigationBar: const AdminBottomBar(),
           );

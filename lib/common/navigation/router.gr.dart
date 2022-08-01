@@ -19,10 +19,10 @@ import '../../presentation/pages/admin/create_category/create_category.dart'
     as _i9;
 import '../../presentation/pages/admin/create_item/create_item.dart' as _i8;
 import '../../presentation/pages/admin/orders_list/orders_list.dart' as _i10;
-import '../../presentation/pages/admin/products_list/components/admin_products_list.dart'
-    as _i12;
 import '../../presentation/pages/admin/products_list/components/edit_item.dart'
     as _i13;
+import '../../presentation/pages/admin/products_list/products_list.dart'
+    as _i12;
 import '../../presentation/pages/admin/products_list/products_list_wrapper.dart'
     as _i11;
 import '../../presentation/pages/cart/shopping_cart_page.dart' as _i5;
@@ -80,15 +80,13 @@ class AppRouter extends _i14.RootStackRouter {
       return _i14.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i10.OrdersList());
     },
-    ProductsListRouter.name: (routeData) {
+    ProductsListWrapper.name: (routeData) {
       return _i14.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i11.ProductsListWrapper());
     },
-    ProductsList.name: (routeData) {
-      final args = routeData.argsAs<ProductsListArgs>();
+    ProductsListRouter.name: (routeData) {
       return _i14.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i12.ProductsList(key: args.key, items: args.items));
+          routeData: routeData, child: const _i12.ProductsListPage());
     },
     EditItemRouter.name: (routeData) {
       final args = routeData.argsAs<EditItemRouterArgs>();
@@ -132,14 +130,14 @@ class AppRouter extends _i14.RootStackRouter {
               path: 'create_category', parent: AdminRouter.name),
           _i14.RouteConfig(OrdersListRouter.name,
               path: 'orders_list', parent: AdminRouter.name),
-          _i14.RouteConfig(ProductsListRouter.name,
+          _i14.RouteConfig(ProductsListWrapper.name,
               path: 'productsListWrapper',
               parent: AdminRouter.name,
               children: [
-                _i14.RouteConfig(ProductsList.name,
-                    path: '', parent: ProductsListRouter.name),
+                _i14.RouteConfig(ProductsListRouter.name,
+                    path: '', parent: ProductsListWrapper.name),
                 _i14.RouteConfig(EditItemRouter.name,
-                    path: 'edit_item', parent: ProductsListRouter.name)
+                    path: 'edit_item', parent: ProductsListWrapper.name)
               ])
         ])
       ];
@@ -248,35 +246,20 @@ class OrdersListRouter extends _i14.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.ProductsListWrapper]
-class ProductsListRouter extends _i14.PageRouteInfo<void> {
-  const ProductsListRouter({List<_i14.PageRouteInfo>? children})
-      : super(ProductsListRouter.name,
+class ProductsListWrapper extends _i14.PageRouteInfo<void> {
+  const ProductsListWrapper({List<_i14.PageRouteInfo>? children})
+      : super(ProductsListWrapper.name,
             path: 'productsListWrapper', initialChildren: children);
 
-  static const String name = 'ProductsListRouter';
+  static const String name = 'ProductsListWrapper';
 }
 
 /// generated route for
-/// [_i12.ProductsList]
-class ProductsList extends _i14.PageRouteInfo<ProductsListArgs> {
-  ProductsList({_i15.Key? key, required List<_i16.Item> items})
-      : super(ProductsList.name,
-            path: '', args: ProductsListArgs(key: key, items: items));
+/// [_i12.ProductsListPage]
+class ProductsListRouter extends _i14.PageRouteInfo<void> {
+  const ProductsListRouter() : super(ProductsListRouter.name, path: '');
 
-  static const String name = 'ProductsList';
-}
-
-class ProductsListArgs {
-  const ProductsListArgs({this.key, required this.items});
-
-  final _i15.Key? key;
-
-  final List<_i16.Item> items;
-
-  @override
-  String toString() {
-    return 'ProductsListArgs{key: $key, items: $items}';
-  }
+  static const String name = 'ProductsListRouter';
 }
 
 /// generated route for
