@@ -16,6 +16,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   AdminBloc(this._remoteRepository, this._remoteAdminRepository) : super(const AdminState().inProgress()) {
     on<InitCategoriesEvent>(_initCategories);
+    on<CreateNewCategoryEvent>(_createNewCategory);
     on<InitProductsEvent>(_initProducts);
     on<EditItemEvent>(_editItem);
     on<UpdateSnusItemEvent>(_updateItem);
@@ -30,15 +31,19 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     try {
       categories = await _remoteRepository.getCategoriesList();
       emit(state.categoriesLoaded(categories));
-    } on Exception {
-      state.failure();
+    } catch (e) {
+      emit(state.failure());
     }
+  }
+
+  void _createNewCategory(AdminEvent event, Emitter<AdminState> emit) async {
+    emit(const CreateCategoryState());
   }
 
   Future<void> _addNewCategory(AdminEvent event, Emitter<AdminState> emit) async {
     emit(state.inProgress());
     await _remoteRepository.createCategory((event as AddNewCategoryEvent).category, "image");
-    emit(state.categoriesLoaded(categories));
+    emit(const CreateCategoryState());
   }
 
   void _createItem(AddNewItemEvent event, Emitter<AdminState> emit) async {
@@ -62,7 +67,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     } else if (event is UpdateDisposableItemEvent) {
       await _remoteAdminRepository.updateItem(event.item);
     }
-
+    emit(const SaveEditItemState());
     add(const InitProductsEvent());
   }
 

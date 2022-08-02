@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
-import 'package:kurilki/presentation/resources/size_utils.dart';
 
 class OrderConfirmationPage extends StatefulWidget {
   const OrderConfirmationPage({Key? key}) : super(key: key);
@@ -22,10 +21,10 @@ class OrderConfirmationPage extends StatefulWidget {
 
 class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _deliveryTypes = [Const.pickUp, Const.deliveryNova];
-  final List<String> _payTypes = [Const.bankTransfer, Const.cashOnDelivery];
-  String _deliveryType = Const.pickUp;
-  String _payType = Const.bankTransfer;
+  final List<String> _deliveryTypes = [Strings.pickUp, Strings.deliveryNova];
+  final List<String> _payTypes = [Strings.bankTransfer, Strings.cashOnDelivery];
+  String _deliveryType = Strings.pickUp;
+  String _payType = Strings.bankTransfer;
   String _name = "";
   String _phone = "";
   String _address = "";
@@ -33,12 +32,12 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final scale = byWithScale(context);
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+
     return Center(
       child: SingleChildScrollView(
         child: SizedBox(
-          width: scale * 200,
+          width: adaptiveWidth(300),
           child: Form(
             key: _formKey,
             child: Column(
@@ -54,7 +53,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                       .maxLength(30, Strings.max30Characters)
                       .build(),
                 ),
-                SizedBox(height: scale * 10),
+                SizedBox(height: adaptiveHeight(20)),
                 RoundedInputField(
                   hint: "Phone number ",
                   callback: (String callback) {
@@ -67,7 +66,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                       .phone(Strings.onlyNumbers)
                       .build(),
                 ),
-                SizedBox(height: scale * 10),
+                SizedBox(height: adaptiveHeight(20)),
                 Container(
                   decoration: BoxDecoration(
                     color: theme.cardColor,
@@ -88,7 +87,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: scale * 10),
+                SizedBox(height: adaptiveHeight(20)),
                 _deliveryType != "Pick up"
                     ? Column(
                         children: [
@@ -102,7 +101,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                                 .maxLength(30, Strings.max30Characters)
                                 .build(),
                           ),
-                          SizedBox(height: scale * 10),
+                          SizedBox(height: adaptiveHeight(10)),
                         ],
                       )
                     : const SizedBox(),
@@ -126,7 +125,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: scale * 10),
+                SizedBox(height: adaptiveHeight(10)),
                 Row(
                   children: [
                     Flexible(
@@ -139,7 +138,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                         theme: theme,
                       ),
                     ),
-                    SizedBox(width: scale * 5),
+                    SizedBox(width: adaptiveHeight(5)),
                     Flexible(
                       flex: 2,
                       child: MainRoundedButton(
@@ -149,7 +148,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                         callback: () {
                           if (_formKey.currentState!.validate()) {
                             if (_name.isNotEmpty && _phone.isNotEmpty) {
-                              if (_deliveryType != Const.pickUp && _address.isEmpty) {
+                              if (_deliveryType != Strings.pickUp && _address.isEmpty) {
                                 cartBloc.add(ConfirmOrderEvent(
                                   deliveryType: _deliveryType,
                                   name: _name,

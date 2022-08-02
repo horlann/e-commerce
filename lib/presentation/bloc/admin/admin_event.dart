@@ -42,6 +42,10 @@ class AddNewItemEvent extends AdminEvent {
   final Item item;
 }
 
+class CreateNewCategoryEvent extends AdminEvent {
+   const CreateNewCategoryEvent();
+}
+
 class AddNewCategoryEvent extends AdminEvent {
   const AddNewCategoryEvent(this.category);
 

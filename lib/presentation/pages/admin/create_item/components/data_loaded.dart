@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:form_validator/form_validator.dart';
+
 import 'package:kurilki/domain/entities/category/category_entity.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -29,7 +30,6 @@ class _DataLoadedState extends State<DataLoaded> {
 
   @override
   Widget build(BuildContext context) {
-    final scale = byWithScale(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
 
@@ -39,23 +39,23 @@ class _DataLoadedState extends State<DataLoaded> {
       child: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: scale * 200,
+            width: adaptiveWidth(300),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(height: scale * 10),
+                  SizedBox(height: adaptiveHeight(10)),
                   RoundedInputField(
-                    hint: "Name",
+                    hint: Strings.nameItem,
                     callback: (String callback) => _name = callback,
                     validation: ValidationBuilder()
                         .minLength(5, Strings.min5Characters)
                         .maxLength(30, Strings.max30Characters)
                         .build(),
                   ),
-                  SizedBox(height: scale * 10),
+                  SizedBox(height: adaptiveHeight(10)),
                   RoundedInputField(
-                    hint: "Price",
+                    hint: Strings.priceItem,
                     callback: (String callback) => _price = double.tryParse(callback) ?? 0,
                     inputType: TextInputType.number,
                     validation: ValidationBuilder()
@@ -63,7 +63,7 @@ class _DataLoadedState extends State<DataLoaded> {
                         .maxLength(30, Strings.max30Characters)
                         .build(),
                   ),
-                  SizedBox(height: scale * 10),
+                  SizedBox(height: adaptiveHeight(10)),
                   ExpandedTile(
                     content: ListView.builder(
                       itemBuilder: ((context, index) {
@@ -88,7 +88,7 @@ class _DataLoadedState extends State<DataLoaded> {
                       shrinkWrap: true,
                     ),
                     title: AutoSizeText(
-                      _selectedCategory.isEmpty ? "Select category" : _selectedCategory,
+                      _selectedCategory.isEmpty ? Strings.selectCategory : _selectedCategory,
                       style: TextStyle(color: theme.mainTextColor, fontSize: 15),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -97,11 +97,12 @@ class _DataLoadedState extends State<DataLoaded> {
                     theme: ExpandedTileThemeData(
                       headerColor: theme.cardColor,
                       headerRadius: 29.0,
+                      contentRadius: 29,
                       contentBackgroundColor: theme.cardColor,
-                      contentPadding: const EdgeInsets.all(0),
+                      contentPadding: const EdgeInsets.all(4),
                     ),
                   ),
-                  SizedBox(height: scale * 5),
+                  SizedBox(height: adaptiveHeight(10)),
                   MainRoundedButton(
                     text: "Create item",
                     color: theme.accentColor,

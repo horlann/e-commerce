@@ -10,12 +10,13 @@ import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
-import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
+import 'package:kurilki/presentation/widgets/snackbar.dart';
 
 class EditItem extends StatefulWidget {
   const EditItem({Key? key, required this.item}) : super(key: key);
@@ -26,8 +27,8 @@ class EditItem extends StatefulWidget {
 }
 
 class _EditItemState extends State<EditItem> {
-  List<String> availableList = ["true", "false"];
-  List<String> typeList = ["empty", "filled"];
+  List<String> availableList = [Strings.trueString, Strings.falseString];
+  List<String> typeList = [Strings.empty, Strings.filled];
   Item? item;
   List<ItemSettings> itemsSettings = [];
   List<ExpandedTileController> controllers = [];
@@ -46,7 +47,6 @@ class _EditItemState extends State<EditItem> {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
-    final scale = byWithScale(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -61,11 +61,12 @@ class _EditItemState extends State<EditItem> {
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: scale * 250,
+            width: adaptiveWidth(300),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _Divider("Name: ", textSize: 16),
+                SizedBox(height: adaptiveHeight(10)),
+                const _Divider(Strings.nameItem + ":", textSize: 16),
                 RoundedInputField(
                   hint: item!.name,
                   callback: (String callback) {
@@ -93,7 +94,7 @@ class _EditItemState extends State<EditItem> {
                   },
                   validation: ValidationBuilder().minLength(10, Strings.min10Characters).url(Strings.onlyUrl).build(),
                 ),
-                const _Divider("Available: ", textSize: 16),
+                const _Divider(Strings.availableItem + ":", textSize: 16),
                 Container(
                   decoration: BoxDecoration(
                     color: theme.cardColor,
@@ -105,9 +106,9 @@ class _EditItemState extends State<EditItem> {
                       activeColor: theme.mainTextColor,
                       textStyle: TextStyle(color: theme.mainTextColor),
                       spacebetween: 40,
-                      groupValue: item!.isAvailable ? "true" : "false",
+                      groupValue: item!.isAvailable ? Strings.trueString : Strings.falseString,
                       onChanged: (value) {
-                        final bool isAvailable = value as String == "true" ? true : false;
+                        final bool isAvailable = value as String == Strings.trueString ? true : false;
                         setState(() {
                           if (item is DisposablePodEntity) {
                             item = (item as DisposablePodEntity).copyWith(isAvailable: isAvailable);
@@ -121,7 +122,7 @@ class _EditItemState extends State<EditItem> {
                     ),
                   ),
                 ),
-                const _Divider("Price: ", textSize: 16),
+                const _Divider(Strings.priceItem + ":", textSize: 16),
                 RoundedInputField(
                   inputType: TextInputType.number,
                   hint: item!.price.toString(),
@@ -140,10 +141,10 @@ class _EditItemState extends State<EditItem> {
                       .maxLength(30, Strings.max30Characters)
                       .build(),
                 ),
-                const _Divider("ItemSettings: ", textSize: 16),
+                const _Divider(Strings.itemSettings + ":", textSize: 16),
                 Container(
                   decoration: BoxDecoration(
-                    color: theme.secondBackgroundColor,
+                    color: theme.backgroundColor,
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: Column(
@@ -157,7 +158,7 @@ class _EditItemState extends State<EditItem> {
                               content: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const _Divider("Name: "),
+                                  const _Divider(Strings.nameItem + ":"),
                                   RoundedInputField(
                                     hint: itemsSettings[index].name,
                                     callback: (String callback) {
@@ -179,7 +180,7 @@ class _EditItemState extends State<EditItem> {
                                         .phone(Strings.onlyUrl)
                                         .build(),
                                   ),
-                                  const _Divider("Count: "),
+                                  const _Divider(Strings.countItem + ":"),
                                   RoundedInputField(
                                     inputType: TextInputType.number,
                                     hint: itemsSettings[index].count.toString(),
@@ -190,7 +191,7 @@ class _EditItemState extends State<EditItem> {
                                         .maxLength(30, Strings.max30Characters)
                                         .build(),
                                   ),
-                                  const _Divider("Available:"),
+                                  const _Divider(Strings.availableItem + ":"),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: theme.cardColor,
@@ -202,17 +203,19 @@ class _EditItemState extends State<EditItem> {
                                         activeColor: theme.mainTextColor,
                                         textStyle: TextStyle(color: theme.mainTextColor),
                                         spacebetween: 35,
-                                        groupValue: itemsSettings[index].isAvailable == true ? "true" : "false",
+                                        groupValue: itemsSettings[index].isAvailable == true
+                                            ? Strings.trueString
+                                            : Strings.falseString,
                                         onChanged: (value) => setState(() {
-                                          itemsSettings[index] = itemsSettings[index]
-                                              .copyWith(isAvailable: value as String == "true" ? true : false);
+                                          itemsSettings[index] = itemsSettings[index].copyWith(
+                                              isAvailable: value as String == Strings.trueString ? true : false);
                                         }),
                                         items: availableList,
                                         itemBuilder: (item) => RadioButtonBuilder(item),
                                       ),
                                     ),
                                   ),
-                                  const _Divider("Type: "),
+                                  const _Divider(Strings.typeItem + ":"),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: theme.cardColor,
@@ -224,11 +227,12 @@ class _EditItemState extends State<EditItem> {
                                         activeColor: theme.mainTextColor,
                                         textStyle: TextStyle(color: theme.mainTextColor),
                                         spacebetween: 35,
-                                        groupValue:
-                                            itemsSettings[index].type == ItemSettingsType.empty ? "empty" : "filled",
+                                        groupValue: itemsSettings[index].type == ItemSettingsType.empty
+                                            ? Strings.empty
+                                            : Strings.filled,
                                         onChanged: (value) => setState(() {
                                           itemsSettings[index] = itemsSettings[index].copyWith(
-                                              type: value as String == "empty"
+                                              type: value as String == Strings.empty
                                                   ? ItemSettingsType.empty
                                                   : ItemSettingsType.filled);
                                         }),
@@ -260,7 +264,7 @@ class _EditItemState extends State<EditItem> {
                       MainRoundedButton(
                           text: "Add configuration",
                           color: theme.accentColor,
-                          textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                          textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                           callback: () {
                             controllers.add(ExpandedTileController());
                             itemsSettings.add(ItemSettings(
@@ -271,36 +275,45 @@ class _EditItemState extends State<EditItem> {
                     ],
                   ),
                 ),
-                SizedBox(height: scale * 10),
                 if (widget.item is DisposablePodEntity)
-                  RoundedInputField(
-                    inputType: TextInputType.number,
-                    hint: (item as DisposablePodEntity).puffsCount.toString(),
-                    callback: (String callback) {
-                      item = (item as DisposablePodEntity)
-                          .copyWith(puffsCount: int.tryParse(callback) ?? (item as DisposablePodEntity).puffsCount);
-                    },
-                    validation: ValidationBuilder()
-                        .minLength(1, Strings.minCharacters)
-                        .maxLength(30, Strings.max30Characters)
-                        .build(),
+                  Column(
+                    children: [
+                      const _Divider(Strings.puffsItem + ":"),
+                      RoundedInputField(
+                        inputType: TextInputType.number,
+                        hint: (item as DisposablePodEntity).puffsCount.toString(),
+                        callback: (String callback) {
+                          item = (item as DisposablePodEntity)
+                              .copyWith(puffsCount: int.tryParse(callback) ?? (item as DisposablePodEntity).puffsCount);
+                        },
+                        validation: ValidationBuilder()
+                            .minLength(1, Strings.minCharacters)
+                            .maxLength(30, Strings.max30Characters)
+                            .build(),
+                      ),
+                    ],
                   )
                 else if (widget.item is Snus)
-                  RoundedInputField(
-                    inputType: TextInputType.number,
-                    hint: (item as Snus).strength.toString(),
-                    callback: (String callback) {
-                      item = (item as Snus).copyWith(strength: int.tryParse(callback) ?? (item as Snus).strength);
-                    },
-                    validation: ValidationBuilder()
-                        .minLength(1, Strings.minCharacters)
-                        .maxLength(30, Strings.max30Characters)
-                        .build(),
+                  Column(
+                    children: [
+                      const _Divider(Strings.strengthItem + ":"),
+                      RoundedInputField(
+                        inputType: TextInputType.number,
+                        hint: (item as Snus).strength.toString(),
+                        callback: (String callback) {
+                          item = (item as Snus).copyWith(strength: int.tryParse(callback) ?? (item as Snus).strength);
+                        },
+                        validation: ValidationBuilder()
+                            .minLength(1, Strings.minCharacters)
+                            .maxLength(30, Strings.max30Characters)
+                            .build(),
+                      ),
+                    ],
                   ),
                 MainRoundedButton(
                   text: "Update item",
                   color: theme.accentColor,
-                  textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                  textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                   callback: () {
                     if (item is DisposablePodEntity) {
                       bloc.add(UpdateDisposableItemEvent(
@@ -311,6 +324,7 @@ class _EditItemState extends State<EditItem> {
                   },
                   theme: theme,
                 ),
+                SizedBox(height: adaptiveHeight(10)),
               ],
             ),
           ),
@@ -328,10 +342,10 @@ class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final scale = byWithScale(context);
+
     return Row(
       children: [
-        SizedBox(width: scale * 20),
+        SizedBox(width: adaptiveWidth(20), height: adaptiveHeight(30)),
         Text(text, style: TextStyle(color: theme.infoTextColor, fontSize: textSize)),
       ],
     );
