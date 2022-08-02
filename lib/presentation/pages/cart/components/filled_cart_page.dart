@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -96,7 +99,8 @@ class _FilledCartPageState extends State<_FilledCartPage> {
   @override
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    
+    final bloc = BlocProvider.of<CartBloc>(context);
+
     for (var element in widget.cartItems) {
       totalPrice += element.count * element.item.price;
     }
@@ -120,7 +124,8 @@ class _FilledCartPageState extends State<_FilledCartPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: MainRoundedButton(
                   callback: () {
-                    BlocProvider.of<CartBloc>(context).add(const CheckoutEvent());
+                    bloc.add(const LoadDataEvent());
+                    AutoRouter.of(context).push(const OrderConfirmationRouter());
                   },
                   textStyle: TextStyle(color: theme.infoTextColor, fontSize: 17, fontWeight: FontWeight.w500),
                   color: theme.accentColor,

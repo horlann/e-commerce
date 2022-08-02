@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -12,28 +14,60 @@ import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
 
-class OrderConfirmationPage extends StatefulWidget {
+class OrderConfirmationPage extends StatelessWidget {
   const OrderConfirmationPage({Key? key}) : super(key: key);
 
   @override
-  State<OrderConfirmationPage> createState() => _OrderConfirmationPageState();
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        if (state is InProgressCartState) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is UserDataLoaded) {
+          return _OrderConfirmation(user: state.user);
+        } else {
+          return const Center(child: Text('error'));
+        }
+      },
+    );
+  }
 }
 
-class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
+class _OrderConfirmation extends StatefulWidget {
+  const _OrderConfirmation({Key? key, required this.user}) : super(key: key);
+  final UserEntity? user;
+
+  @override
+  State<_OrderConfirmation> createState() => _OrderConfirmationState();
+}
+
+class _OrderConfirmationState extends State<_OrderConfirmation> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _deliveryTypes = [Strings.pickUp, Strings.deliveryNova];
   final List<String> _payTypes = [Strings.bankTransfer, Strings.cashOnDelivery];
   String _deliveryType = Strings.pickUp;
   String _payType = Strings.bankTransfer;
+  UserEntity? user;
   String _name = "";
   String _phone = "";
   String _address = "";
 
   @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+    if (user != null && user!.deliveryDetails != null) {
+      _name = user!.deliveryDetails?.name ?? "";
+      _phone = user!.deliveryDetails?.phone ?? "";
+      _address = user!.deliveryDetails?.address ?? "";
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
-
     return Center(
       child: SingleChildScrollView(
         child: SizedBox(
@@ -45,6 +79,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
               children: [
                 RoundedInputField(
                   hint: "Name",
+                  initialValue: _name,
                   callback: (String callback) {
                     _name = callback;
                   },
@@ -134,7 +169,10 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                         text: "Back",
                         color: theme.accentColor,
                         textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
-                        callback: () => cartBloc.add(const InitCartEvent()), //TODO: implement loading CachedCartItems
+                        callback: () {
+                          cartBloc.add(const InitCartEvent());
+                          context.popRoute();
+                        },
                         theme: theme,
                       ),
                     ),
@@ -164,6 +202,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                                   address: _address,
                                 ));
                               }
+                              AutoRouter.of(context).pop();
                             }
                           }
                         },

@@ -25,8 +25,8 @@ class RemoveFromCartEvent extends CartEvent {
   final Item item;
 }
 
-class CheckoutEvent extends CartEvent {
-  const CheckoutEvent();
+class LoadDataEvent extends CartEvent {
+  const LoadDataEvent();
 }
 
 class ConfirmOrderEvent extends CartEvent {

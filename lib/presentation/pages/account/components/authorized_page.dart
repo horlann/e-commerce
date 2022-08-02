@@ -49,7 +49,7 @@ class AuthorizedPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: adaptiveHeight(20)),
+          SizedBox(height: adaptiveHeight(10)),
           Text(
             "Purchase history",
             style: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
@@ -62,7 +62,6 @@ class AuthorizedPage extends StatelessWidget {
                 return ProductCardHistory(
                   item: product_list[index],
                   theme: theme,
-                  width: screenSize.width,
                 );
               },
               separatorBuilder: (BuildContext context, int index) {

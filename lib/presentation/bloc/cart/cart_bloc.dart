@@ -3,6 +3,7 @@ import 'package:kurilki/data/repositories/local_repository.dart';
 import 'package:kurilki/data/repositories/remote_repository.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/user/user_entity.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';
@@ -15,8 +16,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<InitCartEvent>(_init);
     on<AddToCartEvent>(_addToCart);
     on<RemoveFromCartEvent>(_removeFromCartEvent);
-    on<CheckoutEvent>(_checkout);
     on<ConfirmOrderEvent>(_confirm);
+    on<LoadDataEvent>(_loadData);
   }
 
   List<CartItem> cartItems = [];
@@ -59,8 +60,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     emit(state.cartLoadedState(cartItems));
   }
 
-  Future<void> _checkout(CheckoutEvent event, Emitter<CartState> emit) async {
-    emit(state.configureOrder());
+  Future<void> _loadData(LoadDataEvent event, Emitter<CartState> emit) async {
+    emit(state.inProgress());
+    try{
+    UserEntity user = await _remoteRepository.getAccountEntity();
+    emit(state.userDataLoaded(user));
+    } catch (e) {
+emit(state.userDataLoaded(null));
+    }
+    
   }
 
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
@@ -81,8 +89,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       payType: event.payType,
       phone: event.phone,
     );
+    //TODO Implement saving user deliveryType
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));
+    add(const InitCartEvent());
   }
 }

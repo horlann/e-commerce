@@ -1,18 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kurilki/presentation/pages/account/product_history.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class ProductCardHistory extends StatelessWidget {
   final ProductHistory item;
   final AbstractTheme theme;
-  final double width;
   const ProductCardHistory({
     Key? key,
     required this.item,
     required this.theme,
-    required this.width,
   }) : super(key: key);
 
   @override
@@ -20,26 +19,26 @@ class ProductCardHistory extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width: adaptiveWidth(50),
+              height: adaptiveHeight(50),
               child: CustomImageProvider(
                 imageLink: item.image,
                 imageFrom: ImageFrom.network,
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: adaptiveWidth(10)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 5.0),
               SizedBox(
-                width: width - 180,
+                width: getScreenWidth - adaptiveWidth(90),
                 child: AutoSizeText(
                   item.name,
                   maxLines: 2,

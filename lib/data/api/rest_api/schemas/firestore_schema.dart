@@ -14,6 +14,7 @@ class FirestoreSchema {
   static const String itemSettings = "itemSettings";
   static const String type = "type";
 
+
   //order
   static const String number = 'number';
   static const String items = 'items';
