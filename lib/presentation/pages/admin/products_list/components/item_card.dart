@@ -24,7 +24,7 @@ class ItemCard extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           color: theme.cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(color: theme.inactiveColor),
           boxShadow: [theme.appShadows.mediumShadow]),
       child: ClipRRect(
@@ -34,7 +34,7 @@ class ItemCard extends StatelessWidget {
           child: SizedBox(
             height: 50,
             child: InkWell(
-              onTap: () => AutoRouter.of(context).push(EditItemRouter(item: item)),
+              onTap: () => AutoRouter.of(context).navigate(EditItemRouter(item: item)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

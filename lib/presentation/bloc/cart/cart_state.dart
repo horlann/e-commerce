@@ -1,4 +1,5 @@
 import 'package:kurilki/domain/entities/order/cart_item.dart';
+import 'package:kurilki/domain/entities/user/user_entity.dart';
 
 class CartState {
   const CartState();
@@ -26,6 +27,10 @@ class CartState {
   CartState configureOrder() {
     return const ConfigureOrderState();
   }
+
+  CartState userDataLoaded(UserEntity? user) {
+    return UserDataLoaded(user);
+  }
 }
 
 class InProgressCartState extends CartState {
@@ -50,6 +55,8 @@ class ConfigureOrderState extends CartState {
   const ConfigureOrderState();
 }
 
-class ConfirmOrderState extends CartState {
-  const ConfirmOrderState();
+class UserDataLoaded extends CartState {
+  const UserDataLoaded(this.user);
+
+  final UserEntity? user;
 }

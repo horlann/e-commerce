@@ -11,6 +11,7 @@ class RoundedInputField extends StatefulWidget {
   final bool isPassword;
   final bool isPasswordCanBeVisible;
   final Function(String callback) callback;
+  final String? initialValue;
   final int maxLength;
   final int maxLines;
   final TextInputType inputType;
@@ -28,6 +29,7 @@ class RoundedInputField extends StatefulWidget {
     this.inputType = TextInputType.text,
     this.suffixIcon,
     required this.validation,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,6 @@ class RoundedInputField extends StatefulWidget {
 }
 
 class _RoundedInputFieldState extends State<RoundedInputField> {
-  TextEditingController controller = TextEditingController(text: '');
   bool isPasswordHiden = false;
 
   @override
@@ -55,12 +56,12 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
         borderRadius: BorderRadius.circular(29),
       ),
       child: TextFormField(
+        initialValue: widget.initialValue,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: widget.validation,
         keyboardType: widget.inputType,
         cursorColor: Colors.green,
         obscureText: isPasswordHiden,
-        controller: controller,
         onChanged: widget.callback,
         maxLines: widget.maxLines,
         textAlign: TextAlign.start,

@@ -4,6 +4,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/common/services/connection/custom_connection_checker.dart';
+
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'package:sized_context/sized_context.dart';
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
       routes: const [
         HomePageWrapper(),
         AccountRouter(),
-        CartRouter(),
+        CartWrapper(),
       ],
       //TODO:should be false
       lazyLoad: true,

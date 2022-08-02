@@ -23,7 +23,6 @@ class _AdminScreenState extends State<AdminScreen> {
       create: (_) => AdminBloc(getIt.call(), getIt.call())..add(const InitOrdersEvent()),
       child: AutoTabsRouter(
         key: _innerRouterKey,
-        homeIndex: 3,
         routes: const [
           CreateItemRouter(),
           ProductsListWrapper(),
