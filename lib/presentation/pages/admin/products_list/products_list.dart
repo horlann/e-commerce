@@ -13,19 +13,30 @@ class ProductsListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
-    return Container(
-      height: double.infinity,
-      color: theme.backgroundColor,
-      child: BlocBuilder<AdminBloc, AdminState>(
-        builder: ((context, state) {
-          if (state is InProgressLoadingState) {
-            return Center(child: CircularProgressIndicator(color: theme.accentColor));
-          } else if (state is ProductsLoadedState) {
-            return ProductsList(items: state.products);
-          } else {
-            return const Text("Something went wrong");
-          }
-        }),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Список продуктов",
+          style: TextStyle(color: theme.mainTextColor),
+        ),
+        foregroundColor: theme.accentColor,
+        backgroundColor: theme.backgroundColor,
+      ),
+      body: Container(
+        height: double.infinity,
+        color: theme.backgroundColor,
+        child: BlocBuilder<AdminBloc, AdminState>(
+          builder: ((context, state) {
+            if (state is InProgressLoadingState) {
+              return Center(child: CircularProgressIndicator(color: theme.accentColor));
+            } else if (state is ProductsLoadedState) {
+              return ProductsList(items: state.products);
+            } else {
+              return const Text("Something went wrong");
+            }
+          }),
+        ),
       ),
     );
   }
