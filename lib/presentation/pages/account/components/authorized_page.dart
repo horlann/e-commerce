@@ -5,7 +5,7 @@ import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/presentation/pages/account/components/product_card_history.dart';
 import 'package:kurilki/presentation/pages/account/components/social_networks.dart';
 import 'package:kurilki/presentation/pages/account/product_history.dart';
-import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -22,13 +22,12 @@ class AuthorizedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final scale = byWithScale(context);
 
     return Container(
       color: theme.backgroundColor,
       child: Column(
         children: [
-          SizedBox(height: scale * 10),
+          SizedBox(height: adaptiveHeight(10)),
           Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30.0),
@@ -38,9 +37,9 @@ class AuthorizedPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: scale * 10),
+          SizedBox(height: adaptiveHeight(10)),
           SizedBox(
-            width: scale * 200,
+            width: adaptiveWidth(200),
             child: Center(
               child: AutoSizeText(
                 user.name,
@@ -50,12 +49,12 @@ class AuthorizedPage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: scale * 20),
+          SizedBox(height: adaptiveHeight(20)),
           Text(
             "Purchase history",
             style: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: scale * 10),
+          SizedBox(height: adaptiveHeight(20)),
           Expanded(
             child: ListView.separated(
               itemCount: product_list.length,

@@ -78,7 +78,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 setState(() {
                   activePage = 3;
                 });
-                bloc.add(const InitCategoriesEvent());
+                bloc.add(const CreateNewCategoryEvent());
                 tabsRouter.setActiveIndex(2);
               },
               child: SizedBox(

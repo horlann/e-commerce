@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     super.didChangeDependencies();
     setScreenHeight(MediaQuery.of(context).size.height);
     setScreenWidth(MediaQuery.of(context).size.width);
-    Const.isSmallPhone = context.diagonalInches <= 4.5;
+    Strings.isSmallPhone = context.diagonalInches <= 4.5;
   }
 
   @override

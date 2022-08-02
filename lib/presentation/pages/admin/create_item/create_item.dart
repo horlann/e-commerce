@@ -30,7 +30,7 @@ class CreateItem extends StatelessWidget {
           } else if (state is CategoriesLoadedState) {
             return DataLoaded(categories: state.categories);
           } else {
-            return const Text("Something went wrong");
+            return const Center(child: Text("Something went wrong"));
           }
         }),
       ),

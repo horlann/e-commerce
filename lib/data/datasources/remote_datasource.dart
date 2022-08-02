@@ -97,7 +97,7 @@ class RemoteDataSource {
 
   Future<List<CategoryTableModel>> getCategoriesList() async {
     try {
-      final userCollectionRef = _firestore.collection("admin");
+      final userCollectionRef = _firestore.collection("categories");
       QuerySnapshot ref = await userCollectionRef.get();
 
       List<CategoryTableModel> models = ref.docs.map((e) {
@@ -166,7 +166,7 @@ class RemoteDataSource {
   }
 
   Future<void> createCategory(CategoryTableModel model) async {
-    final userCollectionRef = _firestore.collection("admin");
+    final userCollectionRef = _firestore.collection("categories");
     await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 

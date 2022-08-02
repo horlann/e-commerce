@@ -48,6 +48,10 @@ class CategoriesLoadedState extends AdminState {
   final List<CategoryEntity> categories;
 }
 
+class CreateCategoryState extends AdminState {
+  const CreateCategoryState();
+}
+
 class ProductsLoadedState extends AdminState {
   const ProductsLoadedState(this.products);
 
@@ -58,6 +62,10 @@ class EditItemState extends AdminState {
   const EditItemState(this.item);
 
   final Item item;
+}
+
+class SaveEditItemState extends AdminState {
+  const SaveEditItemState();
 }
 
 class AdminFailureState extends AdminState {
