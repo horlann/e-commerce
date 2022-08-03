@@ -47,7 +47,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
   final List<String> _payTypes = [Strings.bankTransfer, Strings.cashOnDelivery];
   String _deliveryType = Strings.pickUp;
   String _payType = Strings.bankTransfer;
-  UserEntity? user;
+  UserEntity? _user;
   String _name = "";
   String _phone = "";
   String _address = "";
@@ -55,11 +55,11 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
   @override
   void initState() {
     super.initState();
-    user = widget.user;
-    if (user != null && user!.deliveryDetails != null) {
-      _name = user!.deliveryDetails?.name ?? "";
-      _phone = user!.deliveryDetails?.phone ?? "";
-      _address = user!.deliveryDetails?.address ?? "";
+    _user = widget.user;
+    if (_user != null) {
+      _name = _user!.deliveryDetails.name;
+      _phone = _user!.deliveryDetails.phone;
+      _address = _user!.deliveryDetails.address;
       setState(() {});
     }
   }
@@ -78,7 +78,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RoundedInputField(
-                  hint: "Name",
+                  hint: Strings.nameItem,
                   initialValue: _name,
                   callback: (String callback) {
                     _name = callback;
@@ -90,7 +90,8 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                 ),
                 SizedBox(height: adaptiveHeight(20)),
                 RoundedInputField(
-                  hint: "Phone number ",
+                  hint: Strings.phoneNumber,
+                  initialValue: _phone,
                   callback: (String callback) {
                     _phone = callback;
                   },
@@ -123,11 +124,12 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                   ),
                 ),
                 SizedBox(height: adaptiveHeight(20)),
-                _deliveryType != "Pick up"
+                _deliveryType != Strings.pickUp
                     ? Column(
                         children: [
                           RoundedInputField(
-                            hint: "Address",
+                            hint: Strings.address,
+                            initialValue: _address,
                             callback: (String callback) {
                               _address = callback;
                             },
@@ -166,7 +168,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                     Flexible(
                       flex: 1,
                       child: MainRoundedButton(
-                        text: "Back",
+                        text: Strings.backButton,
                         color: theme.accentColor,
                         textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                         callback: () {
@@ -180,7 +182,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                     Flexible(
                       flex: 2,
                       child: MainRoundedButton(
-                        text: "Confirm",
+                        text: Strings.confirmButton,
                         color: theme.accentColor,
                         textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                         callback: () {

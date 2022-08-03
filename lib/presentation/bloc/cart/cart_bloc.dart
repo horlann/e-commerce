@@ -62,13 +62,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _loadData(LoadDataEvent event, Emitter<CartState> emit) async {
     emit(state.inProgress());
-    try{
-    UserEntity user = await _remoteRepository.getAccountEntity();
-    emit(state.userDataLoaded(user));
+    try {
+      UserEntity user = await _remoteRepository.getAccountEntity();
+      emit(state.userDataLoaded(user));
     } catch (e) {
-emit(state.userDataLoaded(null));
+      emit(state.userDataLoaded(null));
     }
-    
   }
 
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
@@ -89,7 +88,14 @@ emit(state.userDataLoaded(null));
       payType: event.payType,
       phone: event.phone,
     );
-    //TODO Implement saving user deliveryType
+
+    try {
+      UserEntity userEntity = await _remoteRepository.getAccountEntity();
+      userEntity = userEntity.copyWith(
+          deliveryDetails: DeliveryDetails(
+              deliveryType: deliveryType, address: event.address, name: event.name, phone: event.phone));
+      _remoteRepository.setAccountEntity(userEntity);
+    } catch (e) {}
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));

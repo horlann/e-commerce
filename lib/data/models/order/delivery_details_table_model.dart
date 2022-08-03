@@ -4,24 +4,24 @@ import 'package:kurilki/domain/entities/order/delivery_details.dart';
 
 part 'delivery_details_table_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class DeliveryDetailsTableModel {
   @JsonKey(name: FirestoreSchema.deliveryType, defaultValue: DeliveryType.undefined)
   final DeliveryType deliveryType;
   @JsonKey(name: FirestoreSchema.address, defaultValue: '')
   final String address;
   @JsonKey(name: FirestoreSchema.name, defaultValue: '')
-  final String? name;
+  final String name;
   @JsonKey(name: FirestoreSchema.phone, defaultValue: '')
-  final String? phone;
+  final String phone;
 
   factory DeliveryDetailsTableModel.fromJson(Map<String, dynamic> json) => _$DeliveryDetailsTableModelFromJson(json);
 
-  factory DeliveryDetailsTableModel.fromEntity(DeliveryDetails? deliveryDetails) => DeliveryDetailsTableModel(
-        deliveryType: deliveryDetails?.deliveryType ?? DeliveryType.undefined,
-        address: deliveryDetails?.address ?? "",
-        name: deliveryDetails?.name ?? "",
-        phone: deliveryDetails?.phone ?? "",
+  factory DeliveryDetailsTableModel.fromEntity(DeliveryDetails deliveryDetails) => DeliveryDetailsTableModel(
+        deliveryType: deliveryDetails.deliveryType,
+        address: deliveryDetails.address,
+        name: deliveryDetails.name,
+        phone: deliveryDetails.phone,
       );
 
   Map<String, dynamic> toJson() => _$DeliveryDetailsTableModelToJson(this);

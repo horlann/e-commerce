@@ -2,12 +2,11 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
-import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 
 part 'user_table_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class UserTableModel {
   @JsonKey(name: FirestoreSchema.uuid)
   final String uuid;
@@ -18,7 +17,7 @@ class UserTableModel {
   @JsonKey(name: FirestoreSchema.imageLink)
   final String imageLink;
   @JsonKey(name: FirestoreSchema.deliveryDetails)
-  final DeliveryDetailsTableModel? deliveryDetails;
+  final DeliveryDetailsTableModel deliveryDetails;
 
   factory UserTableModel.fromJson(Map<String, dynamic> json) => _$UserTableModelFromJson(json);
 
@@ -37,6 +36,6 @@ class UserTableModel {
     required this.authId,
     required this.name,
     required this.imageLink,
-    this.deliveryDetails,
+    required this.deliveryDetails,
   });
 }
