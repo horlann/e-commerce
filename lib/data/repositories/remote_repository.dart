@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
+import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
@@ -66,6 +67,8 @@ class RemoteRepository {
       deliveryDetails: DeliveryDetails(
         address: address,
         deliveryType: deliveryType,
+        name: 'name',
+        phone: phone,
       ),
       priceDetails: PriceDetails(
         totalPrice: price,
@@ -143,12 +146,25 @@ class RemoteRepository {
     }
   }
 
+  Future<void> setAccountEntity(UserEntity entity) async {
+    await _remoteDataSource.setAccountEntity(UserTableModel.fromEntity(entity));
+  }
+
   Future<UserEntity> _createUser() async {
     try {
       final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
       final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
       final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
-      UserEntity entity = UserEntity(authId: authId, name: name, imageLink: imageLink);
+      UserEntity entity = UserEntity(
+          authId: authId,
+          name: name,
+          imageLink: imageLink,
+          deliveryDetails: const DeliveryDetails(
+            address: "",
+            deliveryType: DeliveryType.undefined,
+            name: '',
+            phone: '',
+          ));
       final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
       return entity;
     } on Exception {
@@ -178,6 +194,4 @@ class RemoteRepository {
       rethrow;
     }
   }
-
-  
 }

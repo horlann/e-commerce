@@ -7,14 +7,14 @@ class UserEntity {
   final String authId;
   final String name;
   final String imageLink;
-  final DeliveryDetails? deliveryDetails;
+  final DeliveryDetails deliveryDetails;
 
   UserEntity({
     String? uuid,
     required this.authId,
     required this.name,
     required this.imageLink,
-    this.deliveryDetails,
+    required this.deliveryDetails,
   }) : uuid = uuid ?? const Uuid().v4();
 
   UserEntity copyWith({
@@ -34,11 +34,12 @@ class UserEntity {
   }
 
   factory UserEntity.fromTableModel(UserTableModel model) => UserEntity(
-      uuid: model.uuid,
-      authId: model.authId,
-      name: model.name,
-      imageLink: model.imageLink,
-      deliveryDetails: DeliveryDetails.fromTableModel(model.deliveryDetails));
+        uuid: model.uuid,
+        authId: model.authId,
+        name: model.name,
+        imageLink: model.imageLink,
+        deliveryDetails:DeliveryDetails.fromTableModel(model.deliveryDetails),
+      );
 
   @override
   String toString() => 'UserEntity(uuid: $uuid,authId: $authId name: $name, imageLink: $imageLink)';

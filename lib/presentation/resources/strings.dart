@@ -25,7 +25,7 @@ abstract class Strings {
 
   //general admin const
   static const String nameItem = "Name";
-    static const String categoryItem = "Category";
+  static const String categoryItem = "Category";
   static const String availableItem = "Available";
   static const String priceItem = "Price";
   static const String itemSettings = "Item Settings";
@@ -33,4 +33,11 @@ abstract class Strings {
   static const String typeItem = "Type";
   static const String puffsItem = "Puffs";
   static const String strengthItem = "Strength";
+
+  static const String confirmButton = "Confirm";
+  static const String backButton = "Back";
+  //cart const
+
+  static const String phoneNumber = "Phone number";
+  static const String address = "Address";
 }

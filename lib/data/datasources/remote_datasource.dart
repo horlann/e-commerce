@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -10,6 +11,7 @@ import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/cart_item_table_model.dart';
+import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
@@ -74,11 +76,26 @@ class RemoteDataSource {
   Future<UserTableModel> createUser(UserTableModel tableModel) async {
     try {
       final userCollectionRef = _firestore.collection("accounts");
-      await userCollectionRef.doc(tableModel.uuid).set(tableModel.toJson());
+      try {
+        await userCollectionRef.doc(tableModel.uuid).set(tableModel.toJson());
+      } catch (e) {
+        rethrow;
+      }
       return tableModel;
     } on Exception catch (e) {
       logger.e(e);
       rethrow;
+    }
+  }
+
+  Future<void> setAccountEntity(UserTableModel model) async {
+    try {
+      if (_auth.currentUser != null) {
+        final userCollectionRef = _firestore.collection("accounts");
+        await userCollectionRef.doc(model.uuid).update(model.toJson());
+      }
+    } catch (e) {
+      logger.i("Delivery details aren't saved");
     }
   }
 
