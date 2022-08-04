@@ -16,6 +16,8 @@ class DisposablePodEntity extends Item {
     required super.tags,
     required super.itemSettings,
     required this.puffsCount,
+    required super.isPopular,
+    required super.description,
   });
 
   final int puffsCount;
@@ -30,6 +32,8 @@ class DisposablePodEntity extends Item {
       isAvailable: model.isAvailable,
       tags: model.tags,
       puffsCount: model.puffsCount,
+      description: model.description,
+      isPopular: model.isPopular,
       itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
 
   DisposablePodEntity copyWith({
@@ -44,6 +48,8 @@ class DisposablePodEntity extends Item {
     double? price,
     List<String>? tags,
     String? uuid,
+    String? description,
+    bool? isPopular,
   }) {
     return DisposablePodEntity(
       category: category ?? this.category,
@@ -57,6 +63,8 @@ class DisposablePodEntity extends Item {
       itemSettings: itemSettings ?? this.itemSettings,
       tags: tags ?? this.tags,
       uuid: uuid ?? this.uuid,
+      isPopular: isPopular ?? this.isPopular,
+      description: description ?? this.description,
     );
   }
 }

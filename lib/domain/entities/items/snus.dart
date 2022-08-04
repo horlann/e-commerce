@@ -4,18 +4,21 @@ import 'item.dart';
 import 'item_settings.dart';
 
 class Snus extends Item {
-  Snus(
-      {required super.uuid,
-      required super.id,
-      required super.name,
-      required super.price,
-      required super.oldPrice,
-      required super.category,
-      required super.imageLink,
-      required super.isAvailable,
-      required super.tags,
-      required super.itemSettings,
-      required this.strength});
+  Snus({
+    required super.uuid,
+    required super.id,
+    required super.name,
+    required super.price,
+    required super.oldPrice,
+    required super.category,
+    required super.imageLink,
+    required super.isAvailable,
+    required super.tags,
+    required super.itemSettings,
+    required this.strength,
+    required super.isPopular,
+    required super.description,
+  });
 
   final int strength;
   factory Snus.fromTableModel(SnusTableModel model) => Snus(
@@ -29,6 +32,8 @@ class Snus extends Item {
       isAvailable: model.isAvailable,
       tags: model.tags,
       strength: model.strength,
+      description: model.description,
+      isPopular: model.isPopular,
       itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
 
   Snus copyWith({
@@ -43,6 +48,8 @@ class Snus extends Item {
     List<String>? tags,
     String? uuid,
     List<ItemSettings>? itemSettings,
+    String? description,
+    bool? isPopular,
   }) {
     return Snus(
       strength: strength ?? this.strength,
@@ -56,6 +63,8 @@ class Snus extends Item {
       tags: tags ?? this.tags,
       uuid: uuid ?? this.uuid,
       itemSettings: itemSettings ?? this.itemSettings,
+      isPopular: isPopular ?? this.isPopular,
+      description: description ?? this.description,
     );
   }
 }

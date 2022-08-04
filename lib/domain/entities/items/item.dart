@@ -28,6 +28,10 @@ abstract class Item {
 
   final List<ItemSettings> itemSettings;
 
+  final bool isPopular;
+
+  final String description;
+
   Item({
     String? uuid,
     required this.id,
@@ -39,6 +43,8 @@ abstract class Item {
     required this.tags,
     required this.isAvailable,
     required this.itemSettings,
+    required this.description,
+    required this.isPopular,
   }) : uuid = uuid ?? const Uuid().v4();
 
   factory Item.fromTableModel(ItemTableModel item) {
@@ -53,6 +59,8 @@ abstract class Item {
           imageLink: item.imageLink,
           tags: item.tags,
           isAvailable: item.isAvailable,
+          isPopular: item.isPopular,
+          description: item.description,
           itemSettings: item.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList(),
           puffsCount: (item as DisposablePodTableModel).puffsCount);
     } else if (item.category == ProductCategory.snus.name) {
@@ -66,6 +74,8 @@ abstract class Item {
           imageLink: item.imageLink,
           tags: item.tags,
           isAvailable: item.isAvailable,
+          isPopular: item.isPopular,
+          description: item.description,
           itemSettings: item.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList(),
           strength: (item as SnusTableModel).strength);
     }

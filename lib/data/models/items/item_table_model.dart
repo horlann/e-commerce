@@ -31,6 +31,10 @@ class ItemTableModel {
   final List<String> tags;
   @JsonKey(name: FirestoreSchema.isAvailable, defaultValue: false)
   final bool isAvailable;
+  @JsonKey(name: FirestoreSchema.isPopular, defaultValue: false)
+  final bool isPopular;
+  @JsonKey(name: FirestoreSchema.description, defaultValue: "")
+  final String description;
   @JsonKey(name: FirestoreSchema.itemSettings, defaultValue: [])
   final List<ItemSettingsTableModel> itemSettings;
 
@@ -45,6 +49,8 @@ class ItemTableModel {
     required this.tags,
     required this.isAvailable,
     required this.itemSettings,
+    required this.description,
+    required this.isPopular,
   });
 
   factory ItemTableModel.fromJson(Map<String, dynamic> json) {
@@ -69,6 +75,8 @@ class ItemTableModel {
           imageLink: item.imageLink,
           tags: item.tags,
           isAvailable: item.isAvailable,
+          isPopular: item.isPopular,
+          description: item.description,
           itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList(),
           puffsCount: (item as DisposablePodEntity).puffsCount);
     } else if (item.category == ProductCategory.snus.name) {
@@ -82,6 +90,8 @@ class ItemTableModel {
           imageLink: item.imageLink,
           tags: item.tags,
           isAvailable: item.isAvailable,
+          isPopular: item.isPopular,
+          description: item.description,
           itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList(),
           strength: (item as Snus).strength);
     }
@@ -95,6 +105,8 @@ class ItemTableModel {
         imageLink: item.imageLink,
         tags: item.tags,
         isAvailable: item.isAvailable,
+        isPopular: item.isPopular,
+        description: item.description,
         itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList());
   }
 
