@@ -4,6 +4,7 @@ import 'package:kurilki/data/repositories/remote_repository.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
+import 'package:kurilki/main.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';
@@ -95,7 +96,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           deliveryDetails: DeliveryDetails(
               deliveryType: deliveryType, address: event.address, name: event.name, phone: event.phone));
       _remoteRepository.setAccountEntity(userEntity);
-    } catch (e) {}
+    } catch (e) {
+      logger.i(e);
+    }
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));

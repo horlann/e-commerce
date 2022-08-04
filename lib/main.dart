@@ -16,7 +16,7 @@ Future<void> main() async {
   _initLogger();
 
   await setupLocators(Environment.dev);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 void _initLogger() {

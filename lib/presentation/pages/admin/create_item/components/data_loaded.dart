@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:form_validator/form_validator.dart';
-
 import 'package:kurilki/domain/entities/category/category_entity.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_bloc.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -31,7 +30,7 @@ class _DataLoadedState extends State<DataLoaded> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
+    final AdminItemBloc bloc = BlocProvider.of<AdminItemBloc>(context);
 
     return Container(
       height: double.infinity,
@@ -109,7 +108,7 @@ class _DataLoadedState extends State<DataLoaded> {
                     textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                     callback: () {
                       if (_formKey.currentState!.validate() && _selectedCategory.isNotEmpty) {}
-                    }, // bloc.AddNewItemEvent()),
+                    }, // bloc.add(CreateItemEvent)),
                     theme: theme,
                   ),
                 ],

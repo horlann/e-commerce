@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/datasources/remote_datasource.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
-import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
@@ -116,7 +115,7 @@ class RemoteRepository {
 
   Future<UserEntity> authWithGoogleAccount() async {
     try {
-      final result = await _remoteDataSource.authWithGoogleAccount();
+      await _remoteDataSource.authWithGoogleAccount();
       logger.i("Successful authorization");
       return await getAccountEntity();
     } on Exception {
@@ -125,7 +124,6 @@ class RemoteRepository {
   }
 
   Future<UserEntity> getAccountEntity() async {
-    UserEntity? entity;
     try {
       UserTableModel? model;
       try {
@@ -136,11 +134,11 @@ class RemoteRepository {
         }
       }
       if (model != null) {
-        return entity = UserEntity.fromTableModel(model);
+        return UserEntity.fromTableModel(model);
       } else {
         throw Exception("UserModel is empty");
       }
-    } on Exception catch (e) {
+    } catch (e) {
       logger.e(e);
       rethrow;
     }
@@ -165,7 +163,7 @@ class RemoteRepository {
             name: '',
             phone: '',
           ));
-      final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
+      await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
       return entity;
     } on Exception {
       rethrow;

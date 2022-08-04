@@ -14,7 +14,7 @@ class ProductHistory {
   });
 }
 
-List<ProductHistory> product_list = [
+List<ProductHistory> productList = [
   ProductHistory(
     data: '09/11/2022',
     image: "https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-5.jpg",

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_state.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_event.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_state.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -24,8 +24,8 @@ class _CreateCategoryState extends State<CreateCategory> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final AdminCategoryBloc categoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
 
-    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,7 +36,7 @@ class _CreateCategoryState extends State<CreateCategory> {
         foregroundColor: theme.accentColor,
         backgroundColor: theme.backgroundColor,
       ),
-      body: BlocBuilder<AdminBloc, AdminState>(
+      body: BlocBuilder<AdminCategoryBloc, AdminCategoryState>(
         builder: ((context, state) {
           if (state is InProgressLoadingState) {
             return Center(child: CircularProgressIndicator(color: theme.accentColor));
@@ -66,7 +66,7 @@ class _CreateCategoryState extends State<CreateCategory> {
                           textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                           callback: () {
                             if (_formKey.currentState!.validate() && _category.isNotEmpty) {
-                              bloc.add(AddNewCategoryEvent(_category));
+                              categoryBloc.add(SaveCategoryEvent(_category));
                             }
                           },
                           theme: theme,

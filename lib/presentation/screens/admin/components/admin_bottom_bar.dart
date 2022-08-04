@@ -2,8 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_event.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_event.dart';
+import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_event.dart';
 import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -21,7 +25,9 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
+    final AdminItemBloc itemBloc = BlocProvider.of<AdminItemBloc>(context);
+    final AdminOrdersBloc ordersBloc = BlocProvider.of<AdminOrdersBloc>(context);
+    final AdminCategoryBloc categoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
     final tabsRouter = AutoTabsRouter.of(context);
 
     return Container(
@@ -38,7 +44,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 setState(() {
                   activePage = 1;
                 });
-                bloc.add(const InitCategoriesEvent());
+                categoryBloc.add(const InitCategoriesEvent());
                 tabsRouter.setActiveIndex(0);
               },
               child: SizedBox(
@@ -58,7 +64,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 setState(() {
                   activePage = 2;
                 });
-                bloc.add(const InitProductsEvent());
+                itemBloc.add(const InitItemsEvent());
                 tabsRouter.setActiveIndex(1);
               },
               child: SizedBox(
@@ -78,7 +84,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 setState(() {
                   activePage = 3;
                 });
-                bloc.add(const CreateNewCategoryEvent());
+                categoryBloc.add(const CreateNewCategoryEvent());
                 tabsRouter.setActiveIndex(2);
               },
               child: SizedBox(
@@ -98,7 +104,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 setState(() {
                   activePage = 4;
                 });
-                bloc.add(const InitOrdersEvent());
+                ordersBloc.add(const InitOrdersEvent());
                 tabsRouter.setActiveIndex(3);
               },
               child: SizedBox(

@@ -8,15 +8,14 @@ import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
-import 'package:kurilki/presentation/widgets/snackbar.dart';
 
 class EditItem extends StatefulWidget {
   const EditItem({Key? key, required this.item}) : super(key: key);
@@ -46,7 +45,7 @@ class _EditItemState extends State<EditItem> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
+    final AdminItemBloc bloc = BlocProvider.of<AdminItemBloc>(context);
 
     return Scaffold(
       appBar: AppBar(

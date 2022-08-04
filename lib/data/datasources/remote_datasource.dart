@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -11,7 +10,6 @@ import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
 import 'package:kurilki/data/models/order/cart_item_table_model.dart';
-import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
@@ -227,7 +225,7 @@ class RemoteDataSource {
             cartItems.add(CartItemTableModel(
                 item: productsList[i],
                 count: tableModel.items[i].count,
-                itemSettings: AbstractItemsSettingsTableModel(type: ItemSettingsType.empty, name: 'empty')));
+                itemSettings: const AbstractItemsSettingsTableModel(type: ItemSettingsType.empty, name: 'empty')));
           }
 
           tableModel = tableModel.copyWith(items: cartItems);

@@ -60,7 +60,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor,
+                      backgroundColor: itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor,
                       shape: const StadiumBorder()),
                   child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
                 );

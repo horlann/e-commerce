@@ -57,10 +57,10 @@ class AuthorizedPage extends StatelessWidget {
           SizedBox(height: adaptiveHeight(20)),
           Expanded(
             child: ListView.separated(
-              itemCount: product_list.length,
+              itemCount: productList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ProductCardHistory(
-                  item: product_list[index],
+                  item: productList[index],
                   theme: theme,
                 );
               },

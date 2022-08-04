@@ -7,7 +7,7 @@ void setScreenHeight(double height) => _screenHeight = height;
 
 void setScreenWidth(double width) => _screenWidth = width;
 
-double get getScreenWidth =>  _screenWidth;
+double get getScreenWidth => _screenWidth;
 
 double adaptiveHeight(double elementHeight, {double? screenHeight}) =>
     (screenHeight ?? _screenHeight) * elementHeight / maxAppHeight;

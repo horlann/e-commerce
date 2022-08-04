@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/common/di/locator.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/pages/cart/components/empty_cart_page.dart';
 import 'package:kurilki/presentation/pages/cart/components/filled_cart_page.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_state.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_state.dart';
 import 'package:kurilki/presentation/pages/admin/create_item/components/data_loaded.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -23,7 +23,7 @@ class CreateItem extends StatelessWidget {
         foregroundColor: theme.accentColor,
         backgroundColor: theme.backgroundColor,
       ),
-      body: BlocBuilder<AdminBloc, AdminState>(
+      body: BlocBuilder<AdminCategoryBloc, AdminCategoryState>(
         builder: ((context, state) {
           if (state is InProgressLoadingState) {
             return Center(child: CircularProgressIndicator(color: theme.accentColor));
