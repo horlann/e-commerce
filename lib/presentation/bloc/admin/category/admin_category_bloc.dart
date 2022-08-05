@@ -14,7 +14,7 @@ class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
     on<SaveCategoryEvent>(_saveCategory);
   }
 
-  void _initCategories(AdminCategoryEvent event, Emitter<AdminCategoryState> emit) async {
+  Future<void> _initCategories(AdminCategoryEvent event, Emitter<AdminCategoryState> emit) async {
     emit(state.inProgress());
     try {
       categories = await _remoteRepository.getCategoriesList();
@@ -28,7 +28,7 @@ class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
     emit(state.createCategory());
   }
 
-  void _saveCategory(AdminCategoryEvent event, Emitter<AdminCategoryState> emit) async {
+  Future<void> _saveCategory(AdminCategoryEvent event, Emitter<AdminCategoryState> emit) async {
     emit(state.inProgress());
     await _remoteRepository.createCategory(
         (event as SaveCategoryEvent).category, "image"); //TODO Implement saving images

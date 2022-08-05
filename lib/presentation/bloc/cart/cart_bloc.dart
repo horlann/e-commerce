@@ -5,6 +5,7 @@ import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';
@@ -73,9 +74,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
     DeliveryType deliveryType;
-    if (event.deliveryType == "Pick up") {
+    if (event.deliveryType == Strings.pickUp) {
       deliveryType = DeliveryType.pickUp;
-    } else if (event.deliveryType == "Delivery NovaPoshta") {
+    } else if (event.deliveryType == Strings.deliveryNova) {
       deliveryType = DeliveryType.deliveryNovaPost;
     } else {
       deliveryType = DeliveryType.undefined;
@@ -95,13 +96,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       userEntity = userEntity.copyWith(
           deliveryDetails: DeliveryDetails(
               deliveryType: deliveryType, address: event.address, name: event.name, phone: event.phone));
-      _remoteRepository.setAccountEntity(userEntity);
+      await _remoteRepository.setAccountEntity(userEntity);
     } catch (e) {
-      logger.i(e);
+      logger.e(e);
     }
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));
-    add(const InitCartEvent());
+    const InitCartEvent();
   }
 }

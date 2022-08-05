@@ -21,10 +21,17 @@ class CreateCategory extends StatefulWidget {
 class _CreateCategoryState extends State<CreateCategory> {
   final _formKey = GlobalKey<FormState>();
   String _category = "";
+  late final AdminCategoryBloc categoryBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    categoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AdminCategoryBloc categoryBloc = BlocProvider.of<AdminCategoryBloc>(context);
 
     return Scaffold(
       appBar: AppBar(

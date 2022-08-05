@@ -20,7 +20,6 @@ class DisposablePodTableModel extends ItemTableModel {
     required super.isAvailable,
     required super.itemSettings,
     required super.description,
-    required super.isPopular,
     required this.puffsCount,
   });
 

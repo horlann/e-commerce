@@ -267,7 +267,12 @@ class _EditItemState extends State<EditItem> {
                           callback: () {
                             controllers.add(ExpandedTileController());
                             itemsSettings.add(ItemSettings(
-                                count: 0, imageLink: '', isAvailable: false, name: '', type: ItemSettingsType.empty));
+                                count: 0,
+                                imageLink: '',
+                                isAvailable: false,
+                                name: '',
+                                type: ItemSettingsType.empty,
+                                isPopular: false));
                             setState(() {});
                           },
                           theme: theme),

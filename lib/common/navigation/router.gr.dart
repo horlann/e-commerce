@@ -68,7 +68,10 @@ class AppRouter extends _i16.RootStackRouter {
       final args = routeData.argsAs<DetailsRouterArgs>();
       return _i16.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i7.DetailsScreen(key: args.key, product: args.product));
+          child: _i7.DetailsScreen(
+              key: args.key,
+              product: args.product,
+              itemConfiguration: args.itemConfiguration));
     },
     ShoppingCartRouter.name: (routeData) {
       return _i16.MaterialPageX<dynamic>(
@@ -216,24 +219,31 @@ class HomeRouter extends _i16.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.DetailsScreen]
 class DetailsRouter extends _i16.PageRouteInfo<DetailsRouterArgs> {
-  DetailsRouter({_i17.Key? key, required _i18.Item product})
+  DetailsRouter(
+      {_i17.Key? key, required _i18.Item product, int itemConfiguration = 0})
       : super(DetailsRouter.name,
             path: 'details',
-            args: DetailsRouterArgs(key: key, product: product));
+            args: DetailsRouterArgs(
+                key: key,
+                product: product,
+                itemConfiguration: itemConfiguration));
 
   static const String name = 'DetailsRouter';
 }
 
 class DetailsRouterArgs {
-  const DetailsRouterArgs({this.key, required this.product});
+  const DetailsRouterArgs(
+      {this.key, required this.product, this.itemConfiguration = 0});
 
   final _i17.Key? key;
 
   final _i18.Item product;
 
+  final int itemConfiguration;
+
   @override
   String toString() {
-    return 'DetailsRouterArgs{key: $key, product: $product}';
+    return 'DetailsRouterArgs{key: $key, product: $product, itemConfiguration: $itemConfiguration}';
   }
 }
 

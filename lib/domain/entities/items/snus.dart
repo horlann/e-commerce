@@ -5,7 +5,7 @@ import 'item_settings.dart';
 
 class Snus extends Item {
   Snus({
-    required super.uuid,
+    super.uuid,
     required super.id,
     required super.name,
     required super.price,
@@ -16,7 +16,7 @@ class Snus extends Item {
     required super.tags,
     required super.itemSettings,
     required this.strength,
-    required super.isPopular,
+ 
     required super.description,
   });
 
@@ -33,7 +33,7 @@ class Snus extends Item {
       tags: model.tags,
       strength: model.strength,
       description: model.description,
-      isPopular: model.isPopular,
+
       itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
 
   Snus copyWith({
@@ -63,7 +63,7 @@ class Snus extends Item {
       tags: tags ?? this.tags,
       uuid: uuid ?? this.uuid,
       itemSettings: itemSettings ?? this.itemSettings,
-      isPopular: isPopular ?? this.isPopular,
+
       description: description ?? this.description,
     );
   }

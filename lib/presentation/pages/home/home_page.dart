@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-
-import 'components/categories.dart';
-import 'components/new_arrival_products.dart';
+import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
+import 'components/all_products.dart';
 import 'components/popular_products.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,13 +17,18 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           shrinkWrap: true,
-          children: const [
-            Categories(),
-            NewArrivalProducts(),
-            SizedBox(
-              height: 20,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RoundedInputField(
+                icon: Icons.search,
+                hint: "Search",
+                callback: (String callback) {},
+                validation: (value) => null,
+              ),
             ),
-            PopularProducts(),
+            const PopularProducts(),
+            const AllProducts(),
           ],
         ),
       ),

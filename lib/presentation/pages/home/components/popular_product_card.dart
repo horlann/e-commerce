@@ -4,29 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
 
-class ProductCard extends StatelessWidget {
-  final Item product;
+class PopularProductCard extends StatelessWidget {
+  final ItemSettings itemSettings;
+  final Item item;
 
-  const ProductCard({
+  const PopularProductCard({
     Key? key,
-    required this.product,
+    required this.itemSettings,
+    required this.item,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+
     return InkWell(
       onTap: () {
-        AutoRouter.of(context).push(DetailsRouter(product: product));
+        final int itemConfiguration = item.itemSettings.indexWhere((element) => element == itemSettings);
+        AutoRouter.of(context).push(DetailsRouter(product: item, itemConfiguration: itemConfiguration));
       },
       child: Container(
         height: adaptiveHeight(110),
-        width: adaptiveWidth(400),
+        width: adaptiveWidth(300),
         decoration: BoxDecoration(
             color: theme.cardColor,
             border: Border.all(color: theme.mainTextColor, width: 0.5),
@@ -44,7 +49,7 @@ class ProductCard extends StatelessWidget {
                     color: Colors.green,
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   ),
-                  child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network),
+                  child: CustomImageProvider(imageLink: itemSettings.imageLink, imageFrom: ImageFrom.network),
                 ),
               ),
             ),
@@ -62,7 +67,7 @@ class ProductCard extends StatelessWidget {
                         Row(
                           children: [
                             AutoSizeText(
-                              product.name,
+                              itemSettings.name,
                               maxLines: 2,
                               minFontSize: 14,
                               maxFontSize: 16,
@@ -76,14 +81,10 @@ class ProductCard extends StatelessWidget {
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
-                          "\₴${product.price.toStringAsFixed(0)}",
+                          "\₴${item.price.toStringAsFixed(0)}",
                           style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: theme.infoTextColor),
                         ),
                         SizedBox(height: adaptiveHeight(10)),
-                        Text(
-                          "${product.itemSettings.length} доступных вкусов",
-                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: theme.infoTextColor),
-                        ),
                       ],
                     ),
                   ),

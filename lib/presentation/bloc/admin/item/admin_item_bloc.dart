@@ -19,21 +19,21 @@ class AdminItemBloc extends Bloc<AdminItemEvent, AdminItemState> {
     on<UpdateSnusItemEvent>(_updateItem);
   }
 
-  void _initItems(AdminItemEvent event, Emitter<AdminItemState> emit) async {
+  Future<void> _initItems(AdminItemEvent event, Emitter<AdminItemState> emit) async {
     emit(state.inProgress());
     items = await _remoteRepository.loadAllItems();
     emit(state.itemsLoaded(items));
   }
 
-  void _createItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {
+  Future<void> _createItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {
     await _remoteAdminRepository.createItem((event as CreateItemEvent).item);
   }
 
-  void _editItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {
+  Future<void> _editItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {
     emit(state.editItem((event as EditItemEvent).item));
   }
 
-  void _updateItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {
+  Future<void> _updateItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {
     emit(state.inProgress());
     if (event is UpdateSnusItemEvent) {
       await _remoteAdminRepository.updateItem(event.item);

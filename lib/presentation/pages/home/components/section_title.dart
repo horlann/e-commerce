@@ -7,6 +7,7 @@ class SectionTitle extends StatelessWidget {
     required this.pressSeeAll,
   }) : super(key: key);
   final String title;
+
   final VoidCallback pressSeeAll;
 
   @override

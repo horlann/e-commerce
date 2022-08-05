@@ -93,7 +93,7 @@ class RemoteDataSource {
         await userCollectionRef.doc(model.uuid).update(model.toJson());
       }
     } catch (e) {
-      logger.i("Delivery details aren't saved");
+      logger.e("Delivery details aren't saved");
     }
   }
 

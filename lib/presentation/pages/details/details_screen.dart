@@ -21,9 +21,11 @@ class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
     Key? key,
     required this.product,
+    this.itemConfiguration = 0,
   }) : super(key: key);
 
   final Item product;
+  final int itemConfiguration;
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
