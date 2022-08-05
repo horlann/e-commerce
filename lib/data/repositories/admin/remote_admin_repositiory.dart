@@ -40,6 +40,7 @@ class RemoteAdminRepository {
           isAvailable: updatedItem.isAvailable,
           strength: updatedItem.strength,
           itemSettings: itemSettings,
+          description: updatedItem.description,
         ),
       );
     } else if (updatedItem is DisposablePodEntity) {
@@ -56,6 +57,7 @@ class RemoteAdminRepository {
           isAvailable: updatedItem.isAvailable,
           itemSettings: itemSettings,
           puffsCount: updatedItem.puffsCount,
+          description: updatedItem.description,
         ),
       );
     }

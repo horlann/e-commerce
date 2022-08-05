@@ -11,8 +11,8 @@ class ProductsState {
     return const ProductsLoadingState();
   }
 
-  ProductsState productsLoaded(List<Item> items) {
-    return ProductsLoadedState(items);
+  ProductsState productsLoaded(List<Item> items, List<Item> popularItems) {
+    return ProductsLoadedState(items, popularItems);
   }
 }
 
@@ -21,7 +21,14 @@ class ProductsLoadingState extends ProductsState {
 }
 
 class ProductsLoadedState extends ProductsState {
-  const ProductsLoadedState(this.items);
+  const ProductsLoadedState(this.items, this.popularItems);
+
+  final List<Item> items;
+  final List<Item> popularItems;
+}
+
+class SearchProductState extends ProductsState {
+  const SearchProductState(this.items);
 
   final List<Item> items;
 }

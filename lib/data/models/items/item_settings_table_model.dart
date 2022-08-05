@@ -17,6 +17,8 @@ class ItemSettingsTableModel extends AbstractItemsSettingsTableModel {
   final bool isAvailable;
   @JsonKey(name: FirestoreSchema.count, defaultValue: 0)
   final int count;
+  @JsonKey(name: FirestoreSchema.isPopular, defaultValue: false)
+  final bool isPopular;
 
   const ItemSettingsTableModel({
     required this.uuid,
@@ -25,6 +27,7 @@ class ItemSettingsTableModel extends AbstractItemsSettingsTableModel {
     required this.count,
     required super.name,
     required super.type,
+    required this.isPopular,
   });
 
   factory ItemSettingsTableModel.fromJson(Map<String, dynamic> json) => _$ItemSettingsTableModelFromJson(json);
@@ -38,5 +41,6 @@ class ItemSettingsTableModel extends AbstractItemsSettingsTableModel {
       count: itemSettings.count,
       isAvailable: itemSettings.isAvailable,
       name: itemSettings.name,
+      isPopular: itemSettings.isPopular,
       type: itemSettings.type);
 }

@@ -14,11 +14,11 @@ class ProductHistory {
   });
 }
 
-List<ProductHistory> product_list = [
+List<ProductHistory> productList = [
   ProductHistory(
     data: '09/11/2022',
     image: "https://www.elfbar.com.ua/wp-content/uploads/2021/01/reverseside-5.jpg",
-    name: 'ElfBar Banana Ice',
+    name: 'ElfBar Banana 12 34 56 78 10 111 12 13 14 15 16',
     price: 320,
     count: 50,
   ),

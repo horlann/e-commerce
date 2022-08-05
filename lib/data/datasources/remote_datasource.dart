@@ -74,11 +74,26 @@ class RemoteDataSource {
   Future<UserTableModel> createUser(UserTableModel tableModel) async {
     try {
       final userCollectionRef = _firestore.collection("accounts");
-      await userCollectionRef.doc(tableModel.uuid).set(tableModel.toJson());
+      try {
+        await userCollectionRef.doc(tableModel.uuid).set(tableModel.toJson());
+      } catch (e) {
+        rethrow;
+      }
       return tableModel;
     } on Exception catch (e) {
       logger.e(e);
       rethrow;
+    }
+  }
+
+  Future<void> setAccountEntity(UserTableModel model) async {
+    try {
+      if (_auth.currentUser != null) {
+        final userCollectionRef = _firestore.collection("accounts");
+        await userCollectionRef.doc(model.uuid).update(model.toJson());
+      }
+    } catch (e) {
+      logger.e("Delivery details aren't saved");
     }
   }
 
@@ -97,7 +112,7 @@ class RemoteDataSource {
 
   Future<List<CategoryTableModel>> getCategoriesList() async {
     try {
-      final userCollectionRef = _firestore.collection("admin");
+      final userCollectionRef = _firestore.collection("categories");
       QuerySnapshot ref = await userCollectionRef.get();
 
       List<CategoryTableModel> models = ref.docs.map((e) {
@@ -166,7 +181,7 @@ class RemoteDataSource {
   }
 
   Future<void> createCategory(CategoryTableModel model) async {
-    final userCollectionRef = _firestore.collection("admin");
+    final userCollectionRef = _firestore.collection("categories");
     await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 
@@ -210,7 +225,7 @@ class RemoteDataSource {
             cartItems.add(CartItemTableModel(
                 item: productsList[i],
                 count: tableModel.items[i].count,
-                itemSettings: AbstractItemsSettingsTableModel(type: ItemSettingsType.empty, name: 'empty')));
+                itemSettings: const AbstractItemsSettingsTableModel(type: ItemSettingsType.empty, name: 'empty')));
           }
 
           tableModel = tableModel.copyWith(items: cartItems);

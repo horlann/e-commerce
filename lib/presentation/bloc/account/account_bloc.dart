@@ -14,7 +14,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     on<LogoutFromAccountEvent>(_logout);
   }
 
-  void _initAuth(AccountEvent event, Emitter<AccountState> emit) async {
+  Future<void> _initAuth(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
       final result = await _remoteRepository.getAccountEntity();
@@ -24,7 +24,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
   }
 
-  void _authWithGoogleAccount(AccountEvent event, Emitter<AccountState> emit) async {
+  Future<void> _authWithGoogleAccount(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
       final result = await _remoteRepository.authWithGoogleAccount();
@@ -34,7 +34,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
   }
 
-  void _logout(AccountEvent event, Emitter<AccountState> emit) async {
+  Future<void> _logout(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
       await _remoteRepository.logout();

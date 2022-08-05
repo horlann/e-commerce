@@ -66,6 +66,8 @@ class RemoteRepository {
       deliveryDetails: DeliveryDetails(
         address: address,
         deliveryType: deliveryType,
+        name: 'name',
+        phone: phone,
       ),
       priceDetails: PriceDetails(
         totalPrice: price,
@@ -113,7 +115,7 @@ class RemoteRepository {
 
   Future<UserEntity> authWithGoogleAccount() async {
     try {
-      final result = await _remoteDataSource.authWithGoogleAccount();
+      await _remoteDataSource.authWithGoogleAccount();
       logger.i("Successful authorization");
       return await getAccountEntity();
     } on Exception {
@@ -122,7 +124,6 @@ class RemoteRepository {
   }
 
   Future<UserEntity> getAccountEntity() async {
-    UserEntity? entity;
     try {
       UserTableModel? model;
       try {
@@ -133,14 +134,18 @@ class RemoteRepository {
         }
       }
       if (model != null) {
-        return entity = UserEntity.fromTableModel(model);
+        return UserEntity.fromTableModel(model);
       } else {
         throw Exception("UserModel is empty");
       }
-    } on Exception catch (e) {
+    } catch (e) {
       logger.e(e);
       rethrow;
     }
+  }
+
+  Future<void> setAccountEntity(UserEntity entity) async {
+    await _remoteDataSource.setAccountEntity(UserTableModel.fromEntity(entity));
   }
 
   Future<UserEntity> _createUser() async {
@@ -148,8 +153,17 @@ class RemoteRepository {
       final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
       final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
       final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
-      UserEntity entity = UserEntity(authId: authId, name: name, imageLink: imageLink);
-      final result = await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
+      UserEntity entity = UserEntity(
+          authId: authId,
+          name: name,
+          imageLink: imageLink,
+          deliveryDetails: const DeliveryDetails(
+            address: "",
+            deliveryType: DeliveryType.undefined,
+            name: '',
+            phone: '',
+          ));
+      await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
       return entity;
     } on Exception {
       rethrow;

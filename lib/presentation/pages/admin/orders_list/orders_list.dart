@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_state.dart';
+import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_state.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_bloc.dart';
 
 class OrdersList extends StatelessWidget {
   const OrdersList({Key? key}) : super(key: key);
@@ -15,11 +15,14 @@ class OrdersList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Orders list", style: TextStyle(color: theme.mainTextColor)),
+        title: Text(
+          "Заказы",
+          style: TextStyle(color: theme.mainTextColor),
+        ),
         foregroundColor: theme.accentColor,
         backgroundColor: theme.backgroundColor,
       ),
-      body: BlocBuilder<AdminBloc, AdminState>(
+      body: BlocBuilder<AdminOrdersBloc, AdminOrdersState>(
         builder: (context, state) {
           if (state is NewOrderState) {
             List<OrderEntity> orders = state.orders;

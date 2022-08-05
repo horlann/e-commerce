@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_state.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/category/admin_category_state.dart';
 import 'package:kurilki/presentation/pages/admin/create_item/components/data_loaded.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -16,18 +16,21 @@ class CreateItem extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Create item", style: TextStyle(color: theme.mainTextColor)),
+        title: Text(
+          "Cоздать продукт",
+          style: TextStyle(color: theme.mainTextColor),
+        ),
         foregroundColor: theme.accentColor,
         backgroundColor: theme.backgroundColor,
       ),
-      body: BlocBuilder<AdminBloc, AdminState>(
+      body: BlocBuilder<AdminCategoryBloc, AdminCategoryState>(
         builder: ((context, state) {
           if (state is InProgressLoadingState) {
             return Center(child: CircularProgressIndicator(color: theme.accentColor));
           } else if (state is CategoriesLoadedState) {
             return DataLoaded(categories: state.categories);
           } else {
-            return const Text("Something went wrong");
+            return const Center(child: Text("Something went wrong"));
           }
         }),
       ),

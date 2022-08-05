@@ -3,10 +3,12 @@ import 'package:kurilki/presentation/pages/account/account_page.dart';
 import 'package:kurilki/presentation/pages/admin/create_category/create_category.dart';
 import 'package:kurilki/presentation/pages/admin/create_item/create_item.dart';
 import 'package:kurilki/presentation/pages/admin/orders_list/orders_list.dart';
-import 'package:kurilki/presentation/pages/admin/products_list/components/admin_products_list.dart';
 import 'package:kurilki/presentation/pages/admin/products_list/components/edit_item.dart';
+import 'package:kurilki/presentation/pages/admin/products_list/products_list.dart';
 import 'package:kurilki/presentation/pages/admin/products_list/products_list_wrapper.dart';
+import 'package:kurilki/presentation/pages/cart/order_confirmation_page.dart';
 import 'package:kurilki/presentation/pages/cart/shopping_cart_page.dart';
+import 'package:kurilki/presentation/pages/cart/shopping_cart_wrapper.dart';
 import 'package:kurilki/presentation/pages/details/details_screen.dart';
 import 'package:kurilki/presentation/pages/home/home_page.dart';
 import 'package:kurilki/presentation/pages/home/home_page_wrapper.dart';
@@ -48,13 +50,24 @@ import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
         ),
         AutoRoute(
           path: 'cart',
-          name: "CartRouter",
-          page: ShoppingCartPage,
+          name: "CartWrapper",
+          page: ShoppingCartWrapper,
+          children: [
+            AutoRoute(
+              path: '',
+              name: "ShoppingCartRouter",
+              page: ShoppingCartPage,
+            ),
+            AutoRoute(
+              path: 'order_confirmation',
+              name: "OrderConfirmationRouter",
+              page: OrderConfirmationPage,
+            ),
+          ],
         ),
       ],
     ),
     //admin route
-
     AutoRoute(
       path: '/admin',
       name: "AdminRouter",
@@ -75,16 +88,17 @@ import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
           path: 'orders_list',
           name: "OrdersListRouter",
           page: OrdersList,
-            initial: true),
+          initial: true,
+        ),
         AutoRoute(
           path: 'productsListWrapper',
-          name: "ProductsListRouter",
+          name: "ProductsListWrapper",
           page: ProductsListWrapper,
           children: [
             AutoRoute(
               path: '',
-              name: "ProductsList",
-              page: ProductsList,
+              name: "ProductsListRouter",
+              page: ProductsListPage,
             ),
             AutoRoute(
               path: 'edit_item',

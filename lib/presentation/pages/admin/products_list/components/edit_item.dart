@@ -2,16 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/items/snus.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_event.dart';
-import 'package:kurilki/presentation/pages/admin/products_list/components/edit_disposable_item.dart';
-import 'package:kurilki/presentation/pages/admin/products_list/components/edit_snus_item.dart';
-import 'package:kurilki/presentation/resources/size_utils.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_event.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -26,28 +26,17 @@ class EditItem extends StatefulWidget {
 }
 
 class _EditItemState extends State<EditItem> {
-  String name = "";
-  //String category = "";
-  String imageLink = "";
-  String isAvailable = "true";
-  List<String> availableList = ["true", "false"];
-  List<String> typeList = ["empty", "filled"];
-  double price = 0;
-  List<String> tags = [];
+  List<String> availableList = [Strings.trueString, Strings.falseString];
+  List<String> typeList = [Strings.empty, Strings.filled];
+  Item? item;
   List<ItemSettings> itemsSettings = [];
-
   List<ExpandedTileController> controllers = [];
 
   @override
   void initState() {
     super.initState();
-    name = widget.item.name;
-    //category = widget.item.category;
-    imageLink = widget.item.imageLink;
-    isAvailable = widget.item.isAvailable ? "true" : "false";
-    price = widget.item.price;
-    tags = widget.item.tags;
-    itemsSettings = widget.item.itemSettings;
+    item = widget.item;
+    itemsSettings = item!.itemSettings;
     for (int i = 0; i < itemsSettings.length; i++) {
       controllers.add(ExpandedTileController());
     }
@@ -56,33 +45,55 @@ class _EditItemState extends State<EditItem> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final scale = byWithScale(context);
+    final AdminItemBloc bloc = BlocProvider.of<AdminItemBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Editing item", style: TextStyle(color: theme.mainTextColor)),
+        title: Text(
+          "Редактирование",
+          style: TextStyle(color: theme.mainTextColor),
+        ),
         foregroundColor: theme.accentColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: scale * 250,
+            width: adaptiveWidth(300),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _Divider("Name: ", textSize: 16),
+                SizedBox(height: adaptiveHeight(10)),
+                const _Divider(Strings.nameItem + ":", textSize: 16),
                 RoundedInputField(
-                  hint: name,
-                  callback: (String callback) => name = callback,
+                  hint: item!.name,
+                  callback: (String callback) {
+                    if (item is DisposablePodEntity) {
+                      item = (item as DisposablePodEntity).copyWith(name: callback);
+                    } else if (item is Snus) {
+                      item = (item as Snus).copyWith(name: callback);
+                    }
+                  },
+                  validation: ValidationBuilder()
+                      .minLength(5, Strings.min5Characters)
+                      .maxLength(30, Strings.max30Characters)
+                      .build(),
                 ),
                 const _Divider("Image link: ", textSize: 16),
                 RoundedInputField(
-                  hint: imageLink,
-                  callback: (String callback) => imageLink = callback,
+                  hint: item!.imageLink,
+                  maxLength: 120,
+                  callback: (String callback) {
+                    if (item is DisposablePodEntity) {
+                      item = (item as DisposablePodEntity).copyWith(imageLink: callback);
+                    } else if (item is Snus) {
+                      item = (item as Snus).copyWith(imageLink: callback);
+                    }
+                  },
+                  validation: ValidationBuilder().minLength(10, Strings.min10Characters).url(Strings.onlyUrl).build(),
                 ),
-                const _Divider("Available: ", textSize: 16),
+                const _Divider(Strings.availableItem + ":", textSize: 16),
                 Container(
                   decoration: BoxDecoration(
                     color: theme.cardColor,
@@ -94,25 +105,45 @@ class _EditItemState extends State<EditItem> {
                       activeColor: theme.mainTextColor,
                       textStyle: TextStyle(color: theme.mainTextColor),
                       spacebetween: 40,
-                      groupValue: isAvailable,
-                      onChanged: (value) => setState(() {
-                        isAvailable = value as String;
-                      }),
+                      groupValue: item!.isAvailable ? Strings.trueString : Strings.falseString,
+                      onChanged: (value) {
+                        final bool isAvailable = value as String == Strings.trueString ? true : false;
+                        setState(() {
+                          if (item is DisposablePodEntity) {
+                            item = (item as DisposablePodEntity).copyWith(isAvailable: isAvailable);
+                          } else if (item is Snus) {
+                            item = (item as Snus).copyWith(isAvailable: isAvailable);
+                          }
+                        });
+                      },
                       items: availableList,
                       itemBuilder: (item) => RadioButtonBuilder(item),
                     ),
                   ),
                 ),
-                const _Divider("Price: ", textSize: 16),
+                const _Divider(Strings.priceItem + ":", textSize: 16),
                 RoundedInputField(
                   inputType: TextInputType.number,
-                  hint: price.toString(),
-                  callback: (String callback) => price = double.tryParse(callback) ?? price,
+                  hint: item!.price.toString(),
+                  callback: (String callback) {
+                    final double price = double.tryParse(callback) ?? item!.price;
+                    if (item is DisposablePodEntity) {
+                      item = (item as DisposablePodEntity).copyWith(oldPrice: widget.item.price);
+                      item = (item as DisposablePodEntity).copyWith(price: price);
+                    } else if (item is Snus) {
+                      item = (item as Snus).copyWith(oldPrice: widget.item.price);
+                      item = (item as Snus).copyWith(price: price)..copyWith(oldPrice: widget.item.price);
+                    }
+                  },
+                  validation: ValidationBuilder()
+                      .minLength(1, Strings.minCharacters)
+                      .maxLength(30, Strings.max30Characters)
+                      .build(),
                 ),
-                const _Divider("ItemSettings: ", textSize: 16),
+                const _Divider(Strings.itemSettings + ":", textSize: 16),
                 Container(
                   decoration: BoxDecoration(
-                    color: theme.secondBackgroundColor,
+                    color: theme.backgroundColor,
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: Column(
@@ -126,27 +157,40 @@ class _EditItemState extends State<EditItem> {
                               content: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const _Divider("Name: "),
+                                  const _Divider(Strings.nameItem + ":"),
                                   RoundedInputField(
                                     hint: itemsSettings[index].name,
                                     callback: (String callback) {
                                       itemsSettings[index] = itemsSettings[index].copyWith(name: callback);
                                     },
+                                    validation: ValidationBuilder()
+                                        .minLength(1, Strings.minCharacters)
+                                        .maxLength(30, Strings.max30Characters)
+                                        .build(),
                                   ),
                                   const _Divider("Image link: "),
                                   RoundedInputField(
                                     hint: itemsSettings[index].imageLink,
+                                    maxLength: 120,
                                     callback: (String callback) =>
-                                        itemsSettings[index] = itemsSettings[index].copyWith(imageLink: imageLink),
+                                        itemsSettings[index] = itemsSettings[index].copyWith(imageLink: callback),
+                                    validation: ValidationBuilder()
+                                        .minLength(1, Strings.minCharacters)
+                                        .phone(Strings.onlyUrl)
+                                        .build(),
                                   ),
-                                  const _Divider("Count: "),
+                                  const _Divider(Strings.countItem + ":"),
                                   RoundedInputField(
                                     inputType: TextInputType.number,
                                     hint: itemsSettings[index].count.toString(),
                                     callback: (String callback) => itemsSettings[index] = itemsSettings[index]
                                         .copyWith(count: int.tryParse(callback) ?? itemsSettings[index].count),
+                                    validation: ValidationBuilder()
+                                        .minLength(1, Strings.minCharacters)
+                                        .maxLength(30, Strings.max30Characters)
+                                        .build(),
                                   ),
-                                  const _Divider("Available:"),
+                                  const _Divider(Strings.availableItem + ":"),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: theme.cardColor,
@@ -158,17 +202,19 @@ class _EditItemState extends State<EditItem> {
                                         activeColor: theme.mainTextColor,
                                         textStyle: TextStyle(color: theme.mainTextColor),
                                         spacebetween: 35,
-                                        groupValue: itemsSettings[index].isAvailable == true ? "true" : "false",
+                                        groupValue: itemsSettings[index].isAvailable == true
+                                            ? Strings.trueString
+                                            : Strings.falseString,
                                         onChanged: (value) => setState(() {
-                                          itemsSettings[index] = itemsSettings[index]
-                                              .copyWith(isAvailable: value as String == "true" ? true : false);
+                                          itemsSettings[index] = itemsSettings[index].copyWith(
+                                              isAvailable: value as String == Strings.trueString ? true : false);
                                         }),
                                         items: availableList,
                                         itemBuilder: (item) => RadioButtonBuilder(item),
                                       ),
                                     ),
                                   ),
-                                  const _Divider("Type: "),
+                                  const _Divider(Strings.typeItem + ":"),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: theme.cardColor,
@@ -180,11 +226,12 @@ class _EditItemState extends State<EditItem> {
                                         activeColor: theme.mainTextColor,
                                         textStyle: TextStyle(color: theme.mainTextColor),
                                         spacebetween: 35,
-                                        groupValue:
-                                            itemsSettings[index].type == ItemSettingsType.empty ? "empty" : "filled",
+                                        groupValue: itemsSettings[index].type == ItemSettingsType.empty
+                                            ? Strings.empty
+                                            : Strings.filled,
                                         onChanged: (value) => setState(() {
                                           itemsSettings[index] = itemsSettings[index].copyWith(
-                                              type: value as String == "empty"
+                                              type: value as String == Strings.empty
                                                   ? ItemSettingsType.empty
                                                   : ItemSettingsType.filled);
                                         }),
@@ -216,49 +263,72 @@ class _EditItemState extends State<EditItem> {
                       MainRoundedButton(
                           text: "Add configuration",
                           color: theme.accentColor,
-                          textStyle: TextStyle(color: theme.infoTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                          textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                           callback: () {
                             controllers.add(ExpandedTileController());
                             itemsSettings.add(ItemSettings(
-                                count: 0, imageLink: '', isAvailable: false, name: '', type: ItemSettingsType.empty));
+                                count: 0,
+                                imageLink: '',
+                                isAvailable: false,
+                                name: '',
+                                type: ItemSettingsType.empty,
+                                isPopular: false));
                             setState(() {});
                           },
                           theme: theme),
                     ],
                   ),
                 ),
-                SizedBox(height: scale * 10),
                 if (widget.item is DisposablePodEntity)
-                  EditDisposableItem(
-                      item: DisposablePodEntity(
-                    category: widget.item.category,
-                    id: widget.item.id,
-                    imageLink: imageLink,
-                    isAvailable: isAvailable == "true" ? true : false,
-                    name: name,
-                    oldPrice: widget.item.price,
-                    price: price,
-                    tags: [],
-                    itemSettings: itemsSettings,
-                    puffsCount: (widget.item as DisposablePodEntity).puffsCount,
-                    uuid: (widget.item as DisposablePodEntity).uuid,
-                  ))
-                else if (widget.item is Snus)
-                  EditSnusItem(
-                    item: Snus(
-                      imageLink: imageLink,
-                      isAvailable: isAvailable == "true" ? true : false,
-                      name: name,
-                      category: widget.item.category,
-                      id: widget.item.id,
-                      oldPrice: widget.item.price,
-                      price: price,
-                      tags: [],
-                      itemSettings: itemsSettings,
-                      strength: (widget.item as Snus).strength,
-                      uuid: (widget.item as Snus).uuid,
-                    ),
+                  Column(
+                    children: [
+                      const _Divider(Strings.puffsItem + ":"),
+                      RoundedInputField(
+                        inputType: TextInputType.number,
+                        hint: (item as DisposablePodEntity).puffsCount.toString(),
+                        callback: (String callback) {
+                          item = (item as DisposablePodEntity)
+                              .copyWith(puffsCount: int.tryParse(callback) ?? (item as DisposablePodEntity).puffsCount);
+                        },
+                        validation: ValidationBuilder()
+                            .minLength(1, Strings.minCharacters)
+                            .maxLength(30, Strings.max30Characters)
+                            .build(),
+                      ),
+                    ],
                   )
+                else if (widget.item is Snus)
+                  Column(
+                    children: [
+                      const _Divider(Strings.strengthItem + ":"),
+                      RoundedInputField(
+                        inputType: TextInputType.number,
+                        hint: (item as Snus).strength.toString(),
+                        callback: (String callback) {
+                          item = (item as Snus).copyWith(strength: int.tryParse(callback) ?? (item as Snus).strength);
+                        },
+                        validation: ValidationBuilder()
+                            .minLength(1, Strings.minCharacters)
+                            .maxLength(30, Strings.max30Characters)
+                            .build(),
+                      ),
+                    ],
+                  ),
+                MainRoundedButton(
+                  text: "Update item",
+                  color: theme.accentColor,
+                  textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                  callback: () {
+                    if (item is DisposablePodEntity) {
+                      bloc.add(UpdateDisposableItemEvent(
+                          (item as DisposablePodEntity).copyWith(itemSettings: itemsSettings)));
+                    } else if (item is Snus) {
+                      bloc.add(UpdateSnusItemEvent((widget.item as Snus).copyWith(itemSettings: itemsSettings)));
+                    }
+                  },
+                  theme: theme,
+                ),
+                SizedBox(height: adaptiveHeight(10)),
               ],
             ),
           ),
@@ -276,10 +346,10 @@ class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final scale = byWithScale(context);
+
     return Row(
       children: [
-        SizedBox(width: scale * 20),
+        SizedBox(width: adaptiveWidth(20), height: adaptiveHeight(30)),
         Text(text, style: TextStyle(color: theme.infoTextColor, fontSize: textSize)),
       ],
     );

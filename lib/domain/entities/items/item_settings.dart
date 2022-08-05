@@ -22,12 +22,14 @@ class ItemSettings extends AbstractItemSettings {
   final String imageLink;
   final bool isAvailable;
   final int count;
+  final bool isPopular;
 
   ItemSettings({
     String? uuid,
     required this.imageLink,
     required this.isAvailable,
     required this.count,
+    required this.isPopular,
     required super.name,
     required super.type,
   }) : uuid = uuid ?? const Uuid().v4();
@@ -38,6 +40,7 @@ class ItemSettings extends AbstractItemSettings {
     bool? isAvailable,
     int? count,
     String? name,
+    bool? isPopular,
     ItemSettingsType? type,
   }) {
     return ItemSettings(
@@ -45,6 +48,7 @@ class ItemSettings extends AbstractItemSettings {
         imageLink: imageLink ?? this.imageLink,
         isAvailable: isAvailable ?? this.isAvailable,
         count: count ?? this.count,
+        isPopular: isPopular ?? this.isPopular,
         name: name ?? this.name,
         type: type ?? this.type);
   }
@@ -56,6 +60,7 @@ class ItemSettings extends AbstractItemSettings {
         isAvailable: model.isAvailable,
         count: model.count,
         type: model.type,
+        isPopular: model.isPopular,
       );
 }
 

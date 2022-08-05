@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -16,7 +15,6 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
 
     return Container(
       width: double.infinity,
@@ -24,7 +22,7 @@ class ItemCard extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           color: theme.cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(color: theme.inactiveColor),
           boxShadow: [theme.appShadows.mediumShadow]),
       child: ClipRRect(
@@ -34,7 +32,7 @@ class ItemCard extends StatelessWidget {
           child: SizedBox(
             height: 50,
             child: InkWell(
-              onTap: () => AutoRouter.of(context).push(EditItemRouter(item: item)),
+              onTap: () => AutoRouter.of(context).navigate(EditItemRouter(item: item)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

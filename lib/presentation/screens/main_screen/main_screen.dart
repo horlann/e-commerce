@@ -7,7 +7,6 @@ import 'package:kurilki/common/services/connection/custom_connection_checker.dar
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'package:sized_context/sized_context.dart';
-
 import 'bottom_bar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
       routes: const [
         HomePageWrapper(),
         AccountRouter(),
-        CartRouter(),
+        CartWrapper(),
       ],
       //TODO:should be false
       lazyLoad: true,

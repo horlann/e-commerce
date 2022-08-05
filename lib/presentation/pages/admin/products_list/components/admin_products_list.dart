@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/presentation/bloc/admin/admin_bloc.dart';
 import 'package:kurilki/presentation/pages/admin/products_list/components/item_card.dart';
 
 class ProductsList extends StatelessWidget {
@@ -11,9 +9,7 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AdminBloc bloc = BlocProvider.of<AdminBloc>(context);
-
-    return ListView.builder(
+       return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
         return Slidable(
