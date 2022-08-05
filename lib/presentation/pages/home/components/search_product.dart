@@ -20,7 +20,7 @@ class SearchProduct extends StatelessWidget {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(adaptiveWidth(8.0)),
           child: SizedBox(
             height: adaptiveHeight(getScreenHeight),
             child: Column(
@@ -28,7 +28,7 @@ class SearchProduct extends StatelessWidget {
                 items.length,
                 (index) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
+                    padding: EdgeInsets.only(bottom: adaptiveWidth(4)),
                     child: ProductCard(
                       product: items[index],
                     ),
@@ -43,10 +43,7 @@ class SearchProduct extends StatelessWidget {
       return Center(
           child: Text(
         Strings.nothingFound,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: theme.infoTextColor,
-              fontWeight: FontWeight.w500,
-            ),
+        style: theme.fontStyles.regular18,
       ));
     }
   }

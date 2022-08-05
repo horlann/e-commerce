@@ -1,5 +1,3 @@
-import 'package:kurilki/domain/entities/items/item.dart';
-
 abstract class ProductsEvent {
   const ProductsEvent();
 }

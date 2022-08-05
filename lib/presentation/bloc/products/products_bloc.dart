@@ -39,15 +39,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(ProductsLoadedState(list, productsList));
     } else if (event is ShowSnusProductsEvent) {
       final List<Snus> list = productsList.whereType<Snus>().toList();
-
       emit(ProductsLoadedState(list, productsList));
     }
   }
 
   void _searchProduct(SearchProductEvent event, Emitter<ProductsState> emit) {
     final List<Item> foundItems = [];
-    for (var item in productsList) {
-      for (var element in item.tags) {
+    for (Item item in productsList) {
+      for (String element in item.tags) {
         if (element.contains(event.request)) {
           foundItems.add(item);
         }

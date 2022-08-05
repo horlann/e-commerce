@@ -103,6 +103,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));
-    const InitCartEvent();
+    add(const InitCartEvent());
   }
 }

@@ -59,7 +59,7 @@ class PopularProductCard extends StatelessWidget {
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(adaptiveWidth(8)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -72,19 +72,15 @@ class PopularProductCard extends StatelessWidget {
                               minFontSize: 14,
                               maxFontSize: 16,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: theme.infoTextColor,
-                              ),
+                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                             ),
                           ],
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
                           "\₴${item.price.toStringAsFixed(0)}",
-                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600, color: theme.infoTextColor),
+                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
-                        SizedBox(height: adaptiveHeight(10)),
                       ],
                     ),
                   ),

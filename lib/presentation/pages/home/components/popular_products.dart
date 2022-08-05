@@ -26,16 +26,13 @@ class _PopularProductsState extends State<PopularProducts> {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(adaptiveWidth(8.0)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             Strings.popular,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: theme.infoTextColor,
-                  fontWeight: FontWeight.w500,
-                ),
+            style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
           ),
           SizedBox(height: adaptiveHeight(10)),
           BlocBuilder<ProductsBloc, ProductsState>(
@@ -45,8 +42,8 @@ class _PopularProductsState extends State<PopularProducts> {
               } else if (state is ProductsLoadedState) {
                 final List<Item> items = state.popularItems.reversed.toList();
                 final List<PopularItem> popularItems = [];
-                for (var item in items) {
-                  for (var itemSettings in item.itemSettings) {
+                for (Item item in items) {
+                  for (ItemSettings itemSettings in item.itemSettings) {
                     if (itemSettings.isPopular) {
                       popularItems.add(PopularItem(item: item, itemSettings: itemSettings));
                     }
@@ -60,7 +57,7 @@ class _PopularProductsState extends State<PopularProducts> {
                       popularItems.length,
                       (index) {
                         return Padding(
-                          padding: const EdgeInsets.only(right: 16),
+                          padding: EdgeInsets.only(right: adaptiveWidth(16)),
                           child: PopularProductCard(
                             item: popularItems[index].item,
                             itemSettings: popularItems[index].itemSettings,

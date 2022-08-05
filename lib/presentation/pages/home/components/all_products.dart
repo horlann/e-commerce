@@ -24,16 +24,13 @@ class _AllProductsState extends State<AllProducts> {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(adaptiveWidth(8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             Strings.allProducts,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: theme.infoTextColor,
-                  fontWeight: FontWeight.w500,
-                ),
+            style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
           ),
           SizedBox(height: adaptiveHeight(10)),
           BlocBuilder<ProductsBloc, ProductsState>(builder: (context, state) {
@@ -53,7 +50,7 @@ class _AllProductsState extends State<AllProducts> {
                         items.length,
                         (index) {
                           return Padding(
-                            padding: const EdgeInsets.all(4),
+                            padding: EdgeInsets.only(bottom: adaptiveWidth(4)),
                             child: ProductCard(
                               product: items[index],
                             ),
@@ -103,8 +100,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
               setState(() {});
             },
             theme: theme,
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w400,
+            textStyle: theme.fontStyles.regular14.copyWith(
               color: _selectedCategory == 1 ? theme.whiteTextColor : theme.mainTextColor,
             ),
           ),
@@ -121,8 +117,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
               setState(() {});
             },
             theme: theme,
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w400,
+            textStyle: theme.fontStyles.regular14.copyWith(
               color: _selectedCategory == 2 ? theme.whiteTextColor : theme.mainTextColor,
             ),
           ),
@@ -139,8 +134,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
               setState(() {});
             },
             theme: theme,
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w400,
+            textStyle: theme.fontStyles.regular14.copyWith(
               color: _selectedCategory == 3 ? theme.whiteTextColor : theme.mainTextColor,
             ),
           ),

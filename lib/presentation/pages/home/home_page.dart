@@ -4,6 +4,7 @@ import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/bloc/products/products_event.dart';
 import 'package:kurilki/presentation/bloc/products/products_state.dart';
 import 'package:kurilki/presentation/pages/home/components/search_product.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
@@ -15,17 +16,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductsBloc bloc = BlocProvider.of(context);
+    final ProductsBloc bloc = BlocProvider.of<ProductsBloc>(context);
 
     return Container(
       color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(adaptiveWidth(8.0)),
         child: ListView(
           shrinkWrap: true,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(adaptiveWidth(8.0)),
               child: RoundedInputField(
                 icon: Icons.search,
                 hint: Strings.search,
