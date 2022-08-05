@@ -4,11 +4,9 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/common/services/connection/custom_connection_checker.dart';
-
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'package:sized_context/sized_context.dart';
-
 import 'bottom_bar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -34,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     super.didChangeDependencies();
     setScreenHeight(MediaQuery.of(context).size.height);
     setScreenWidth(MediaQuery.of(context).size.width);
-    Strings.isSmallPhone = context.diagonalInches <= 4.5;
+    Const.isSmallPhone = context.diagonalInches <= 4.5;
   }
 
   @override

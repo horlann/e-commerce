@@ -6,6 +6,7 @@ import 'package:kurilki/presentation/bloc/products/products_event.dart';
 import 'package:kurilki/presentation/bloc/products/products_state.dart';
 import 'package:kurilki/presentation/pages/home/components/product_card.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -28,7 +29,7 @@ class _AllProductsState extends State<AllProducts> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Find your product",
+            Strings.allProducts,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: theme.infoTextColor,
                   fontWeight: FontWeight.w500,
@@ -94,11 +95,11 @@ class _CategorySelectorState extends State<_CategorySelector> {
         Expanded(
           flex: 2,
           child: MainRoundedButton(
-            text: "All",
+            text: Strings.allButton,
             color: _selectedCategory == 1 ? theme.mainTextColor : theme.cardColor,
             callback: () {
               _selectedCategory = 1;
-              bloc.add(const ShowAllProducts());
+              bloc.add(const ShowAllProductsEvent());
               setState(() {});
             },
             theme: theme,
@@ -112,11 +113,11 @@ class _CategorySelectorState extends State<_CategorySelector> {
         Expanded(
           flex: 3,
           child: MainRoundedButton(
-            text: "Disposable POD",
+            text: Strings.podButton,
             color: _selectedCategory == 2 ? theme.mainTextColor : theme.cardColor,
             callback: () {
               _selectedCategory = 2;
-              bloc.add(const ShowDisposableProducts());
+              bloc.add(const ShowDisposableProductsEvent());
               setState(() {});
             },
             theme: theme,
@@ -130,11 +131,11 @@ class _CategorySelectorState extends State<_CategorySelector> {
         Expanded(
           flex: 3,
           child: MainRoundedButton(
-            text: "Snus",
+            text: Strings.snusButton,
             color: _selectedCategory == 3 ? theme.mainTextColor : theme.cardColor,
             callback: () {
               _selectedCategory = 3;
-              bloc.add(const ShowSnusProducts());
+              bloc.add(const ShowSnusProductsEvent());
               setState(() {});
             },
             theme: theme,

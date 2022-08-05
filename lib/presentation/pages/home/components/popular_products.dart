@@ -7,6 +7,7 @@ import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/bloc/products/products_state.dart';
 import 'package:kurilki/presentation/pages/home/components/popular_product_card.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
@@ -23,7 +24,6 @@ class _PopularProductsState extends State<PopularProducts> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final ProductsBloc bloc = BlocProvider.of(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -31,7 +31,7 @@ class _PopularProductsState extends State<PopularProducts> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Popular",
+            Strings.popular,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: theme.infoTextColor,
                   fontWeight: FontWeight.w500,
@@ -43,7 +43,7 @@ class _PopularProductsState extends State<PopularProducts> {
               if (state is ProductsLoadingState) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is ProductsLoadedState) {
-                final List<Item> items = state.items.reversed.toList();
+                final List<Item> items = state.popularItems.reversed.toList();
                 final List<PopularItem> popularItems = [];
                 for (var item in items) {
                   for (var itemSettings in item.itemSettings) {

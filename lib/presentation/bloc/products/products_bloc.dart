@@ -12,9 +12,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   ProductsBloc(this._remoteRepository) : super(const ProductsLoadingState()) {
     on<InitEvent>(_init);
-    on<ShowAllProducts>(_showProduct);
-    on<ShowDisposableProducts>(_showProduct);
-    on<ShowSnusProducts>(_showProduct);
+    on<ShowPageEvent>(_showPage);
+    on<ShowAllProductsEvent>(_showProduct);
+    on<ShowDisposableProductsEvent>(_showProduct);
+    on<ShowSnusProductsEvent>(_showProduct);
+    on<SearchProductEvent>(_searchProduct);
   }
 
   List<Item> productsList = [];
@@ -22,19 +24,35 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   void _init(InitEvent event, Emitter<ProductsState> emit) async {
     emit(const ProductsLoadingState());
     productsList = await _remoteRepository.loadAllItems();
-    emit(ProductsLoadedState(productsList));
+    emit(ProductsLoadedState(productsList, productsList));
+  }
+
+  void _showPage(ShowPageEvent event, Emitter<ProductsState> emit) {
+    emit(ProductsLoadedState(productsList, productsList));
   }
 
   void _showProduct(ProductsEvent event, Emitter<ProductsState> emit) {
-    if (event is ShowAllProducts) {
-      emit(ProductsLoadedState(productsList));
-    } else if (event is ShowDisposableProducts) {
+    if (event is ShowAllProductsEvent) {
+      emit(ProductsLoadedState(productsList, productsList));
+    } else if (event is ShowDisposableProductsEvent) {
       final List<DisposablePodEntity> list = productsList.whereType<DisposablePodEntity>().toList();
-      emit(ProductsLoadedState(list));
-    } else if (event is ShowSnusProducts) {
+      emit(ProductsLoadedState(list, productsList));
+    } else if (event is ShowSnusProductsEvent) {
       final List<Snus> list = productsList.whereType<Snus>().toList();
 
-      emit(ProductsLoadedState(list));
+      emit(ProductsLoadedState(list, productsList));
     }
+  }
+
+  void _searchProduct(SearchProductEvent event, Emitter<ProductsState> emit) {
+    final List<Item> foundItems = [];
+    for (var item in productsList) {
+      for (var element in item.tags) {
+        if (element.contains(event.request)) {
+          foundItems.add(item);
+        }
+      }
+    }
+    emit(SearchProductState(foundItems));
   }
 }

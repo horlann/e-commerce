@@ -220,7 +220,7 @@ class HomeRouter extends _i16.PageRouteInfo<void> {
 /// [_i7.DetailsScreen]
 class DetailsRouter extends _i16.PageRouteInfo<DetailsRouterArgs> {
   DetailsRouter(
-      {_i17.Key? key, required _i18.Item product, int itemConfiguration = 0})
+      {_i17.Key? key, required _i18.Item product, int itemConfiguration = -1})
       : super(DetailsRouter.name,
             path: 'details',
             args: DetailsRouterArgs(
@@ -233,7 +233,7 @@ class DetailsRouter extends _i16.PageRouteInfo<DetailsRouterArgs> {
 
 class DetailsRouterArgs {
   const DetailsRouterArgs(
-      {this.key, required this.product, this.itemConfiguration = 0});
+      {this.key, required this.product, this.itemConfiguration = -1});
 
   final _i17.Key? key;
 

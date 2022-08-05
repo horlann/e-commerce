@@ -36,8 +36,17 @@ abstract class Strings {
 
   static const String confirmButton = "Confirm";
   static const String backButton = "Back";
-  //cart const
 
+  //cart const
   static const String phoneNumber = "Phone number";
   static const String address = "Address";
+
+  //home const
+  static const String search = "Поиск";
+  static const String popular = "Популярное";
+  static const String allProducts = "Все товары";
+  static const String allButton = "Всё";
+  static const String podButton = "POD системы";
+  static const String snusButton = "Снюс";
+  static const String nothingFound = "Попробуйте другой запрос";
 }

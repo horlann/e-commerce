@@ -21,7 +21,7 @@ class DetailsScreen extends StatefulWidget {
   const DetailsScreen({
     Key? key,
     required this.product,
-    this.itemConfiguration = 0,
+    this.itemConfiguration = -1,
   }) : super(key: key);
 
   final Item product;
@@ -37,6 +37,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.itemConfiguration != -1) {
+      itemSettings = widget.product.itemSettings[widget.itemConfiguration];
+    }
   }
 
   @override
@@ -54,17 +57,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {
                 final int countInCart = cartBloc.countOfItemsInCart(widget.product.uuid);
-                return ElevatedButton(
-                  onPressed: () {
-                    if (itemSettings != null) {
-                      if (widget.product is DisposablePodEntity) {}
-                      cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor,
-                      shape: const StadiumBorder()),
-                  child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (itemSettings != null) {
+                        if (widget.product is DisposablePodEntity) {}
+                        cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor,
+                        shape: const StadiumBorder()),
+                    child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
+                  ),
                 );
               },
             ),
