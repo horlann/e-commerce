@@ -100,7 +100,6 @@ class ItemTableModel {
         imageLink: item.imageLink,
         tags: item.tags,
         isAvailable: item.isAvailable,
-    
         description: item.description,
         itemSettings: item.itemSettings.map((e) => ItemSettingsTableModel.fromEntity(e)).toList());
   }

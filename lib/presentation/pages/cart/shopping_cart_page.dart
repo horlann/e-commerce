@@ -17,7 +17,7 @@ class ShoppingCartPage extends StatelessWidget {
     AbstractTheme theme = Provider.of<ThemesBloc>(context).theme;
 
     return BlocConsumer<CartBloc, CartState>(
-       listener: (context, state) {
+      listener: (context, state) {
         if (state is OrderCreated) {
           CustomSnackBar.showSnackNar(context, 'Success!', 'Order Created');
         }

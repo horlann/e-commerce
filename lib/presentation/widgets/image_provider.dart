@@ -23,9 +23,13 @@ class CustomImageProvider extends StatelessWidget {
           child: Container(
             color: Colors.grey,
           )),
-      errorWidget: (context, url, error) => Icon(
-        Icons.error_outline,
-        color: theme.wrongColor,
+      errorWidget: (context, url, error) => Container(
+        color: theme.backgroundColor,
+        height: double.infinity,
+        child: Icon(
+          Icons.error_outline,
+          color: theme.wrongColor,
+        ),
       ),
     );
   }

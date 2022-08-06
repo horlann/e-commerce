@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +12,7 @@ import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/bloc/details/details_bloc.dart';
 import 'package:kurilki/presentation/bloc/details/details_event.dart';
 import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -62,13 +62,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (itemSettings != null) {
-                        if (widget.product is DisposablePodEntity) {}
                         cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor,
-                        shape: const StadiumBorder()),
+                    //TODO:add to item settings check
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor),
+                    ),
                     child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
                   ),
                 );
@@ -92,11 +93,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CachedNetworkImage(
-                imageUrl: itemSettings?.imageLink ?? widget.product.imageLink,
-                height: MediaQuery.of(context).size.height * 0.4,
+              SizedBox(
+                height: adaptiveHeight(300),
                 width: double.infinity,
-                fit: BoxFit.cover,
+                child: CustomImageProvider(
+                  imageFrom: ImageFrom.network,
+                  imageLink: itemSettings?.imageLink ?? widget.product.imageLink,
+                ),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),

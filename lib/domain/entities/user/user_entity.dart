@@ -38,7 +38,7 @@ class UserEntity {
         authId: model.authId,
         name: model.name,
         imageLink: model.imageLink,
-        deliveryDetails:DeliveryDetails.fromTableModel(model.deliveryDetails),
+        deliveryDetails: DeliveryDetails.fromTableModel(model.deliveryDetails),
       );
 
   @override

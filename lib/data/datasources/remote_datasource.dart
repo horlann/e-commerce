@@ -225,6 +225,7 @@ class RemoteDataSource {
             cartItems.add(CartItemTableModel(
                 item: productsList[i],
                 count: tableModel.items[i].count,
+                //TODO: below
                 itemSettings: const AbstractItemsSettingsTableModel(type: ItemSettingsType.empty, name: 'empty')));
           }
 

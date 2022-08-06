@@ -5,6 +5,7 @@ import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/data/models/order/delivery_details_table_model.dart';
 import 'package:kurilki/data/models/order/user_details_table_model.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
+
 import 'price_details_table_model.dart';
 
 part 'order_table_model.g.dart';
@@ -56,7 +57,7 @@ class OrderTableModel {
     required this.createdAt,
     required this.orderStatus,
   });
-  
+
   OrderTableModel copyWith({
     String? uuid,
     UserDetailsTableModel? user,

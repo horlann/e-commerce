@@ -6,6 +6,7 @@ import 'package:kurilki/domain/entities/items/popular_item.dart';
 import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/bloc/products/products_state.dart';
 import 'package:kurilki/presentation/pages/home/components/popular_product_card.dart';
+
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';

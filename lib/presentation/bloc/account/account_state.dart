@@ -10,9 +10,11 @@ class AccountState {
   AccountState unauthorized() {
     return const UnauthorizedState();
   }
+
   AccountState inProgress() {
     return const InProgressAuthState();
   }
+
   AccountState failure() {
     return const AuthorizationFailureState();
   }
