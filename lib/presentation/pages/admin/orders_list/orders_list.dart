@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
+import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_state.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_bloc.dart';
 
 class OrdersList extends StatelessWidget {
   const OrdersList({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class OrdersList extends StatelessWidget {
           "Заказы",
           style: TextStyle(color: theme.mainTextColor),
         ),
-        foregroundColor: theme.accentColor,
+        foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: BlocBuilder<AdminOrdersBloc, AdminOrdersState>(

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:kurilki/data/repositories/local_repository.dart';
-import 'package:kurilki/data/repositories/remote_repository.dart';
+import 'package:kurilki/data/repositories/ordering/ordering_remote_repository.dart';
+import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
@@ -11,10 +12,12 @@ import 'cart_event.dart';
 import 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final RemoteRepository _remoteRepository;
+  final OrderingRemoteRepository _orderingRemoteRepository;
+  final UserRemoteRepository _userRemoteRepository;
   final LocalRepository _localRepository;
 
-  CartBloc(this._remoteRepository, this._localRepository) : super(const CartState().inProgress()) {
+  CartBloc(this._localRepository, this._orderingRemoteRepository, this._userRemoteRepository)
+      : super(const CartState().inProgress()) {
     on<InitCartEvent>(_init);
     on<AddToCartEvent>(_addToCart);
     on<RemoveFromCartEvent>(_removeFromCartEvent);
@@ -45,8 +48,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _addToCart(AddToCartEvent event, Emitter<CartState> emit) async {
-    print(event.itemSettings.runtimeType);
-
     if (countOfItemsInCart(event.item.uuid) > 0) {
       final int index = cartItems.indexWhere((element) => element.item.uuid == event.item.uuid);
       cartItems.insert(index + 1, cartItems[index].copyWith(count: countOfItemsInCart(event.item.uuid) + 1));
@@ -55,6 +56,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       cartItems.add(CartItem(item: event.item, count: 1, itemSettings: event.itemSettings));
     }
     emit(state.cartLoadedState(cartItems));
+    print(cartItems);
     _localRepository.cacheCart(cartItems);
   }
 
@@ -67,7 +69,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _loadData(LoadDataEvent event, Emitter<CartState> emit) async {
     emit(state.inProgress());
     try {
-      UserEntity user = await _remoteRepository.getAccountEntity();
+      UserEntity user = await _userRemoteRepository.getAccountEntity();
       emit(state.userDataLoaded(user));
     } catch (e) {
       emit(state.userDataLoaded(null));
@@ -84,7 +86,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       deliveryType = DeliveryType.undefined;
     }
 
-    await _remoteRepository.createOrder(
+    await _orderingRemoteRepository.createOrder(
       name: event.name,
       items: cartItems,
       address: event.address,
@@ -92,19 +94,18 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       payType: event.payType,
       phone: event.phone,
     );
-
+    //TODO:блок корзины не должен отвечаьб за пользователя
     try {
-      UserEntity userEntity = await _remoteRepository.getAccountEntity();
+      UserEntity userEntity = await _userRemoteRepository.getAccountEntity();
       userEntity = userEntity.copyWith(
           deliveryDetails: DeliveryDetails(
               deliveryType: deliveryType, address: event.address, name: event.name, phone: event.phone));
-      await _remoteRepository.setAccountEntity(userEntity);
+      await _userRemoteRepository.setAccountEntity(userEntity);
     } catch (e) {
       logger.e(e);
     }
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));
-    add(const InitCartEvent());
   }
 }

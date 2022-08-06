@@ -53,7 +53,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(29),
+        borderRadius: BorderRadius.circular(32),
       ),
       child: TextFormField(
         initialValue: widget.initialValue,

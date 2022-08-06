@@ -6,6 +6,7 @@ import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -19,67 +20,73 @@ class FilledCartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     final List<CartItem> cartItems = cartBloc.cartItems;
-
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.separated(
-            itemCount: cartItems.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Slidable(
-                key: ValueKey(index),
-                child: CartProductCard(
-                  cartItem: cartItems[index],
-                ),
-                startActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) {},
-                      backgroundColor: const Color(0xFF21B7CA),
-                      foregroundColor: Colors.white,
-                      icon: Icons.monitor_heart,
-                      label: 'add_to_favorite',
+    return BlocBuilder<CartBloc, CartState>(
+      buildWhen: (previous, current) {
+        return current is CartLoadedState;
+      },
+      builder: (context, state) {
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                itemCount: cartItems.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Slidable(
+                    key: ValueKey(index),
+                    child: CartProductCard(
+                      cartItem: cartItems[index],
                     ),
-                  ],
-                ),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      // An action can be bigger than the others.
-                      onPressed: (context) {
-                        cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
-                      },
-                      backgroundColor: const Color(0xFF7BC043),
-                      foregroundColor: Colors.white,
-                      icon: Icons.remove,
-                      label: 'Remove',
+                    startActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) {},
+                          backgroundColor: const Color(0xFF21B7CA),
+                          foregroundColor: Colors.white,
+                          icon: Icons.monitor_heart,
+                          label: 'add_to_favorite',
+                        ),
+                      ],
                     ),
-                    SlidableAction(
-                      onPressed: (context) {},
-                      backgroundColor: const Color(0xFF0392CF),
-                      foregroundColor: Colors.white,
-                      icon: Icons.save,
-                      label: 'Save',
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          // An action can be bigger than the others.
+                          onPressed: (context) {
+                            cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
+                          },
+                          backgroundColor: const Color(0xFF7BC043),
+                          foregroundColor: Colors.white,
+                          icon: Icons.remove,
+                          label: 'Remove',
+                        ),
+                        SlidableAction(
+                          onPressed: (context) {},
+                          backgroundColor: const Color(0xFF0392CF),
+                          foregroundColor: Colors.white,
+                          icon: Icons.save,
+                          label: 'Save',
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: 16);
-            },
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        _FilledCartPage(
-          cartItems: cartItems,
-        ),
-      ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(height: 16);
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            _FilledCartPage(
+              cartItems: cartItems,
+            ),
+          ],
+        );
+      },
     );
   }
 }

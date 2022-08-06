@@ -9,4 +9,6 @@ class CustomIcons {
   static const String newItem = 'assets/icons/item.svg';
   static const String newCategory = 'assets/icons/category.svg';
   static const String redactItem = 'assets/icons/redact.svg';
+
+  static const String logo = 'assets/images/logo.png';
 }

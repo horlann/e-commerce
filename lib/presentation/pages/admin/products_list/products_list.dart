@@ -18,10 +18,10 @@ class ProductsListPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Список продуктов",
+          "Товары",
           style: TextStyle(color: theme.mainTextColor),
         ),
-        foregroundColor: theme.accentColor,
+        foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: Container(

@@ -35,7 +35,7 @@ class _AdminScreenState extends State<AdminScreen> {
           CreateCategoryRouter(),
           OrdersListRouter(),
         ],
-        lazyLoad: true,
+        lazyLoad: false,
         builder: (context, child, animation) {
           return Scaffold(
             body: child,

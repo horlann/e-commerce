@@ -20,7 +20,7 @@ class CreateItem extends StatelessWidget {
           "Cоздать продукт",
           style: TextStyle(color: theme.mainTextColor),
         ),
-        foregroundColor: theme.accentColor,
+        foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: BlocBuilder<AdminCategoryBloc, AdminCategoryState>(
