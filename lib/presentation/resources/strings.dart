@@ -40,6 +40,9 @@ abstract class Strings {
   //cart const
   static const String phoneNumber = "Phone number";
   static const String address = "Address";
+  static const String removeButton = "Удалить";
+  static const String checkOutButton = "Подтвердить";
+  static const String total = "Итого";
 
   //home const
   static const String search = "Поиск";

@@ -7,6 +7,8 @@ import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -19,68 +21,71 @@ class FilledCartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final List<CartItem> cartItems = cartBloc.cartItems;
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.separated(
-            itemCount: cartItems.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Slidable(
-                key: ValueKey(index),
-                child: CartProductCard(
-                  cartItem: cartItems[index],
-                ),
-                startActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) {},
-                      backgroundColor: const Color(0xFF21B7CA),
-                      foregroundColor: Colors.white,
-                      icon: Icons.monitor_heart,
-                      label: 'add_to_favorite',
+    return Container(
+      color: theme.backgroundColor,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              itemCount: cartItems.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.all(adaptiveWidth(16.0)),
+                  child: Slidable(
+                    key: ValueKey(index),
+                    child: CartProductCard(
+                      cartItem: cartItems[index],
                     ),
-                  ],
-                ),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      // An action can be bigger than the others.
-                      onPressed: (context) {
-                        cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
-                      },
-                      backgroundColor: const Color(0xFF7BC043),
-                      foregroundColor: Colors.white,
-                      icon: Icons.remove,
-                      label: 'Remove',
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [theme.appShadows.largeShadow],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              child: Material(
+                                color: theme.cardColor,
+                                child: InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: adaptiveHeight(120),
+                                    width: adaptiveWidth(100),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: theme.mainTextColor, width: 1),
+                                        borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                    child: Center(
+                                      child: Text(
+                                        Strings.removeButton,
+                                        style: theme.fontStyles.semiBold14.copyWith(color: theme.mainTextColor),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SlidableAction(
-                      onPressed: (context) {},
-                      backgroundColor: const Color(0xFF0392CF),
-                      foregroundColor: Colors.white,
-                      icon: Icons.save,
-                      label: 'Save',
-                    ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: 16);
-            },
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(height: adaptiveHeight(16));
+              },
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        _FilledCartPage(
-          cartItems: cartItems,
-        ),
-      ],
+          _FilledCartPage(cartItems: cartItems),
+        ],
+      ),
     );
   }
 }
@@ -104,42 +109,48 @@ class _FilledCartPageState extends State<_FilledCartPage> {
     for (var element in widget.cartItems) {
       totalPrice += element.count * element.item.price;
     }
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(24)),
-            color: theme.backgroundColor,
-          ),
-          child: Column(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: adaptiveWidth(16)),
+      child: Column(
+        children: [
+          Row(
             children: [
-              const SizedBox(height: 5),
               Text(
-                "Total: ${totalPrice.toStringAsFixed(0)}\$",
-                style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+                Strings.total,
+                style: theme.fontStyles.regular18.copyWith(color: theme.inactiveTextColor),
               ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: MainRoundedButton(
-                  callback: () {
-                    bloc.add(const LoadDataEvent());
-                    AutoRouter.of(context).push(const OrderConfirmationRouter());
-                  },
-                  textStyle: TextStyle(color: theme.infoTextColor, fontSize: 17, fontWeight: FontWeight.w500),
-                  color: theme.accentColor,
-                  text: 'Check Out',
-                  paddingVert: 14,
-                  round: 24,
-                  theme: theme,
+              SizedBox(width: adaptiveWidth(5)),
+              Expanded(
+                  child: SizedBox(
+                child: Divider(
+                  color: theme.inactiveTextColor,
+                  thickness: adaptiveHeight(0.4),
+                  height: adaptiveHeight(10),
                 ),
+              )),
+              SizedBox(width: adaptiveWidth(5)),
+              Text(
+                "\$${totalPrice.toStringAsFixed(0)}",
+                style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 10),
-      ],
+          SizedBox(height: adaptiveHeight(10)),
+          MainRoundedButton(
+            callback: () {
+              bloc.add(const LoadDataEvent());
+              AutoRouter.of(context).push(const OrderConfirmationRouter());
+            },
+            textStyle: TextStyle(color: theme.whiteTextColor, fontSize: 17, fontWeight: FontWeight.w500),
+            color: theme.infoTextColor,
+            text: Strings.checkOutButton,
+            paddingVert: 14,
+            round: 24,
+            theme: theme,
+          ),
+          SizedBox(height: adaptiveHeight(10)),
+        ],
+      ),
     );
   }
 }

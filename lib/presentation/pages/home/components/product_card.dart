@@ -38,8 +38,7 @@ class ProductCard extends StatelessWidget {
             Expanded(
               flex: 3,
               child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(9.0), bottomLeft: Radius.circular(9.0)),
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.green,
@@ -68,14 +67,14 @@ class ProductCard extends StatelessWidget {
                               minFontSize: 14,
                               maxFontSize: 16,
                               overflow: TextOverflow.ellipsis,
-                              style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                             ),
                           ],
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
                           "\₴${product.price.toStringAsFixed(0)}",
-                          style: theme.fontStyles.semiBold16.copyWith(color: theme.infoTextColor),
+                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
