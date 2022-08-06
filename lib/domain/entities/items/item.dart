@@ -42,7 +42,6 @@ abstract class Item {
     required this.isAvailable,
     required this.itemSettings,
     required this.description,
-
   }) : uuid = uuid ?? const Uuid().v4();
 
   factory Item.fromTableModel(ItemTableModel item) {
@@ -57,7 +56,6 @@ abstract class Item {
           imageLink: item.imageLink,
           tags: item.tags,
           isAvailable: item.isAvailable,
-
           description: item.description,
           itemSettings: item.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList(),
           puffsCount: (item as DisposablePodTableModel).puffsCount);
@@ -72,7 +70,6 @@ abstract class Item {
           imageLink: item.imageLink,
           tags: item.tags,
           isAvailable: item.isAvailable,
-        
           description: item.description,
           itemSettings: item.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList(),
           strength: (item as SnusTableModel).strength);

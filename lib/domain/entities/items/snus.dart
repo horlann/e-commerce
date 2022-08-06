@@ -16,11 +16,11 @@ class Snus extends Item {
     required super.tags,
     required super.itemSettings,
     required this.strength,
- 
     required super.description,
   });
 
   final int strength;
+
   factory Snus.fromTableModel(SnusTableModel model) => Snus(
       uuid: model.uuid,
       id: model.id,
@@ -33,7 +33,6 @@ class Snus extends Item {
       tags: model.tags,
       strength: model.strength,
       description: model.description,
-
       itemSettings: model.itemSettings.map((e) => ItemSettings.fromTableModel(e)).toList());
 
   Snus copyWith({
@@ -63,7 +62,6 @@ class Snus extends Item {
       tags: tags ?? this.tags,
       uuid: uuid ?? this.uuid,
       itemSettings: itemSettings ?? this.itemSettings,
-
       description: description ?? this.description,
     );
   }

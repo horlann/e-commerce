@@ -31,10 +31,11 @@ class PopularProductCard extends StatelessWidget {
       },
       child: Container(
         height: adaptiveHeight(110),
-        width: adaptiveWidth(300),
+        width: adaptiveWidth(220),
         decoration: BoxDecoration(
             color: theme.cardColor,
-            border: Border.all(color: theme.mainTextColor, width: 0.5),
+            border: Border.all(color: theme.mainTextColor, width: 1),
+            boxShadow: [theme.appShadows.largeShadow],
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,10 +46,11 @@ class PopularProductCard extends StatelessWidget {
                 borderRadius:
                     const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
                 child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
                   decoration: const BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  ),
+                      //borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
                   child: CustomImageProvider(imageLink: itemSettings.imageLink, imageFrom: ImageFrom.network),
                 ),
               ),
@@ -56,35 +58,34 @@ class PopularProductCard extends StatelessWidget {
             SizedBox(height: adaptiveWidth(10)),
             Expanded(
               flex: 5,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(adaptiveWidth(8)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: adaptiveHeight(10)),
-                        Row(
-                          children: [
-                            AutoSizeText(
-                              itemSettings.name,
-                              maxLines: 2,
-                              minFontSize: 14,
-                              maxFontSize: 16,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: adaptiveHeight(10)),
-                        Text(
-                          "\₴${item.price.toStringAsFixed(0)}",
-                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
-                        ),
-                      ],
+              child: Padding(
+                padding: EdgeInsets.all(adaptiveWidth(8)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: AutoSizeText(
+                        itemSettings.name,
+                        maxLines: 2,
+                        minFontSize: 15,
+                        maxFontSize: 18,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                      ),
                     ),
-                  ),
-                ],
+                    Divider(
+                      color: theme.mainTextColor,
+                      thickness: adaptiveHeight(0.6),
+                      height: adaptiveHeight(10),
+                    ),
+                    Text(
+                      "\₴${item.price.toStringAsFixed(0)}",
+                      style: theme.fontStyles.semiBold16.copyWith(color: theme.infoTextColor),
+                    ),
+                  ],
+                ),
               ),
             )
           ],

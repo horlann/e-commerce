@@ -50,7 +50,7 @@ class _AllProductsState extends State<AllProducts> {
                         items.length,
                         (index) {
                           return Padding(
-                            padding: EdgeInsets.only(bottom: adaptiveWidth(4)),
+                            padding: EdgeInsets.only(bottom: adaptiveHeight(12)),
                             child: ProductCard(
                               product: items[index],
                             ),
@@ -93,6 +93,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
           flex: 2,
           child: MainRoundedButton(
             text: Strings.allButton,
+            border: Border.all(color: theme.mainTextColor, width: 2),
             color: _selectedCategory == 1 ? theme.mainTextColor : theme.cardColor,
             callback: () {
               _selectedCategory = 1;
@@ -110,6 +111,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
           flex: 3,
           child: MainRoundedButton(
             text: Strings.podButton,
+            border: Border.all(color: theme.mainTextColor, width: 2),
             color: _selectedCategory == 2 ? theme.mainTextColor : theme.cardColor,
             callback: () {
               _selectedCategory = 2;
@@ -127,6 +129,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
           flex: 3,
           child: MainRoundedButton(
             text: Strings.snusButton,
+            border: Border.all(color: theme.mainTextColor, width: 2),
             color: _selectedCategory == 3 ? theme.mainTextColor : theme.cardColor,
             callback: () {
               _selectedCategory = 3;

@@ -11,10 +11,16 @@ class AbstractItemSettings {
     required this.type,
   });
 
-  factory AbstractItemSettings.fromTableModel(AbstractItemsSettingsTableModel model) => AbstractItemSettings(
+  factory AbstractItemSettings.fromTableModel(AbstractItemsSettingsTableModel model) {
+    if (model.type == ItemSettingsType.filled) {
+      return ItemSettings.fromTableModel(model as ItemSettingsTableModel);
+    } else {
+      return NoItemSettings(
         name: model.name,
         type: model.type,
       );
+    }
+  }
 }
 
 class ItemSettings extends AbstractItemSettings {

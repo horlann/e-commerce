@@ -25,11 +25,12 @@ class ProductCard extends StatelessWidget {
         AutoRouter.of(context).push(DetailsRouter(product: product));
       },
       child: Container(
-        height: adaptiveHeight(110),
+        height: adaptiveHeight(120),
         width: adaptiveWidth(400),
         decoration: BoxDecoration(
             color: theme.cardColor,
-            border: Border.all(color: theme.mainTextColor, width: 0.5),
+            border: Border.all(color: theme.mainTextColor, width: 1),
+            boxShadow: [theme.appShadows.largeShadow],
             borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,14 +68,14 @@ class ProductCard extends StatelessWidget {
                               minFontSize: 14,
                               maxFontSize: 16,
                               overflow: TextOverflow.ellipsis,
-                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                              style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
                             ),
                           ],
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
                           "\₴${product.price.toStringAsFixed(0)}",
-                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                          style: theme.fontStyles.semiBold16.copyWith(color: theme.infoTextColor),
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(

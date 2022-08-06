@@ -20,7 +20,6 @@ class SnusTableModel extends ItemTableModel {
       required super.tags,
       required super.isAvailable,
       required super.itemSettings,
-
       required super.description,
       required this.strength});
 
