@@ -55,19 +55,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
           actions: [
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {
-                final int countInCart = cartBloc.countOfItemsInCart(widget.product.uuid);
+                final int countInCart = cartBloc.countOfItemsInCart(widget.product.uuid, itemSettings);
+                final bool isPicked = itemSettings != null || widget.product.itemSettings.isEmpty;
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (itemSettings != null) {
-                        cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
+                      if (isPicked) {
+                        cartBloc.add(AddToCartEvent(widget.product, countInCart + 1,
+                            itemSettings ?? NoItemSettings(name: 'empty', type: ItemSettingsType.empty)));
                       }
                     },
                     //TODO:add to item settings check
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor),
+                      backgroundColor:
+                          MaterialStateProperty.all(isPicked ? theme.secondaryAccentColor : theme.inactiveColor),
                     ),
                     child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
                   ),

@@ -15,6 +15,7 @@ class RoundedInputField extends StatefulWidget {
   final int maxLength;
   final int maxLines;
   final TextInputType inputType;
+  final Border? border;
   final String? Function(String? value) validation;
 
   const RoundedInputField({
@@ -30,6 +31,7 @@ class RoundedInputField extends StatefulWidget {
     this.suffixIcon,
     required this.validation,
     this.initialValue,
+    this.border,
   }) : super(key: key);
 
   @override
@@ -53,6 +55,7 @@ class _RoundedInputFieldState extends State<RoundedInputField> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       decoration: BoxDecoration(
         color: theme.cardColor,
+        border: widget.border,
         borderRadius: BorderRadius.circular(32),
       ),
       child: TextFormField(

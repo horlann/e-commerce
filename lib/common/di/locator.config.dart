@@ -14,7 +14,8 @@ import '../../data/datasources/remote_datasource.dart' as _i7;
 import '../../data/datasources/shards_datasource.dart' as _i12;
 import '../../data/repositories/admin/remote_admin_repositiory.dart' as _i15;
 import '../../data/repositories/local_repository.dart' as _i13;
-import '../../data/repositories/ordering/ordering_remote_repository.dart' as _i14;
+import '../../data/repositories/ordering/ordering_remote_repository.dart'
+as _i14;
 import '../../data/repositories/remote_repository.dart' as _i8;
 import '../../data/repositories/user/user_remote_repository.dart' as _i10;
 import '../../presentation/bloc/account/account_bloc.dart' as _i11;

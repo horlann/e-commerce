@@ -35,4 +35,4 @@ class DeliveryDetails {
       );
 }
 
-enum DeliveryType { pickUp, deliveryNovaPost, undefined }
+enum DeliveryType { pickUp, delivery, undefined }
