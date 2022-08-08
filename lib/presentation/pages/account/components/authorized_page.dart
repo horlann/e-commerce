@@ -69,7 +69,6 @@ class AuthorizedPage extends StatelessWidget {
               },
             ),
           ),
-          const SocialNetworks(),
         ],
       ),
     );

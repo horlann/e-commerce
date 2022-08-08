@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
+import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
@@ -16,13 +18,13 @@ import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'cart_product_card.dart';
 
 class FilledCartPage extends StatelessWidget {
-  const FilledCartPage({Key? key, required}) : super(key: key);
+  const FilledCartPage({Key? key, required this.cartItems}) : super(key: key);
+  final List<CartItem> cartItems;
 
   @override
   Widget build(BuildContext context) {
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final List<CartItem> cartItems = cartBloc.cartItems;
 
     return Container(
       color: theme.backgroundColor,
@@ -39,6 +41,7 @@ class FilledCartPage extends StatelessWidget {
                     key: ValueKey(index),
                     child: CartProductCard(
                       cartItem: cartItems[index],
+                      index: index,
                     ),
                     endActionPane: ActionPane(
                       motion: const ScrollMotion(),
@@ -54,7 +57,9 @@ class FilledCartPage extends StatelessWidget {
                               child: Material(
                                 color: theme.cardColor,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
+                                  },
                                   child: Container(
                                     height: adaptiveHeight(120),
                                     width: adaptiveWidth(100),
@@ -90,23 +95,17 @@ class FilledCartPage extends StatelessWidget {
   }
 }
 
-class _FilledCartPage extends StatefulWidget {
+class _FilledCartPage extends StatelessWidget {
   const _FilledCartPage({Key? key, required this.cartItems}) : super(key: key);
   final List<CartItem> cartItems;
 
   @override
-  State<_FilledCartPage> createState() => _FilledCartPageState();
-}
-
-class _FilledCartPageState extends State<_FilledCartPage> {
-  double totalPrice = 0;
-
-  @override
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final bloc = BlocProvider.of<CartBloc>(context);
+    final AccountBloc bloc = BlocProvider.of<AccountBloc>(context);
 
-    for (var element in widget.cartItems) {
+    double totalPrice = 0;
+    for (var element in cartItems) {
       totalPrice += element.count * element.item.price;
     }
     return Padding(

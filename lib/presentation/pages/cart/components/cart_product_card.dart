@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -11,10 +13,12 @@ import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class CartProductCard extends StatelessWidget {
   final CartItem cartItem;
+  final int index;
 
   const CartProductCard({
     Key? key,
     required this.cartItem,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -83,6 +87,7 @@ class CartProductCard extends StatelessWidget {
                           _RoundButton(
                             cartItem: cartItem,
                             type: "+",
+                            index: index,
                           ),
                           SizedBox(
                             width: adaptiveWidth(5),
@@ -97,6 +102,7 @@ class CartProductCard extends StatelessWidget {
                           _RoundButton(
                             cartItem: cartItem,
                             type: "-",
+                            index: index,
                           ),
                         ],
                       ),
@@ -113,13 +119,15 @@ class CartProductCard extends StatelessWidget {
 }
 
 class _RoundButton extends StatelessWidget {
-  const _RoundButton({Key? key, required this.cartItem, required this.type}) : super(key: key);
+  const _RoundButton({Key? key, required this.cartItem, required this.type, required this.index}) : super(key: key);
   final CartItem cartItem;
   final String type;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final CartBloc bloc = BlocProvider.of<CartBloc>(context);
 
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(25)),
@@ -130,9 +138,17 @@ class _RoundButton extends StatelessWidget {
             if (cartItem.itemSettings is ItemSettings) {
               final int totalAvailable = (cartItem.itemSettings as ItemSettings).count;
 
-              if (type == "+" && totalAvailable >= cartItem.count) {
-                //TODO change count of items in cart (bloc)
-              } else if (type == "-") {}
+              if (type == "+" && totalAvailable > cartItem.count) {
+                bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count + 1), index));
+              } else if (type == "-" && cartItem.count > 1) {
+                bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count - 1), index));
+              }
+            } else if (cartItem.itemSettings is NoItemSettings) {
+              if (type == "+") {
+                bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count + 1), index));
+              } else if (type == "-" && cartItem.count > 1) {
+                bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count - 1), index));
+              }
             }
           },
           child: Container(

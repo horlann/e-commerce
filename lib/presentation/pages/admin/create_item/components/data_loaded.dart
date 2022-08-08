@@ -48,6 +48,7 @@ class _DataLoadedState extends State<DataLoaded> {
                 children: [
                   SizedBox(height: adaptiveHeight(10)),
                   RoundedInputField(
+                    icon: Icons.title,
                     hint: Strings.nameItem,
                     callback: (String callback) => _name = callback,
                     validation: ValidationBuilder()
@@ -57,6 +58,7 @@ class _DataLoadedState extends State<DataLoaded> {
                   ),
                   SizedBox(height: adaptiveHeight(10)),
                   RoundedInputField(
+                    icon: Icons.attach_money_rounded,
                     hint: Strings.priceItem,
                     callback: (String callback) => _price = double.tryParse(callback) ?? 0,
                     inputType: TextInputType.number,
@@ -106,7 +108,7 @@ class _DataLoadedState extends State<DataLoaded> {
                   ),
                   SizedBox(height: adaptiveHeight(10)),
                   MainRoundedButton(
-                    text: "Create item",
+                    text: Strings.createButton,
                     color: theme.accentColor,
                     textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                     callback: () {

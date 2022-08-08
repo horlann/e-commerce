@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -37,14 +38,14 @@ class ItemCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AutoSizeText(
-                    "Name: ${item.name}",
+                    "${Strings.nameItem}: ${item.name}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.fontStyles.semiBold16,
                   ),
                   const SizedBox(height: 2),
                   AutoSizeText(
-                    "Price: ${item.price.toStringAsFixed(0)}",
+                    "${Strings.priceItem}: ${item.price.toStringAsFixed(0)}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: theme.mainTextColor, fontSize: 15),

@@ -12,15 +12,8 @@ import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
-class PopularProducts extends StatefulWidget {
+class PopularProducts extends StatelessWidget {
   const PopularProducts({Key? key}) : super(key: key);
-
-  @override
-  State<PopularProducts> createState() => _PopularProductsState();
-}
-
-class _PopularProductsState extends State<PopularProducts> {
-  bool isPopularExpanded = false;
 
   @override
   Widget build(BuildContext context) {

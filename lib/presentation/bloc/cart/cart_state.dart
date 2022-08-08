@@ -27,10 +27,6 @@ class CartState {
   CartState configureOrder() {
     return const ConfigureOrderState();
   }
-
-  CartState userDataLoaded(UserEntity? user) {
-    return UserDataLoaded(user);
-  }
 }
 
 class InProgressCartState extends CartState {
@@ -53,10 +49,4 @@ class OrderCreated extends CartState {
 
 class ConfigureOrderState extends CartState {
   const ConfigureOrderState();
-}
-
-class UserDataLoaded extends CartState {
-  const UserDataLoaded(this.user);
-
-  final UserEntity? user;
 }

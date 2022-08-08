@@ -17,9 +17,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc(this._remoteRepository, this._localRepository) : super(const CartState().inProgress()) {
     on<InitCartEvent>(_init);
     on<AddToCartEvent>(_addToCart);
+    on<ChangeItemCountEvent>(_changeItemCount);
     on<RemoveFromCartEvent>(_removeFromCartEvent);
     on<ConfirmOrderEvent>(_confirm);
-    on<LoadDataEvent>(_loadData);
   }
 
   List<CartItem> cartItems = [];
@@ -58,50 +58,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _localRepository.cacheCart(cartItems);
   }
 
+  Future<void> _changeItemCount(ChangeItemCountEvent event, Emitter<CartState> emit) async {
+    cartItems[event.index] = event.cartItem;
+    _localRepository.cacheCart(cartItems);
+    emit(CartLoadedState(cartItems));
+  }
+
   Future<void> _removeFromCartEvent(RemoveFromCartEvent event, Emitter<CartState> emit) async {
     final int index = cartItems.indexWhere((element) => element.item.uuid == event.item.uuid);
     cartItems.removeAt(index);
     emit(state.cartLoadedState(cartItems));
   }
 
-  Future<void> _loadData(LoadDataEvent event, Emitter<CartState> emit) async {
-    emit(state.inProgress());
-    try {
-      UserEntity user = await _remoteRepository.getAccountEntity();
-      emit(state.userDataLoaded(user));
-    } catch (e) {
-      emit(state.userDataLoaded(null));
-    }
-  }
-
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
-    DeliveryType deliveryType;
-    if (event.deliveryType == Strings.pickUp) {
-      deliveryType = DeliveryType.pickUp;
-    } else if (event.deliveryType == Strings.deliveryNova) {
-      deliveryType = DeliveryType.deliveryNovaPost;
-    } else {
-      deliveryType = DeliveryType.undefined;
-    }
-
     await _remoteRepository.createOrder(
-      name: event.name,
+      name: event.userData.name,
       items: cartItems,
-      address: event.address,
-      deliveryType: deliveryType,
-      payType: event.payType,
-      phone: event.phone,
+      address: event.userData.address,
+      deliveryType: event.userData.deliveryType,
+      payType: event.userData.payType,
+      phone: event.userData.phone,
     );
 
-    try {
-      UserEntity userEntity = await _remoteRepository.getAccountEntity();
-      userEntity = userEntity.copyWith(
-          deliveryDetails: DeliveryDetails(
-              deliveryType: deliveryType, address: event.address, name: event.name, phone: event.phone));
-      await _remoteRepository.setAccountEntity(userEntity);
-    } catch (e) {
-      logger.e(e);
-    }
     cartItems.clear();
     emit(state.orderCreated());
     emit(state.cartLoadedState(cartItems));

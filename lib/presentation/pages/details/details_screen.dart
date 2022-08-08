@@ -13,6 +13,7 @@ import 'package:kurilki/presentation/bloc/details/details_bloc.dart';
 import 'package:kurilki/presentation/bloc/details/details_event.dart';
 import 'package:kurilki/presentation/bloc/products/products_bloc.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -70,7 +71,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       backgroundColor: MaterialStateProperty.all(
                           itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor),
                     ),
-                    child: Text(countInCart == 0 ? "Add to Cart" : countInCart.toString()),
+                    child: Text(countInCart == 0 ? Strings.addToCartButton : countInCart.toString()),
                   ),
                 );
               },
@@ -131,20 +132,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 8),
                     widget.product is DisposablePodEntity
                         ? Text(
-                            "Puffs ${(widget.product as DisposablePodEntity).puffsCount}",
+                            "${Strings.puffs} ${(widget.product as DisposablePodEntity).puffsCount}",
                             style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                           )
                         : const SizedBox.shrink(),
                     widget.product is Snus
                         ? Text(
-                            "Strenght ${(widget.product as Snus).strength}",
+                            "${Strings.strength} ${(widget.product as Snus).strength}",
                             style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                           )
                         : const SizedBox.shrink(),
                     const SizedBox(height: 12),
                     itemSettings != null
                         ? Text(
-                            "Taste: ${itemSettings!.name}",
+                            "${Strings.taste}: ${itemSettings!.name}",
                             style: TextStyle(color: theme.infoTextColor, fontWeight: FontWeight.w600, fontSize: 16),
                           )
                         : const SizedBox.shrink(),

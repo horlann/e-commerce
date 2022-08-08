@@ -80,7 +80,7 @@ class _EditItemState extends State<EditItem> {
                       .maxLength(30, Strings.max30Characters)
                       .build(),
                 ),
-                const _Divider("Image link: ", textSize: 16),
+                const _Divider(Strings.imageLinkItem + ":", textSize: 16),
                 RoundedInputField(
                   hint: item!.imageLink,
                   maxLength: 120,
@@ -168,7 +168,7 @@ class _EditItemState extends State<EditItem> {
                                         .maxLength(30, Strings.max30Characters)
                                         .build(),
                                   ),
-                                  const _Divider("Image link: "),
+                                  const _Divider(Strings.imageLinkItem + ":"),
                                   RoundedInputField(
                                     hint: itemsSettings[index].imageLink,
                                     maxLength: 120,
@@ -261,7 +261,7 @@ class _EditItemState extends State<EditItem> {
                           }),
                         ),
                       MainRoundedButton(
-                          text: "Add configuration",
+                          text: Strings.addConfigurationButton,
                           color: theme.accentColor,
                           textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                           callback: () {
@@ -315,7 +315,7 @@ class _EditItemState extends State<EditItem> {
                     ],
                   ),
                 MainRoundedButton(
-                  text: "Update item",
+                  text: Strings.updateItemButton,
                   color: theme.accentColor,
                   textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                   callback: () {

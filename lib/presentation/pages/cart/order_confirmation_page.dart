@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/order/user_data.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
+import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/presentation/bloc/account/account_event.dart';
+import 'package:kurilki/presentation/bloc/account/account_state.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
@@ -19,7 +24,7 @@ class OrderConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartBloc, CartState>(
+    return BlocBuilder<AccountBloc, AccountState>(
       builder: (context, state) {
         if (state is InProgressCartState) {
           return const Center(child: CircularProgressIndicator());
@@ -68,6 +73,8 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+    final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
+
     return Center(
       child: SingleChildScrollView(
         child: SizedBox(
@@ -78,11 +85,9 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RoundedInputField(
-                  hint: Strings.nameItem,
+                  hint: Strings.fullName,
                   initialValue: _name,
-                  callback: (String callback) {
-                    _name = callback;
-                  },
+                  callback: (String callback) => _name = callback,
                   validation: ValidationBuilder()
                       .minLength(10, Strings.min10Characters)
                       .maxLength(30, Strings.max30Characters)
@@ -90,16 +95,15 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                 ),
                 SizedBox(height: adaptiveHeight(20)),
                 RoundedInputField(
+                  icon: Icons.phone_android,
                   hint: Strings.phoneNumber,
                   initialValue: _phone,
-                  callback: (String callback) {
-                    _phone = callback;
-                  },
+                  callback: (String callback) => _phone = callback,
                   inputType: TextInputType.phone,
                   validation: ValidationBuilder()
-                      .minLength(10, Strings.min10Characters)
-                      .maxLength(30, Strings.max30Characters)
                       .phone(Strings.onlyNumbers)
+                      .minLength(10, Strings.min10Characters)
+                      .maxLength(12, Strings.max12Characters)
                       .build(),
                 ),
                 SizedBox(height: adaptiveHeight(20)),
@@ -188,21 +192,20 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                         callback: () {
                           if (_formKey.currentState!.validate()) {
                             if (_name.isNotEmpty && _phone.isNotEmpty) {
+                              final UserData userData = UserData(
+                                deliveryType: _deliveryType == Strings.pickUp
+                                    ? DeliveryType.pickUp
+                                    : DeliveryType.deliveryNovaPost,
+                                name: _name,
+                                payType: _payType,
+                                phone: _phone,
+                              );
                               if (_deliveryType != Strings.pickUp && _address.isEmpty) {
-                                cartBloc.add(ConfirmOrderEvent(
-                                  deliveryType: _deliveryType,
-                                  name: _name,
-                                  payType: _payType,
-                                  phone: _phone,
-                                ));
+                                cartBloc.add(ConfirmOrderEvent(userData: userData));
+                                accountBloc.add(SaveDataEvent(userData: userData));
                               } else {
-                                cartBloc.add(ConfirmOrderEvent(
-                                  deliveryType: _deliveryType,
-                                  name: _name,
-                                  payType: _payType,
-                                  phone: _phone,
-                                  address: _address,
-                                ));
+                                cartBloc.add(ConfirmOrderEvent(userData: userData.copyWith(address: _address)));
+                                accountBloc.add(SaveDataEvent(userData: userData.copyWith(address: _address)));
                               }
                               AutoRouter.of(context).pop();
                             }

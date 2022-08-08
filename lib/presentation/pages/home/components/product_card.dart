@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -78,7 +79,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
-                          "${product.itemSettings.length} доступных вкусов",
+                          "${product.itemSettings.length} ${Strings.availableTastes}",
                           style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                       ],

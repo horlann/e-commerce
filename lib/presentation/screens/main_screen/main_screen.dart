@@ -5,6 +5,7 @@ import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/common/services/connection/custom_connection_checker.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'package:sized_context/sized_context.dart';
 import 'bottom_bar.dart';
@@ -22,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     CustomConnectionChecker().internetConnectionStream.listen((InternetConnectionStatus data) {
       if (data == InternetConnectionStatus.disconnected) {
-        CustomSnackBar.showSnackNar(context, "Warning", "No internet connection");
+        CustomSnackBar.showSnackNar(context, Strings.warning, Strings.internetConnectionBadStatus);
       }
     });
   }
