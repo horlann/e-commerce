@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/user_data.dart';
 
 abstract class AccountEvent extends Equatable {

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:kurilki/data/repositories/local_repository.dart';
 import 'package:kurilki/data/repositories/ordering/ordering_remote_repository.dart';
 import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 
 import 'cart_event.dart';
@@ -23,10 +24,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   List<CartItem> cartItems = [];
 
-  int countOfItemsInCart(String uuid) {
+  int countOfItemsInCart(String uuid, AbstractItemSettings? settings) {
     int count = 0;
     for (CartItem e in cartItems) {
-      if (e.item.uuid == uuid) {
+      if (e.item.uuid == uuid && (e.itemSettings.name == (settings?.name ?? "empty"))) {
         count = e.count;
       }
     }
@@ -39,14 +40,16 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<List<CartItem>> _loadCachedCartItems() async {
+    //cartItems = await _localRepository.getCartCache();
     List<CartItem> cartItems = [];
     return cartItems;
   }
 
   Future<void> _addToCart(AddToCartEvent event, Emitter<CartState> emit) async {
-    if (countOfItemsInCart(event.item.uuid) > 0) {
+    if (countOfItemsInCart(event.item.uuid, event.itemSettings) > 0) {
       final int index = cartItems.indexWhere((element) => element.item.uuid == event.item.uuid);
-      cartItems.insert(index + 1, cartItems[index].copyWith(count: countOfItemsInCart(event.item.uuid) + 1));
+      cartItems.insert(
+          index + 1, cartItems[index].copyWith(count: countOfItemsInCart(event.item.uuid, event.itemSettings) + 1));
       cartItems.removeAt(index);
     } else {
       cartItems.add(CartItem(item: event.item, count: 1, itemSettings: event.itemSettings));

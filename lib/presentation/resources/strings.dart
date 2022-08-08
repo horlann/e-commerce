@@ -10,9 +10,10 @@ abstract class Strings {
 
   //cart const
   static const String pickUp = "Cамовивіз";
-  static const String deliveryNova = "Доставка Новою Поштою";
+  static const String delivery = "Доставка Новою Поштою";
   static const String bankTransfer = "Банківський переказ";
   static const String cashOnDelivery = "Накладений платіж";
+  static const String ordering = 'Оформлення замовлення';
 
   //editing items const
   static const String trueString = "Так";

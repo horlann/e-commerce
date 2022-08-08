@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
@@ -55,6 +56,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       UserEntity user = await _userRemoteRepository.getAccountEntity();
       emit(state.userDataLoaded(user));
     } catch (e) {
+      emit(state.localUserDataLoaded());
       logger.e(e);
     }
   }

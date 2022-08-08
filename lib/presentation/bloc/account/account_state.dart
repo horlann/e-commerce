@@ -22,6 +22,10 @@ class AccountState {
   AccountState userDataLoaded(UserEntity user) {
     return UserDataLoaded(user);
   }
+
+  AccountState localUserDataLoaded() {
+    return const LocalUserDataLoaded();
+  }
 }
 
 class AuthorizedState extends AccountState {
@@ -46,4 +50,8 @@ class UserDataLoaded extends AuthorizedState {
   const UserDataLoaded(this.user) : super(user);
 
   final UserEntity user;
+}
+
+class LocalUserDataLoaded extends UnauthorizedState {
+  const LocalUserDataLoaded();
 }

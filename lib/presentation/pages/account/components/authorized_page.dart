@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/presentation/pages/account/components/product_card_history.dart';
 import 'package:kurilki/presentation/pages/account/components/social_networks.dart';
-import 'package:kurilki/presentation/pages/account/product_history.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -55,7 +54,7 @@ class AuthorizedPage extends StatelessWidget {
             style: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           ),
           SizedBox(height: adaptiveHeight(20)),
-          Expanded(
+          /*Expanded(
             child: ListView.separated(
               itemCount: productList.length,
               itemBuilder: (BuildContext context, int index) {
@@ -68,7 +67,8 @@ class AuthorizedPage extends StatelessWidget {
                 return const SizedBox(height: 2);
               },
             ),
-          ),
+          ),*/
+          SocialNetworks(),
         ],
       ),
     );

@@ -49,6 +49,7 @@ class HomePage extends StatelessWidget {
                             bloc.add(SearchProductEvent(callback));
                           } else {
                             bloc.add(const ShowPageEvent());
+                            FocusScope.of(context).unfocus();
                           }
                         },
                         validation: (value) => null,
@@ -61,7 +62,7 @@ class HomePage extends StatelessWidget {
             BlocBuilder<ProductsBloc, ProductsState>(
               builder: ((context, state) {
                 if (state is ProductsLoadingState) {
-                  return Center(child: CircularProgressIndicator(color: theme.accentColor));
+                  return const Center(child: CircularProgressIndicator());
                 } else if (state is SearchProductState) {
                   return SearchProduct(items: state.items);
                 } else {

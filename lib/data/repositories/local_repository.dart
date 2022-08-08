@@ -16,7 +16,7 @@ class LocalRepository {
 
   Future<List<CartItem>> getCartCache() async {
     List<CartItemTableModel> cartItems = await shardsDao.loadCachedCart();
-    //List<CartItem> items=cartItems.map((e) => CartItem.)
-    return [];
+    List<CartItem> items = cartItems.map((e) => CartItem.fromTableModel(e)).toList();
+    return items;
   }
 }

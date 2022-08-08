@@ -7,7 +7,6 @@ import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
@@ -102,7 +101,7 @@ class _FilledCartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AccountBloc bloc = BlocProvider.of<AccountBloc>(context);
+    final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
 
     double totalPrice = 0;
     for (var element in cartItems) {
@@ -137,8 +136,8 @@ class _FilledCartPage extends StatelessWidget {
           SizedBox(height: adaptiveHeight(10)),
           MainRoundedButton(
             callback: () {
-              bloc.add(const LoadDataEvent());
-              AutoRouter.of(context).push(const OrderConfirmationRouter());
+              accountBloc.add(const LoadDataEvent());
+              AutoRouter.of(context).navigate(const OrderConfirmationRouter());
             },
             textStyle: TextStyle(color: theme.whiteTextColor, fontSize: 17, fontWeight: FontWeight.w500),
             color: theme.infoTextColor,

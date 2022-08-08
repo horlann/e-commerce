@@ -56,25 +56,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
           actions: [
             BlocBuilder<CartBloc, CartState>(
               builder: (context, state) {
-                final int countInCart = cartBloc.countOfItemsInCart(widget.product.uuid);
+                final int countInCart = cartBloc.countOfItemsInCart(widget.product.uuid, itemSettings);
+                final bool isPicked = itemSettings != null || widget.product.itemSettings.isEmpty;
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      //TODO:add to item settings check
-                      if (itemSettings != null) {
-                        cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
-                      } else {
-                        cartBloc.add(AddToCartEvent(
-                          widget.product,
-                          countInCart + 1,
-                          NoItemSettings(name: '', type: ItemSettingsType.empty),
-                        ));
+                      if (isPicked) {
+                        cartBloc.add(AddToCartEvent(widget.product, countInCart + 1,
+                            itemSettings ?? NoItemSettings(name: 'empty', type: ItemSettingsType.empty)));
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor),
+                      backgroundColor:
+                          MaterialStateProperty.all(isPicked ? theme.secondaryAccentColor : theme.inactiveColor),
                     ),
                     child: Text(countInCart == 0 ? Strings.addToCartButton : countInCart.toString()),
                   ),

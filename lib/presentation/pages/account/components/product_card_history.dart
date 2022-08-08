@@ -1,16 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kurilki/presentation/pages/account/product_history.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
-
+/*
 class ProductCardHistory extends StatelessWidget {
-  final ProductHistory item;
   final AbstractTheme theme;
   const ProductCardHistory({
     Key? key,
-    required this.item,
     required this.theme,
   }) : super(key: key);
 
@@ -74,3 +71,4 @@ class ProductCardHistory extends StatelessWidget {
     );
   }
 }
+*/
