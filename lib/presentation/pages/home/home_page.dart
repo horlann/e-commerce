@@ -5,10 +5,13 @@ import 'package:kurilki/presentation/bloc/products/products_event.dart';
 import 'package:kurilki/presentation/bloc/products/products_state.dart';
 import 'package:kurilki/presentation/pages/home/components/search_product.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
+import 'package:kurilki/presentation/widgets/image_provider.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
+
 import 'components/all_products.dart';
 import 'components/popular_products.dart';
 
@@ -26,20 +29,34 @@ class HomePage extends StatelessWidget {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Padding(
-              padding: EdgeInsets.all(adaptiveWidth(8.0)),
-              child: RoundedInputField(
-                icon: Icons.search,
-                hint: Strings.search,
-                callback: (String callback) {
-                  if (callback.isNotEmpty) {
-                    bloc.add(SearchProductEvent(callback));
-                  } else {
-                    bloc.add(const ShowPageEvent());
-                  }
-                },
-                validation: (value) => null,
-              ),
+            Row(
+              children: [
+                const Expanded(
+                    flex: 2, child: CustomImageProvider(imageFrom: ImageFrom.asset, imageLink: CustomIcons.logo)),
+                Expanded(
+                  flex: 5,
+                  child: Padding(
+                    padding: EdgeInsets.all(adaptiveWidth(8.0)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [theme.appShadows.largeShadow],
+                          borderRadius: const BorderRadius.all(Radius.circular(32))),
+                      child: RoundedInputField(
+                        icon: Icons.search,
+                        hint: Strings.search,
+                        callback: (String callback) {
+                          if (callback.isNotEmpty) {
+                            bloc.add(SearchProductEvent(callback));
+                          } else {
+                            bloc.add(const ShowPageEvent());
+                          }
+                        },
+                        validation: (value) => null,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             BlocBuilder<ProductsBloc, ProductsState>(
               builder: ((context, state) {

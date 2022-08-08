@@ -21,7 +21,7 @@ class CreateItem extends StatelessWidget {
           Strings.createProducts,
           style: TextStyle(color: theme.mainTextColor),
         ),
-        foregroundColor: theme.accentColor,
+        foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: BlocBuilder<AdminCategoryBloc, AdminCategoryState>(

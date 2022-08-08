@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kurilki/data/repositories/remote_repository.dart';
+import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
@@ -9,9 +9,9 @@ import 'package:kurilki/presentation/bloc/account/account_state.dart';
 
 @injectable
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
-  final RemoteRepository _remoteRepository;
+  final UserRemoteRepository _userRemoteRepository;
 
-  AccountBloc(this._remoteRepository) : super(const UnauthorizedState()) {
+  AccountBloc(this._userRemoteRepository) : super(const UnauthorizedState()) {
     on<InitAuthEvent>(_initAuth);
     on<AuthWithGoogleAccountEvent>(_authWithGoogleAccount);
     on<LogoutFromAccountEvent>(_logout);
@@ -22,7 +22,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Future<void> _initAuth(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
-      final result = await _remoteRepository.getAccountEntity();
+      final result = await _userRemoteRepository.getAccountEntity();
       emit(state.authorized(entity: result));
     } on Exception {
       emit(state.unauthorized());
@@ -32,7 +32,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Future<void> _authWithGoogleAccount(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
-      final result = await _remoteRepository.authWithGoogleAccount();
+      final result = await _userRemoteRepository.authWithGoogleAccount();
       emit(state.authorized(entity: result));
     } on Exception {
       emit(state.failure());
@@ -42,7 +42,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Future<void> _logout(AccountEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
-      await _remoteRepository.logout();
+      await _userRemoteRepository.logout();
       emit(state.unauthorized());
     } on Exception {
       emit(state.failure());
@@ -52,7 +52,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Future<void> _loadData(LoadDataEvent event, Emitter<AccountState> emit) async {
     emit(state.inProgress());
     try {
-      UserEntity user = await _remoteRepository.getAccountEntity();
+      UserEntity user = await _userRemoteRepository.getAccountEntity();
       emit(state.userDataLoaded(user));
     } catch (e) {
       logger.e(e);
@@ -61,7 +61,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
   Future<void> _saveData(SaveDataEvent event, Emitter<AccountState> emit) async {
     try {
-      UserEntity userEntity = await _remoteRepository.getAccountEntity();
+      UserEntity userEntity = await _userRemoteRepository.getAccountEntity();
       userEntity = userEntity.copyWith(
         deliveryDetails: DeliveryDetails(
           deliveryType: event.userData.deliveryType,
@@ -70,7 +70,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
           phone: event.userData.phone,
         ),
       );
-      await _remoteRepository.setAccountEntity(userEntity);
+      await _userRemoteRepository.setAccountEntity(userEntity);
     } catch (e) {
       logger.e(e);
     }

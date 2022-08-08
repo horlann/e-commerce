@@ -15,10 +15,5 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     on<InitDetailsPageEvent>(_init);
   }
 
-  List<Item> sameItems = [];
-
-  void _init(InitDetailsPageEvent event, Emitter<DetailsState> emit) async {
-    sameItems = await _remoteRepository.loadItemsWithSameId(_item);
-    emit(state.loaded(sameItems));
-  }
+  void _init(InitDetailsPageEvent event, Emitter<DetailsState> emit) async {}
 }

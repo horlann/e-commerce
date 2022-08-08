@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:kurilki/common/di/locator.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
@@ -52,7 +51,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       create: (context) => DetailsBloc(widget.product, productsBloc, getIt.call())..add(const InitDetailsPageEvent()),
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(color: theme.accentColor),
+          leading: BackButton(color: theme.mainTextColor),
           backgroundColor: theme.backgroundColor,
           actions: [
             BlocBuilder<CartBloc, CartState>(
@@ -62,11 +61,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: ElevatedButton(
                     onPressed: () {
+                      //TODO:add to item settings check
                       if (itemSettings != null) {
                         cartBloc.add(AddToCartEvent(widget.product, countInCart + 1, itemSettings!));
+                      } else {
+                        cartBloc.add(AddToCartEvent(
+                          widget.product,
+                          countInCart + 1,
+                          NoItemSettings(name: '', type: ItemSettingsType.empty),
+                        ));
                       }
                     },
-                    //TODO:add to item settings check
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                           itemSettings != null ? theme.secondaryAccentColor : theme.inactiveColor),
@@ -79,16 +84,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
             const SizedBox(
               width: 15,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: SvgPicture.asset(
-                  "assets/icons/Heart.svg",
-                  height: 20,
-                ),
-              ),
-            )
           ],
         ),
         body: SingleChildScrollView(
@@ -152,9 +147,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     const SizedBox(height: 12),
                     if (widget.product is DisposablePodEntity)
                       Wrap(
-                        alignment: WrapAlignment.start,
-                        runSpacing: 10,
-                        spacing: 10,
+                        spacing: adaptiveWidth(20),
                         children: (widget.product as DisposablePodEntity).itemSettings.map((e) {
                           final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
                           final bool canBeDisplayed = e.count > 0 && e.isAvailable;
@@ -167,11 +160,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               }
                             },
                             child: SizedBox(
-                              width: 80,
-                              height: 80,
+                              width: adaptiveWidth(70),
+                              height: adaptiveWidth(70),
                               child: Stack(
                                 children: [
                                   Container(
+                                    height: double.infinity,
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                             color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,

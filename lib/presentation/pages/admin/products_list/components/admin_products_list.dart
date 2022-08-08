@@ -9,7 +9,7 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-       return ListView.builder(
+    return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
         return Slidable(

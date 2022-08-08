@@ -14,6 +14,7 @@ import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
+import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/main.dart';
 
 @lazySingleton
@@ -185,7 +186,8 @@ class RemoteDataSource {
     await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 
-  Future<void> createOrder(OrderTableModel orderTableModel) async {
+  Future<void> createOrder(OrderEntity order) async {
+    OrderTableModel orderTableModel = OrderTableModel.fromEntity(order);
     final userCollectionRef = _firestore.collection("orders");
     await userCollectionRef.doc(orderTableModel.uuid).set(orderTableModel.toJson());
   }

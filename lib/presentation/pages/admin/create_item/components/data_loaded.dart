@@ -4,10 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
-import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/presentation/bloc/admin/item/admin_item_bloc.dart';
-import 'package:kurilki/presentation/bloc/admin/item/admin_item_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -113,7 +110,7 @@ class _DataLoadedState extends State<DataLoaded> {
                     textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                     callback: () {
                       if (_formKey.currentState!.validate() && _selectedCategory.isNotEmpty) {}
-                    }, // bloc.add(CreateItemEvent)),
+                    },
                     theme: theme,
                   ),
                 ],

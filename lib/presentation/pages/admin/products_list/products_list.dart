@@ -22,7 +22,7 @@ class ProductsListPage extends StatelessWidget {
           Strings.productsList,
           style: TextStyle(color: theme.mainTextColor),
         ),
-        foregroundColor: theme.accentColor,
+        foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: Container(
