@@ -10,17 +10,14 @@ part 'abstract_item_settings_table_model.g.dart';
 class AbstractItemsSettingsTableModel {
   @JsonKey(name: FirestoreSchema.name, defaultValue: 'error')
   final String name;
-  @JsonKey(name: FirestoreSchema.type, defaultValue: ItemSettingsType.empty)
-  final ItemSettingsType type;
 
   const AbstractItemsSettingsTableModel({
     required this.name,
-    required this.type,
   });
 
   factory AbstractItemsSettingsTableModel.fromJson(Map<String, dynamic> json) {
     AbstractItemsSettingsTableModel model = _$AbstractItemsSettingsTableModelFromJson(json);
-    if (model.type == ItemSettingsType.filled) {
+    if (model is ItemSettingsTableModel) {
       return ItemSettingsTableModel.fromJson(json);
     } else {
       return _$AbstractItemsSettingsTableModelFromJson(json);
@@ -32,10 +29,10 @@ class AbstractItemsSettingsTableModel {
   }
 
   factory AbstractItemsSettingsTableModel.fromEntity(AbstractItemSettings itemSettings) {
-    if (itemSettings.type == ItemSettingsType.filled) {
+    if (itemSettings is ItemSettingsTableModel) {
       return ItemSettingsTableModel.fromEntity(itemSettings as ItemSettings);
     } else {
-      return AbstractItemsSettingsTableModel(name: itemSettings.name, type: itemSettings.type);
+      return AbstractItemsSettingsTableModel(name: itemSettings.name);
     }
   }
 }

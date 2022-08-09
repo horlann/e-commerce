@@ -26,7 +26,6 @@ class ItemSettingsTableModel extends AbstractItemsSettingsTableModel {
     required this.isAvailable,
     required this.count,
     required super.name,
-    required super.type,
     required this.isPopular,
   });
 
@@ -36,11 +35,11 @@ class ItemSettingsTableModel extends AbstractItemsSettingsTableModel {
   Json toJson() => _$ItemSettingsTableModelToJson(this);
 
   factory ItemSettingsTableModel.fromEntity(ItemSettings itemSettings) => ItemSettingsTableModel(
-      uuid: itemSettings.uuid,
-      imageLink: itemSettings.imageLink,
-      count: itemSettings.count,
-      isAvailable: itemSettings.isAvailable,
-      name: itemSettings.name,
-      isPopular: itemSettings.isPopular,
-      type: itemSettings.type);
+        uuid: itemSettings.uuid,
+        imageLink: itemSettings.imageLink,
+        count: itemSettings.count,
+        isAvailable: itemSettings.isAvailable,
+        name: itemSettings.name,
+        isPopular: itemSettings.isPopular,
+      );
 }

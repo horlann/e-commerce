@@ -4,20 +4,17 @@ import 'package:uuid/uuid.dart';
 
 class AbstractItemSettings {
   final String name;
-  final ItemSettingsType type;
 
   const AbstractItemSettings({
     required this.name,
-    required this.type,
   });
 
   factory AbstractItemSettings.fromTableModel(AbstractItemsSettingsTableModel model) {
-    if (model.type == ItemSettingsType.filled) {
-      return ItemSettings.fromTableModel(model as ItemSettingsTableModel);
+    if (model is ItemSettingsTableModel) {
+      return ItemSettings.fromTableModel(model);
     } else {
       return NoItemSettings(
         name: model.name,
-        type: model.type,
       );
     }
   }
@@ -37,7 +34,6 @@ class ItemSettings extends AbstractItemSettings {
     required this.count,
     required this.isPopular,
     required super.name,
-    required super.type,
   }) : uuid = uuid ?? const Uuid().v4();
 
   ItemSettings copyWith({
@@ -47,7 +43,6 @@ class ItemSettings extends AbstractItemSettings {
     int? count,
     String? name,
     bool? isPopular,
-    ItemSettingsType? type,
   }) {
     return ItemSettings(
         uuid: uuid ?? this.uuid,
@@ -55,8 +50,7 @@ class ItemSettings extends AbstractItemSettings {
         isAvailable: isAvailable ?? this.isAvailable,
         count: count ?? this.count,
         isPopular: isPopular ?? this.isPopular,
-        name: name ?? this.name,
-        type: type ?? this.type);
+        name: name ?? this.name);
   }
 
   factory ItemSettings.fromTableModel(ItemSettingsTableModel model) => ItemSettings(
@@ -65,13 +59,10 @@ class ItemSettings extends AbstractItemSettings {
         imageLink: model.imageLink,
         isAvailable: model.isAvailable,
         count: model.count,
-        type: model.type,
         isPopular: model.isPopular,
       );
 }
 
 class NoItemSettings extends AbstractItemSettings {
-  NoItemSettings({required super.name, required super.type});
+  NoItemSettings({required super.name});
 }
-
-enum ItemSettingsType { filled, empty }

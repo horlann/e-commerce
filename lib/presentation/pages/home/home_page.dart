@@ -67,6 +67,7 @@ class HomePage extends StatelessWidget {
                   return SearchProduct(items: state.items);
                 } else {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       PopularProducts(),
                       AllProducts(),

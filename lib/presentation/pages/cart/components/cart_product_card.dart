@@ -24,7 +24,7 @@ class CartProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Item product = cartItem.item;
-    final AbstractItemSettings settings = cartItem.itemSettings.type == ItemSettingsType.filled
+    final AbstractItemSettings settings = cartItem.itemSettings is ItemSettings
         ? (cartItem.itemSettings as ItemSettings)
         : (cartItem.itemSettings as NoItemSettings);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;

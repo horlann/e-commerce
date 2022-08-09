@@ -63,8 +63,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (isPicked) {
-                        cartBloc.add(AddToCartEvent(widget.product, countInCart + 1,
-                            itemSettings ?? NoItemSettings(name: 'empty', type: ItemSettingsType.empty)));
+                        cartBloc.add(AddToCartEvent(
+                            widget.product, countInCart + 1, itemSettings ?? NoItemSettings(name: 'empty')));
                       }
                     },
                     style: ButtonStyle(

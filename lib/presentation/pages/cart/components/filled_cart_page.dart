@@ -44,6 +44,7 @@ class FilledCartPage extends StatelessWidget {
                     ),
                     endActionPane: ActionPane(
                       motion: const ScrollMotion(),
+                      extentRatio: adaptiveWidth(0.22),
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 4),
@@ -87,6 +88,7 @@ class FilledCartPage extends StatelessWidget {
               },
             ),
           ),
+          SizedBox(height: adaptiveHeight(10)),
           _FilledCartPage(cartItems: cartItems),
         ],
       ),

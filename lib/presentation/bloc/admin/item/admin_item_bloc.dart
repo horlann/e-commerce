@@ -15,6 +15,7 @@ class AdminItemBloc extends Bloc<AdminItemEvent, AdminItemState> {
   AdminItemBloc(this._remoteRepository, this._remoteAdminRepository) : super(const AdminItemState().inProgress()) {
     on<InitItemsEvent>(_initItems);
     on<CreateItemEvent>(_createItem);
+    on<RemoveItemEvent>(_removeItem);
     on<EditItemEvent>(_editItem);
     on<UpdateDisposableItemEvent>(_updateItem);
     on<UpdateSnusItemEvent>(_updateItem);
@@ -29,14 +30,19 @@ class AdminItemBloc extends Bloc<AdminItemEvent, AdminItemState> {
   Future<void> _createItem(CreateItemEvent event, Emitter<AdminItemState> emit) async {
     Item item = event.item;
     List<String> tags = [item.name, item.description, item.category, ...item.itemSettings.map((e) => e.name).toList()];
-    if (item.runtimeType == DisposablePodEntity) {
-      tags.add((item as DisposablePodEntity).puffsCount.toString());
+    if (item is DisposablePodEntity) {
+      tags.add((item).puffsCount.toString());
       item = (item).copyWith(tags: tags);
-    } else if (item.runtimeType == DisposablePodEntity) {
-      tags.add((item as Snus).strength.toString());
+    } else if (item is Snus) {
+      tags.add((item).strength.toString());
       item = (item).copyWith(tags: tags);
     }
     await _remoteAdminRepository.createItem(item);
+  }
+
+  Future<void> _removeItem(RemoveItemEvent event, Emitter<AdminItemState> emit) async {
+    await _remoteAdminRepository.removeItem(event.item);
+    add(const InitItemsEvent());
   }
 
   Future<void> _editItem(AdminItemEvent event, Emitter<AdminItemState> emit) async {

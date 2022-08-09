@@ -19,37 +19,38 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
-    return Container(
-      width: double.infinity,
-      height: 90,
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: theme.cardColor,
-          border: Border.all(color: theme.mainTextColor, width: 1),
-          boxShadow: [theme.appShadows.largeShadow],
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+    return InkWell(
+      onTap: () => AutoRouter.of(context).navigate(EditItemRouter(item: item)),
+      child: Container(
+        width: double.infinity,
+        height: 90,
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: theme.cardColor,
+            border: Border.all(color: theme.mainTextColor, width: 1),
+            boxShadow: [theme.appShadows.largeShadow],
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: ClipRRect(
+                borderRadius:
+                    const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  ),
+                  child: CustomImageProvider(imageLink: item.imageLink, imageFrom: ImageFrom.network),
                 ),
-                child: CustomImageProvider(imageLink: item.imageLink, imageFrom: ImageFrom.network),
               ),
             ),
-          ),
-          SizedBox(
-            width: adaptiveWidth(10),
-          ),
-          Expanded(
-            flex: 7,
-            child: InkWell(
-              onTap: () => AutoRouter.of(context).navigate(EditItemRouter(item: item)),
+            SizedBox(
+              width: adaptiveWidth(10),
+            ),
+            Expanded(
+              flex: 7,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,8 +71,8 @@ class ItemCard extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

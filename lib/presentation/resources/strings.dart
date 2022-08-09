@@ -25,6 +25,7 @@ abstract class Strings {
   static const String selectCategory = "Виберіть категорію";
 
   //general admin const
+  static const String reduct = "Редагування";
   static const String nameItem = "Назва";
   static const String categoryItem = "Категорія";
   static const String availableItem = "Наявність";
@@ -77,4 +78,5 @@ abstract class Strings {
   static const String warning = "Оповіщення";
   static const String orderIsCreated = "Замовлення створено";
   static const String internetConnectionBadStatus = "Немає інтернет підключення";
+  static const String clickDoubleTapToConfirm = "Натисніть двічі, щоб підтвердити";
 }
