@@ -38,10 +38,7 @@ class ItemCard extends StatelessWidget {
                 borderRadius:
                     const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  ),
+                  color: theme.whiteTextColor,
                   child: CustomImageProvider(imageLink: item.imageLink, imageFrom: ImageFrom.network),
                 ),
               ),

@@ -44,7 +44,7 @@ class FilledCartPage extends StatelessWidget {
                     ),
                     endActionPane: ActionPane(
                       motion: const ScrollMotion(),
-                      extentRatio: adaptiveWidth(0.22),
+                      extentRatio: adaptiveWidth(0.32),
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 4),

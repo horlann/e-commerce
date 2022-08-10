@@ -41,12 +41,8 @@ class ProductCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(9.0), bottomLeft: Radius.circular(9.0)),
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  ),
-                  child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network),
-                ),
+                    color: theme.whiteTextColor,
+                    child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network)),
               ),
             ),
             SizedBox(height: adaptiveWidth(10)),

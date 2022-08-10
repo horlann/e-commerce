@@ -1,6 +1,7 @@
+import 'package:uuid/uuid.dart';
+
 import 'package:kurilki/data/models/items/abstract_item_settings_table_model.dart';
 import 'package:kurilki/data/models/items/item_settings_table_model.dart';
-import 'package:uuid/uuid.dart';
 
 class AbstractItemSettings {
   final String name;
@@ -18,6 +19,16 @@ class AbstractItemSettings {
       );
     }
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AbstractItemSettings && other.name == name;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 class ItemSettings extends AbstractItemSettings {
@@ -29,7 +40,7 @@ class ItemSettings extends AbstractItemSettings {
 
   ItemSettings({
     String? uuid,
-    required this.imageLink,
+    this.imageLink = "https://i.ibb.co/2qQqzdR/e.png",
     required this.isAvailable,
     required this.count,
     required this.isPopular,
@@ -61,6 +72,23 @@ class ItemSettings extends AbstractItemSettings {
         count: model.count,
         isPopular: model.isPopular,
       );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ItemSettings &&
+        other.uuid == uuid &&
+        other.imageLink == imageLink &&
+        other.isAvailable == isAvailable &&
+        other.count == count &&
+        other.isPopular == isPopular;
+  }
+
+  @override
+  int get hashCode {
+    return uuid.hashCode ^ imageLink.hashCode ^ isAvailable.hashCode ^ count.hashCode ^ isPopular.hashCode;
+  }
 }
 
 class NoItemSettings extends AbstractItemSettings {

@@ -70,12 +70,15 @@ abstract class Strings {
   static const String taste = "Смак";
   static const String puffs = "Ємність";
   static const String strength = "Міцність";
-  static const String addToCartButton = "До корзини";
+  static const String addToCartButton = "В кошик";
 
   //snackbar
   static const String status = "Статус";
   static const String itemWasUpdated = "Продукт оновлено";
   static const String warning = "Оповіщення";
+  static const String firstChooseProduct = "Спочатку оберіть товар";
+  static const String productIsAdded = "Додано";
+  static const String productIsOver = "Додана максимальна кількість товару";
   static const String orderIsCreated = "Замовлення створено";
   static const String internetConnectionBadStatus = "Немає інтернет підключення";
   static const String clickDoubleTapToConfirm = "Натисніть двічі, щоб підтвердити";

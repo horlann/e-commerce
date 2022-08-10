@@ -47,15 +47,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _addToCart(AddToCartEvent event, Emitter<CartState> emit) async {
     if (countOfItemsInCart(event.item.uuid, event.itemSettings) > 0) {
-      final int index = cartItems.indexWhere((element) => element.item.uuid == event.item.uuid);
-      cartItems.insert(
-          index + 1, cartItems[index].copyWith(count: countOfItemsInCart(event.item.uuid, event.itemSettings) + 1));
-      cartItems.removeAt(index);
+      final int index = cartItems.indexWhere((element) => element.itemSettings == event.itemSettings);
+      cartItems[index] = cartItems[index].copyWith(count: (cartItems[index].count + event.count));
     } else {
-      cartItems.add(CartItem(item: event.item, count: 1, itemSettings: event.itemSettings));
+      cartItems.add(CartItem(item: event.item, count: event.count, itemSettings: event.itemSettings));
     }
     emit(state.cartLoadedState(cartItems));
-    print(cartItems);
     _localRepository.cacheCart(cartItems);
   }
 

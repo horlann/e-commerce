@@ -44,12 +44,9 @@ class PopularProductCard extends StatelessWidget {
               flex: 3,
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(9.0), bottomLeft: Radius.circular(9.0)),
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: const BoxDecoration(
-                      //borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      ),
                   child: CustomImageProvider(imageLink: itemSettings.imageLink, imageFrom: ImageFrom.network),
                 ),
               ),

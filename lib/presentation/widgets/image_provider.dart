@@ -20,7 +20,7 @@ class CustomImageProvider extends StatelessWidget {
             fit: BoxFit.cover,
             placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: (Colors.grey[300]) ?? Colors.white,
-                highlightColor: (Colors.grey[100]) ?? Colors.green,
+                highlightColor: (Colors.grey[100]) ?? Colors.white,
                 child: Container(
                   color: Colors.grey,
                 )),

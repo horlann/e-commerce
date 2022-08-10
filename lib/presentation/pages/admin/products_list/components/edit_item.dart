@@ -192,7 +192,7 @@ class _EditItemState extends State<EditItem> {
                                       ),
                                     )
                                   else
-                                    const SizedBox()
+                                    const SizedBox.shrink()
                                 ],
                               ),
                               child: ExpandedTile(
@@ -285,8 +285,12 @@ class _EditItemState extends State<EditItem> {
                           color: theme.mainTextColor,
                           callback: () {
                             controllers.add(ExpandedTileController());
-                            itemsSettings.add(
-                                ItemSettings(count: 0, imageLink: '', isAvailable: false, name: '', isPopular: false));
+                            itemsSettings.add(ItemSettings(
+                              count: 0,
+                              isAvailable: false,
+                              name: '',
+                              isPopular: false,
+                            ));
                             setState(() {});
                           },
                           theme: theme),
