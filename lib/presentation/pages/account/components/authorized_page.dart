@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
-import 'package:kurilki/presentation/pages/account/components/product_card_history.dart';
 import 'package:kurilki/presentation/pages/account/components/social_networks.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -19,7 +18,6 @@ class AuthorizedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return Container(
@@ -68,7 +66,7 @@ class AuthorizedPage extends StatelessWidget {
               },
             ),
           ),*/
-          SocialNetworks(),
+          const SocialNetworks(),
         ],
       ),
     );

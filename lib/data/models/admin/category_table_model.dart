@@ -8,17 +8,11 @@ part 'category_table_model.g.dart';
 class CategoryTableModel {
   @JsonKey(name: AdminFirestoreSchema.name)
   final String name;
-  @JsonKey(name: AdminFirestoreSchema.id, defaultValue: -1)
-  final int id;
-  @JsonKey(name: AdminFirestoreSchema.imageLink, defaultValue: '')
-  final String imageLink;
   @JsonKey(name: AdminFirestoreSchema.uuid, defaultValue: '')
   final String uuid;
 
   const CategoryTableModel({
     required this.name,
-    required this.id,
-    required this.imageLink,
     required this.uuid,
   });
 

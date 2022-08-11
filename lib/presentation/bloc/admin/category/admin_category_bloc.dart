@@ -28,10 +28,9 @@ class AdminCategoryBloc extends Bloc<AdminCategoryEvent, AdminCategoryState> {
     emit(state.createCategory());
   }
 
-  Future<void> _saveCategory(AdminCategoryEvent event, Emitter<AdminCategoryState> emit) async {
+  Future<void> _saveCategory(SaveCategoryEvent event, Emitter<AdminCategoryState> emit) async {
     emit(state.inProgress());
-    await _remoteRepository.createCategory(
-        (event as SaveCategoryEvent).category, "image"); //TODO Implement saving images
+    await _remoteRepository.createCategory(event.category);
     emit(const CreateCategoryState());
   }
 }

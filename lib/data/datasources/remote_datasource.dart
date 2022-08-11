@@ -13,7 +13,6 @@ import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/main.dart';
 

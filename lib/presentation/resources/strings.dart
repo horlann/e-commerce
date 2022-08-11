@@ -55,7 +55,10 @@ abstract class Strings {
   static const String address = "Адреса";
   static const String removeButton = "Видалити";
   static const String checkOutButton = "Підтвердити";
-  static const String total = "В сумі";
+  static const String priceItems = "Сума";
+  static const String total = "До сплати";
+  static const String priceDelivety = "Вартість доставки";
+  static const String discount = "Знижка";
   static const String cartIsEmpty = "Корзина пуста";
 
   //home const
@@ -82,4 +85,7 @@ abstract class Strings {
   static const String orderIsCreated = "Замовлення створено";
   static const String internetConnectionBadStatus = "Немає інтернет підключення";
   static const String clickDoubleTapToConfirm = "Натисніть двічі, щоб підтвердити";
+
+  static const String connectToAccount = "Авторизуйтесь за допомогою Google аккаунта, щоб робити покупки зручніше";
+  static const String loginWithGoogle = "Авторизуватись";
 }

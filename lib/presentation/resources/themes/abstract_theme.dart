@@ -62,6 +62,7 @@ class FontStyles {
   final regular26 = const TextStyle(fontSize: 26, fontWeight: FontWeight.w400);
   final semiBold22 = const TextStyle(fontSize: 22, fontWeight: FontWeight.w600);
   final regular22 = const TextStyle(fontSize: 22, fontWeight: FontWeight.w400);
+  final regular20 = const TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
   final semiBold18 = const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
   final regular18 = const TextStyle(fontSize: 18, fontWeight: FontWeight.w400);
   final regular16 = const TextStyle(fontSize: 16, fontWeight: FontWeight.w400);

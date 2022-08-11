@@ -104,11 +104,8 @@ class _FilledCartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
 
-    double totalPrice = 0;
-    for (var element in cartItems) {
-      totalPrice += element.count * element.item.price;
-    }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: adaptiveWidth(16)),
       child: Column(
@@ -116,7 +113,7 @@ class _FilledCartPage extends StatelessWidget {
           Row(
             children: [
               Text(
-                Strings.total,
+                Strings.priceItems,
                 style: theme.fontStyles.regular18.copyWith(color: theme.inactiveTextColor),
               ),
               SizedBox(width: adaptiveWidth(5)),
@@ -130,8 +127,8 @@ class _FilledCartPage extends StatelessWidget {
               )),
               SizedBox(width: adaptiveWidth(5)),
               Text(
-                "\$${totalPrice.toStringAsFixed(0)}",
-                style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                "\$${cartBloc.priceDetails.itemsPrice.toStringAsFixed(0)}",
+                style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),
               ),
             ],
           ),
@@ -139,10 +136,10 @@ class _FilledCartPage extends StatelessWidget {
           MainRoundedButton(
             callback: () {
               accountBloc.add(const LoadDataEvent());
-              AutoRouter.of(context).navigate(const OrderConfirmationRouter());
+              context.pushRoute(const OrderConfirmationRouter());
             },
             textStyle: TextStyle(color: theme.whiteTextColor, fontSize: 17, fontWeight: FontWeight.w500),
-            color: theme.infoTextColor,
+            color: theme.mainTextColor,
             text: Strings.checkOutButton,
             paddingVert: 14,
             round: 24,

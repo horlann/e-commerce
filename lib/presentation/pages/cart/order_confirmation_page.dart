@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/user_data.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
@@ -11,7 +10,6 @@ import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/bloc/account/account_state.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
@@ -53,10 +51,7 @@ class _OrderConfirmation extends StatefulWidget {
 
 class _OrderConfirmationState extends State<_OrderConfirmation> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _deliveryTypes = [Strings.pickUp, Strings.delivery];
-  final List<String> _payTypes = [Strings.bankTransfer, Strings.cashOnDelivery];
   String _deliveryType = Strings.pickUp;
-  String _payType = Strings.bankTransfer;
   UserEntity? _user;
   String _name = "";
   String _phone = "";
@@ -66,6 +61,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
   void initState() {
     super.initState();
     _user = widget.user;
+
     if (_user != null) {
       _name = _user!.deliveryDetails.name;
       _phone = _user!.deliveryDetails.phone;
@@ -97,7 +93,8 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RoundedInputField(
                     hint: Strings.fullName,
@@ -136,7 +133,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                     },
                   ),
                   SizedBox(height: adaptiveHeight(20)),
-                  _deliveryType != DeliveryType.pickUp.name
+                  _deliveryType != Strings.pickUp
                       ? Column(
                           children: [
                             RoundedInputField(
@@ -156,6 +153,24 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                           ],
                         )
                       : const SizedBox(),
+                  SizedBox(height: adaptiveHeight(10)),
+                  _PriceInformation(
+                    title: Strings.priceItems,
+                    price: cartBloc.priceDetails.itemsPrice.toStringAsFixed(0),
+                  ),
+                  _PriceInformation(
+                    title: Strings.priceDelivety,
+                    price: cartBloc.priceDetails.deliveryPrice.toStringAsFixed(0),
+                  ),
+                  if (cartBloc.priceDetails.coupon > 0)
+                    _PriceInformation(
+                      title: Strings.discount,
+                      price: cartBloc.priceDetails.coupon.toStringAsFixed(0),
+                    ),
+                  _PriceInformation(
+                    title: Strings.total,
+                    price: cartBloc.priceDetails.totalPrice.toStringAsFixed(0),
+                  ),
                   SizedBox(height: adaptiveHeight(10)),
                   Row(
                     children: [
@@ -180,7 +195,6 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                         child: MainRoundedButton(
                           text: Strings.confirmButton,
                           color: theme.mainTextColor,
-                          textStyle: TextStyle(color: theme.whiteTextColor, fontWeight: FontWeight.w500, fontSize: 18),
                           callback: () {
                             if (_formKey.currentState!.validate()) {
                               if (_name.isNotEmpty && _phone.isNotEmpty) {
@@ -188,7 +202,6 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                                   deliveryType:
                                       _deliveryType == Strings.pickUp ? DeliveryType.pickUp : DeliveryType.delivery,
                                   name: _name,
-                                  payType: _payType,
                                   phone: _phone,
                                 );
                                 if (_deliveryType != Strings.pickUp && _address.isEmpty) {
@@ -217,6 +230,33 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
   }
 }
 
+class _PriceInformation extends StatelessWidget {
+  const _PriceInformation({Key? key, required this.title, required this.price}) : super(key: key);
+  final String title;
+  final String price;
+
+  @override
+  Widget build(BuildContext context) {
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: theme.fontStyles.regular16.copyWith(color: theme.inactiveTextColor),
+          ),
+          const Expanded(child: SizedBox()),
+          Text(
+            "\$$price",
+            style: theme.fontStyles.semiBold16.copyWith(color: theme.mainTextColor),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _CategorySelector extends StatefulWidget {
   const _CategorySelector({Key? key, required this.callback}) : super(key: key);
   final Function(String type) callback;
@@ -231,6 +271,7 @@ class _CategorySelectorState extends State<_CategorySelector> {
   @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
 
     return SizedBox(
       height: adaptiveHeight(40),
@@ -245,7 +286,8 @@ class _CategorySelectorState extends State<_CategorySelector> {
               color: _selectedCategory == 1 ? theme.mainTextColor : theme.cardColor,
               callback: () {
                 _selectedCategory = 1;
-                widget.callback('pickUp');
+                widget.callback(Strings.pickUp);
+                cartBloc.add(const DeliveryChangedEvent(deliveryType: DeliveryType.pickUp));
                 setState(() {});
               },
               theme: theme,
@@ -263,7 +305,8 @@ class _CategorySelectorState extends State<_CategorySelector> {
               color: _selectedCategory == 2 ? theme.mainTextColor : theme.cardColor,
               callback: () {
                 _selectedCategory = 2;
-                widget.callback('delivery');
+                cartBloc.add(const DeliveryChangedEvent(deliveryType: DeliveryType.delivery));
+                widget.callback(Strings.delivery);
                 setState(() {});
               },
               theme: theme,

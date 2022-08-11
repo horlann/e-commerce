@@ -73,9 +73,7 @@ class RemoteAdminRepository {
 
   Future<void> createCategory(String name, String imageLink) async {
     await _remoteDataSource.createCategory(CategoryTableModel(
-      id: 1,
       name: name,
-      imageLink: imageLink,
       uuid: const Uuid().v4(),
     ));
   }

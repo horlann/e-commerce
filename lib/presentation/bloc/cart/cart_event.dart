@@ -1,6 +1,7 @@
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
+import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/user_data.dart';
 
 abstract class CartEvent {
@@ -38,4 +39,10 @@ class ConfirmOrderEvent extends CartEvent {
   const ConfirmOrderEvent({required this.userData});
 
   final UserData userData;
+}
+
+class DeliveryChangedEvent extends CartEvent {
+  const DeliveryChangedEvent({required this.deliveryType});
+
+  final DeliveryType deliveryType;
 }

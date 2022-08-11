@@ -70,7 +70,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
-                          "\₴${product.price.toStringAsFixed(0)}",
+                          "₴${product.price.toStringAsFixed(0)}",
                           style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                         SizedBox(height: adaptiveHeight(10)),

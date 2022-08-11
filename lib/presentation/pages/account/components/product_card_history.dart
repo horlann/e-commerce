@@ -1,8 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
-import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
-import 'package:kurilki/presentation/widgets/image_provider.dart';
 /*
 class ProductCardHistory extends StatelessWidget {
   final AbstractTheme theme;

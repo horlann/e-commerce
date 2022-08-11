@@ -1,4 +1,3 @@
-import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
-import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
-import 'package:kurilki/presentation/widgets/circle_icon_button.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 
 class SocialNetworks extends StatelessWidget {
@@ -21,9 +19,6 @@ class SocialNetworks extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleIconButton(icon: CustomIcons.instagram, callback: () {}, theme: theme),
-          CircleIconButton(icon: CustomIcons.telegram, callback: () {}, theme: theme),
-          CircleIconButton(icon: CustomIcons.facebook, callback: () {}, theme: theme),
           SizedBox(
             width: 96,
             height: 48,

@@ -6,8 +6,6 @@ part 'price_details_table_model.g.dart';
 
 @JsonSerializable()
 class PriceDetailsTableModel {
-  @JsonKey(name: FirestoreSchema.fullPrice)
-  final double fullPrice;
   @JsonKey(name: FirestoreSchema.deliveryPrice)
   final double deliveryPrice;
   @JsonKey(name: FirestoreSchema.coupon)
@@ -18,17 +16,13 @@ class PriceDetailsTableModel {
   final double totalPrice;
   @JsonKey(name: FirestoreSchema.itemsPrice)
   final double itemsPrice;
-  @JsonKey(name: FirestoreSchema.typePay)
-  final String typePay;
 
   const PriceDetailsTableModel({
-    required this.fullPrice,
     required this.deliveryPrice,
     required this.coupon,
     required this.salePercent,
     required this.totalPrice,
     required this.itemsPrice,
-    required this.typePay,
   });
 
   factory PriceDetailsTableModel.fromJson(Map<String, dynamic> json) => _$PriceDetailsTableModelFromJson(json);
@@ -36,11 +30,9 @@ class PriceDetailsTableModel {
   factory PriceDetailsTableModel.fromEntity(PriceDetails priceDetails) => PriceDetailsTableModel(
         coupon: priceDetails.coupon,
         deliveryPrice: priceDetails.deliveryPrice,
-        fullPrice: priceDetails.fullPrice,
         itemsPrice: priceDetails.itemsPrice,
         salePercent: priceDetails.salePercent,
         totalPrice: priceDetails.totalPrice,
-        typePay: priceDetails.type,
       );
 
   Map<String, dynamic> toJson() => _$PriceDetailsTableModelToJson(this);

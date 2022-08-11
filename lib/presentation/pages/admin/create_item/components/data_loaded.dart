@@ -4,13 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
+import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
+import 'package:kurilki/domain/entities/items/item.dart';
+import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/presentation/bloc/admin/item/admin_item_bloc.dart';
+import 'package:kurilki/presentation/bloc/admin/item/admin_item_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
+import 'package:uuid/uuid.dart';
 
 class DataLoaded extends StatefulWidget {
   final List<CategoryEntity> categories;
@@ -109,7 +114,47 @@ class _DataLoadedState extends State<DataLoaded> {
                     color: theme.accentColor,
                     textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                     callback: () {
-                      if (_formKey.currentState!.validate() && _selectedCategory.isNotEmpty) {}
+                      if (_formKey.currentState!.validate() && _selectedCategory.isNotEmpty) {
+                        if (_selectedCategory == ProductCategory.disposablePod.name) {
+                          bloc.add(
+                            CreateItemEvent(
+                              DisposablePodEntity(
+                                category: _selectedCategory,
+                                description: '',
+                                id: '',
+                                imageLink: "",
+                                isAvailable: false,
+                                itemSettings: [],
+                                name: _name,
+                                oldPrice: 0,
+                                price: _price,
+                                tags: [],
+                                puffsCount: 0,
+                                uuid: const Uuid().v4(),
+                              ),
+                            ),
+                          );
+                        } else if (_selectedCategory == ProductCategory.snus.name) {
+                          bloc.add(
+                            CreateItemEvent(
+                              Snus(
+                                category: _selectedCategory,
+                                description: '',
+                                id: '',
+                                imageLink: "",
+                                isAvailable: false,
+                                itemSettings: [],
+                                name: _name,
+                                oldPrice: 0,
+                                price: _price,
+                                tags: [],
+                                strength: 0,
+                                uuid: const Uuid().v4(),
+                              ),
+                            ),
+                          );
+                        }
+                      }
                     },
                     theme: theme,
                   ),

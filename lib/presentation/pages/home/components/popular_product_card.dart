@@ -77,7 +77,7 @@ class PopularProductCard extends StatelessWidget {
                       height: adaptiveHeight(10),
                     ),
                     Text(
-                      "\₴${item.price.toStringAsFixed(0)}",
+                      "₴${item.price.toStringAsFixed(0)}",
                       style: theme.fontStyles.semiBold16.copyWith(color: theme.infoTextColor),
                     ),
                   ],

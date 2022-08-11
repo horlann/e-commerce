@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/key_value_api/shards.dart';
@@ -16,13 +18,14 @@ class ShardsDataSource extends SharedPreferencesDao implements IKeyValueDataSour
   @override
   Future<void> cacheCart(List<CartItemTableModel> items) async {
     List<Json> json = items.map((e) => e.toJson()).toList();
-    await setString('cartCache', json.toString());
+    await setString('cartCache', jsonEncode(json));
   }
 
   @override
   Future<List<CartItemTableModel>> loadCachedCart() async {
-    final List<Json> json = (getString('cartCache') as List<dynamic>).cast<Json>();
-    final List<CartItemTableModel> cartItems = json.map((e) => CartItemTableModel.fromJson(e)).toList();
-    return cartItems;
+    final String jsonString = getString('cartCache') ?? '';
+    //print(jsonString);
+
+    return [];
   }
 }
