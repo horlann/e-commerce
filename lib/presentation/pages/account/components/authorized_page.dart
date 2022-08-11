@@ -52,20 +52,6 @@ class AuthorizedPage extends StatelessWidget {
             style: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
           ),
           SizedBox(height: adaptiveHeight(20)),
-          /*Expanded(
-            child: ListView.separated(
-              itemCount: productList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ProductCardHistory(
-                  item: productList[index],
-                  theme: theme,
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 2);
-              },
-            ),
-          ),*/
           const SocialNetworks(),
         ],
       ),

@@ -290,6 +290,7 @@ class _EditItemState extends State<EditItem> {
                               isAvailable: false,
                               name: '',
                               isPopular: false,
+                              imageLink: "https://i.ibb.co/2qQqzdR/e.png",
                             ));
                             setState(() {});
                           },

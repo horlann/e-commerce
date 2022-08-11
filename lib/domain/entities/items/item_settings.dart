@@ -40,7 +40,7 @@ class ItemSettings extends AbstractItemSettings {
 
   ItemSettings({
     String? uuid,
-    this.imageLink = "https://i.ibb.co/2qQqzdR/e.png",
+    required this.imageLink,
     required this.isAvailable,
     required this.count,
     required this.isPopular,

@@ -64,11 +64,13 @@ class RemoteAdminRepository {
   }
 
   Future<void> createItem(Item item) async {
-    await _remoteDataSource.createItem(ItemTableModel.fromEntity(item));
+    final ItemTableModel model = ItemTableModel.fromEntity(item);
+    await _remoteDataSource.createItem(model);
   }
 
   Future<void> removeItem(Item item) async {
-    await _remoteDataSource.removeItem(ItemTableModel.fromEntity(item));
+    final ItemTableModel model = ItemTableModel.fromEntity(item);
+    await _remoteDataSource.removeItem(model);
   }
 
   Future<void> createCategory(String name, String imageLink) async {
