@@ -22,6 +22,12 @@ class CreateItemEvent extends AdminItemEvent {
   final Item item;
 }
 
+class RemoveItemEvent extends AdminItemEvent {
+  const RemoveItemEvent(this.item);
+
+  final Item item;
+}
+
 class UpdateDisposableItemEvent extends AdminItemEvent {
   const UpdateDisposableItemEvent(this.item);
 

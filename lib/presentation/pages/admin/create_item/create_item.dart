@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/category/admin_category_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/category/admin_category_state.dart';
 import 'package:kurilki/presentation/pages/admin/create_item/components/data_loaded.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
@@ -17,7 +18,7 @@ class CreateItem extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Cоздать продукт",
+          Strings.createProducts,
           style: TextStyle(color: theme.mainTextColor),
         ),
         foregroundColor: theme.mainTextColor,

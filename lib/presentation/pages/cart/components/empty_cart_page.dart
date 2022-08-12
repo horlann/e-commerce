@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -19,7 +20,7 @@ class EmptyCartPage extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            'Cart is Empty',
+            Strings.cartIsEmpty,
             style: TextStyle(color: theme.infoTextColor, fontSize: 21, fontWeight: FontWeight.w600),
           ),
         )

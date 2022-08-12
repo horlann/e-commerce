@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
@@ -43,6 +44,12 @@ class _EditItemState extends State<EditItem> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    controllers.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     final AdminItemBloc bloc = BlocProvider.of<AdminItemBloc>(context);
@@ -51,10 +58,10 @@ class _EditItemState extends State<EditItem> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Редактирование",
+          Strings.reduct,
           style: TextStyle(color: theme.mainTextColor),
         ),
-        foregroundColor: theme.accentColor,
+        foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
       ),
       body: SingleChildScrollView(
@@ -80,7 +87,7 @@ class _EditItemState extends State<EditItem> {
                       .maxLength(30, Strings.max30Characters)
                       .build(),
                 ),
-                const _Divider("Image link: ", textSize: 16),
+                const _Divider(Strings.imageLinkItem + ":", textSize: 16),
                 RoundedInputField(
                   hint: item!.imageLink,
                   maxLength: 120,
@@ -153,126 +160,138 @@ class _EditItemState extends State<EditItem> {
                           itemCount: itemsSettings.length,
                           shrinkWrap: true,
                           itemBuilder: ((context, index) {
-                            return ExpandedTile(
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                            return Slidable(
+                              key: ValueKey(index),
+                              endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                extentRatio: adaptiveWidth(0.22),
                                 children: [
-                                  const _Divider(Strings.nameItem + ":"),
-                                  RoundedInputField(
-                                    hint: itemsSettings[index].name,
-                                    callback: (String callback) {
-                                      itemsSettings[index] = itemsSettings[index].copyWith(name: callback);
-                                    },
-                                    validation: ValidationBuilder()
-                                        .minLength(1, Strings.minCharacters)
-                                        .maxLength(30, Strings.max30Characters)
-                                        .build(),
-                                  ),
-                                  const _Divider("Image link: "),
-                                  RoundedInputField(
-                                    hint: itemsSettings[index].imageLink,
-                                    maxLength: 120,
-                                    callback: (String callback) =>
-                                        itemsSettings[index] = itemsSettings[index].copyWith(imageLink: callback),
-                                    validation: ValidationBuilder()
-                                        .minLength(1, Strings.minCharacters)
-                                        .phone(Strings.onlyUrl)
-                                        .build(),
-                                  ),
-                                  const _Divider(Strings.countItem + ":"),
-                                  RoundedInputField(
-                                    inputType: TextInputType.number,
-                                    hint: itemsSettings[index].count.toString(),
-                                    callback: (String callback) => itemsSettings[index] = itemsSettings[index]
-                                        .copyWith(count: int.tryParse(callback) ?? itemsSettings[index].count),
-                                    validation: ValidationBuilder()
-                                        .minLength(1, Strings.minCharacters)
-                                        .maxLength(30, Strings.max30Characters)
-                                        .build(),
-                                  ),
-                                  const _Divider(Strings.availableItem + ":"),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: theme.cardColor,
-                                      borderRadius: BorderRadius.circular(29),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: RadioGroup<String>.builder(
-                                        activeColor: theme.mainTextColor,
-                                        textStyle: TextStyle(color: theme.mainTextColor),
-                                        spacebetween: 35,
-                                        groupValue: itemsSettings[index].isAvailable == true
-                                            ? Strings.trueString
-                                            : Strings.falseString,
-                                        onChanged: (value) => setState(() {
-                                          itemsSettings[index] = itemsSettings[index].copyWith(
-                                              isAvailable: value as String == Strings.trueString ? true : false);
-                                        }),
-                                        items: availableList,
-                                        itemBuilder: (item) => RadioButtonBuilder(item),
+                                  if (!controllers[index].isExpanded)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 2),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(29)),
+                                        child: Material(
+                                          color: theme.cardColor,
+                                          child: InkWell(
+                                            onTap: () {
+                                              itemsSettings.removeAt(index);
+                                              bloc.add(const InitItemsEvent());
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              height: adaptiveHeight(60),
+                                              width: adaptiveWidth(60),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(29),
+                                              ),
+                                              child: const Icon(Icons.close),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  const _Divider(Strings.typeItem + ":"),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: theme.cardColor,
-                                      borderRadius: BorderRadius.circular(29),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: RadioGroup<String>.builder(
-                                        activeColor: theme.mainTextColor,
-                                        textStyle: TextStyle(color: theme.mainTextColor),
-                                        spacebetween: 35,
-                                        groupValue: itemsSettings[index].type == ItemSettingsType.empty
-                                            ? Strings.empty
-                                            : Strings.filled,
-                                        onChanged: (value) => setState(() {
-                                          itemsSettings[index] = itemsSettings[index].copyWith(
-                                              type: value as String == Strings.empty
-                                                  ? ItemSettingsType.empty
-                                                  : ItemSettingsType.filled);
-                                        }),
-                                        items: typeList,
-                                        itemBuilder: (item) => RadioButtonBuilder(item),
-                                      ),
-                                    ),
-                                  ),
+                                    )
+                                  else
+                                    const SizedBox.shrink()
                                 ],
                               ),
-                              title: AutoSizeText(
-                                itemsSettings[index].name,
-                                style: TextStyle(color: theme.mainTextColor, fontSize: 15),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                              child: ExpandedTile(
+                                onTap: () => setState(() {}),
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const _Divider(Strings.nameItem + ":"),
+                                    RoundedInputField(
+                                      hint: itemsSettings[index].name,
+                                      callback: (String callback) {
+                                        itemsSettings[index] = itemsSettings[index].copyWith(name: callback);
+                                      },
+                                      validation: ValidationBuilder()
+                                          .minLength(1, Strings.minCharacters)
+                                          .maxLength(30, Strings.max30Characters)
+                                          .build(),
+                                    ),
+                                    const _Divider(Strings.imageLinkItem + ":"),
+                                    RoundedInputField(
+                                      hint: itemsSettings[index].imageLink,
+                                      maxLength: 120,
+                                      callback: (String callback) =>
+                                          itemsSettings[index] = itemsSettings[index].copyWith(imageLink: callback),
+                                      validation: ValidationBuilder()
+                                          .minLength(1, Strings.minCharacters)
+                                          .phone(Strings.onlyUrl)
+                                          .build(),
+                                    ),
+                                    const _Divider(Strings.countItem + ":"),
+                                    RoundedInputField(
+                                      inputType: TextInputType.number,
+                                      hint: itemsSettings[index].count.toString(),
+                                      callback: (String callback) => itemsSettings[index] = itemsSettings[index]
+                                          .copyWith(count: int.tryParse(callback) ?? itemsSettings[index].count),
+                                      validation: ValidationBuilder()
+                                          .minLength(1, Strings.minCharacters)
+                                          .maxLength(30, Strings.max30Characters)
+                                          .build(),
+                                    ),
+                                    const _Divider(Strings.availableItem + ":"),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: theme.cardColor,
+                                        borderRadius: BorderRadius.circular(29),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: RadioGroup<String>.builder(
+                                          activeColor: theme.mainTextColor,
+                                          textStyle: TextStyle(color: theme.mainTextColor),
+                                          spacebetween: 35,
+                                          groupValue: itemsSettings[index].isAvailable == true
+                                              ? Strings.trueString
+                                              : Strings.falseString,
+                                          onChanged: (value) => setState(() {
+                                            itemsSettings[index] = itemsSettings[index].copyWith(
+                                                isAvailable: value as String == Strings.trueString ? true : false);
+                                          }),
+                                          items: availableList,
+                                          itemBuilder: (item) => RadioButtonBuilder(item),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                title: AutoSizeText(
+                                  itemsSettings[index].name,
+                                  style: TextStyle(color: theme.mainTextColor, fontSize: 15),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                contentSeperator: 4,
+                                theme: ExpandedTileThemeData(
+                                  headerColor: theme.cardColor,
+                                  headerRadius: 29.0,
+                                  contentRadius: 29,
+                                  contentBackgroundColor: theme.cardColor,
+                                  contentPadding: const EdgeInsets.all(4),
+                                ),
+                                controller: controllers[index],
                               ),
-                              contentSeperator: 4,
-                              theme: ExpandedTileThemeData(
-                                headerColor: theme.cardColor,
-                                headerRadius: 29.0,
-                                contentRadius: 29,
-                                contentBackgroundColor: theme.cardColor,
-                                contentPadding: const EdgeInsets.all(4),
-                              ),
-                              controller: controllers[index],
                             );
                           }),
                         ),
                       MainRoundedButton(
-                          text: "Add configuration",
-                          color: theme.accentColor,
-                          textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                          text: Strings.addConfigurationButton,
+                          textStyle: theme.fontStyles.regular16.copyWith(color: theme.whiteTextColor),
+                          color: theme.mainTextColor,
                           callback: () {
                             controllers.add(ExpandedTileController());
                             itemsSettings.add(ItemSettings(
-                                count: 0,
-                                imageLink: '',
-                                isAvailable: false,
-                                name: '',
-                                type: ItemSettingsType.empty,
-                                isPopular: false));
+                              count: 0,
+                              isAvailable: false,
+                              name: '',
+                              isPopular: false,
+                              imageLink: "https://i.ibb.co/2qQqzdR/e.png",
+                            ));
                             setState(() {});
                           },
                           theme: theme),
@@ -315,9 +334,9 @@ class _EditItemState extends State<EditItem> {
                     ],
                   ),
                 MainRoundedButton(
-                  text: "Update item",
-                  color: theme.accentColor,
-                  textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                  text: Strings.updateItemButton,
+                  textStyle: theme.fontStyles.regular16.copyWith(color: theme.whiteTextColor),
+                  color: theme.mainTextColor,
                   callback: () {
                     if (item is DisposablePodEntity) {
                       bloc.add(UpdateDisposableItemEvent(
@@ -350,7 +369,7 @@ class _Divider extends StatelessWidget {
     return Row(
       children: [
         SizedBox(width: adaptiveWidth(20), height: adaptiveHeight(30)),
-        Text(text, style: TextStyle(color: theme.infoTextColor, fontSize: textSize)),
+        Text(text, style: theme.fontStyles.regular16.copyWith(color: theme.mainTextColor)),
       ],
     );
   }

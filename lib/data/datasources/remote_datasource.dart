@@ -13,7 +13,6 @@ import 'package:kurilki/data/models/order/cart_item_table_model.dart';
 import 'package:kurilki/data/models/order/order_table_model.dart';
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/main.dart';
 
@@ -176,6 +175,11 @@ class RemoteDataSource {
     await userCollectionRef.doc(model.uuid).set(model.toJson());
   }
 
+  Future<void> removeItem(ItemTableModel model) async {
+    final userCollectionRef = _firestore.collection("products");
+    await userCollectionRef.doc(model.uuid).delete();
+  }
+
   Future<void> updateItem(ItemTableModel model) async {
     final userCollectionRef = _firestore.collection("products");
     await userCollectionRef.doc(model.uuid).update(model.toJson());
@@ -228,7 +232,7 @@ class RemoteDataSource {
                 item: productsList[i],
                 count: tableModel.items[i].count,
                 //TODO: below
-                itemSettings: const AbstractItemsSettingsTableModel(type: ItemSettingsType.empty, name: 'empty')));
+                itemSettings: const AbstractItemsSettingsTableModel(name: 'empty')));
           }
 
           tableModel = tableModel.copyWith(items: cartItems);

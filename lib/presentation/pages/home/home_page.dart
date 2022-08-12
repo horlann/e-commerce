@@ -22,7 +22,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProductsBloc bloc = BlocProvider.of<ProductsBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-
     return Container(
       color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
       child: Padding(
@@ -50,6 +49,7 @@ class HomePage extends StatelessWidget {
                             bloc.add(SearchProductEvent(callback));
                           } else {
                             bloc.add(const ShowPageEvent());
+                            FocusScope.of(context).unfocus();
                           }
                         },
                         validation: (value) => null,
@@ -61,10 +61,13 @@ class HomePage extends StatelessWidget {
             ),
             BlocBuilder<ProductsBloc, ProductsState>(
               builder: ((context, state) {
-                if (state is SearchProductState) {
+                if (state is ProductsLoadingState) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is SearchProductState) {
                   return SearchProduct(items: state.items);
                 } else {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       PopularProducts(),
                       AllProducts(),

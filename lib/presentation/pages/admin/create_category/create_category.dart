@@ -37,7 +37,7 @@ class _CreateCategoryState extends State<CreateCategory> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Cоздать категорию",
+          Strings.createCategory,
           style: TextStyle(color: theme.mainTextColor),
         ),
         foregroundColor: theme.accentColor,
@@ -59,6 +59,7 @@ class _CreateCategoryState extends State<CreateCategory> {
                       children: [
                         SizedBox(height: adaptiveHeight(10)),
                         RoundedInputField(
+                          icon: Icons.category,
                           hint: Strings.categoryItem,
                           callback: (String callback) => _category = callback,
                           validation: ValidationBuilder()
@@ -68,7 +69,7 @@ class _CreateCategoryState extends State<CreateCategory> {
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         MainRoundedButton(
-                          text: "Create category",
+                          text: Strings.createButton,
                           color: theme.accentColor,
                           textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
                           callback: () {

@@ -20,12 +20,8 @@ class OrderingRemoteRepository {
     required String address,
     required String phone,
     required DeliveryType deliveryType,
-    required String payType,
+    required PriceDetails priceDetails,
   }) async {
-    double price = 0;
-    for (var item in items) {
-      price += (item.count * item.item.price);
-    }
     OrderEntity order = OrderEntity(
       items: items,
       user: UserDetails(
@@ -37,23 +33,16 @@ class OrderingRemoteRepository {
       deliveryDetails: DeliveryDetails(
         address: address,
         deliveryType: deliveryType,
-        name: 'name',
+        name: name,
         phone: phone,
       ),
-      priceDetails: PriceDetails(
-        totalPrice: price,
-        itemsPrice: price,
-        fullPrice: price,
-        deliveryPrice: 20,
-        type: payType,
-      ),
+      priceDetails: priceDetails,
     );
     await _remoteDataSource.createOrder(order);
   }
 
   Future<int> get _lastOrderNumber async {
     int number = 1;
-
     try {
       OrderTableModel order = await _remoteDataSource.lastOrder;
       number = order.number;

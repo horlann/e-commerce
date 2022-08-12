@@ -64,14 +64,18 @@ class RemoteAdminRepository {
   }
 
   Future<void> createItem(Item item) async {
-    _remoteDataSource.createItem(ItemTableModel.fromEntity(item));
+    final ItemTableModel model = ItemTableModel.fromEntity(item);
+    await _remoteDataSource.createItem(model);
+  }
+
+  Future<void> removeItem(Item item) async {
+    final ItemTableModel model = ItemTableModel.fromEntity(item);
+    await _remoteDataSource.removeItem(model);
   }
 
   Future<void> createCategory(String name, String imageLink) async {
     await _remoteDataSource.createCategory(CategoryTableModel(
-      id: 1,
       name: name,
-      imageLink: imageLink,
       uuid: const Uuid().v4(),
     ));
   }
@@ -84,10 +88,8 @@ class RemoteAdminRepository {
           List<Item> productsList = preItems.map((e) => Item.fromTableModel(e.item)).toList();
           List<CartItem> cartItems = [];
           for (int i = 0; i < productsList.length; i++) {
-            cartItems.add(CartItem(
-                item: productsList[i],
-                count: preItems[i].count,
-                itemSettings: NoItemSettings(type: ItemSettingsType.empty, name: 'empty')));
+            cartItems.add(
+                CartItem(item: productsList[i], count: preItems[i].count, itemSettings: NoItemSettings(name: 'empty')));
           }
 
           return OrderEntity.fromTableModel(model, cartItems);

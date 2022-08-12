@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
@@ -38,15 +39,10 @@ class ProductCard extends StatelessWidget {
             Expanded(
               flex: 3,
               child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(9.0), bottomLeft: Radius.circular(9.0)),
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  ),
-                  child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network),
-                ),
+                    color: theme.whiteTextColor,
+                    child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network)),
               ),
             ),
             SizedBox(height: adaptiveWidth(10)),
@@ -68,18 +64,18 @@ class ProductCard extends StatelessWidget {
                               minFontSize: 14,
                               maxFontSize: 16,
                               overflow: TextOverflow.ellipsis,
-                              style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                             ),
                           ],
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
-                          "\₴${product.price.toStringAsFixed(0)}",
-                          style: theme.fontStyles.semiBold16.copyWith(color: theme.infoTextColor),
+                          "₴${product.price.toStringAsFixed(0)}",
+                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
-                          "${product.itemSettings.length} доступных вкусов",
+                          "${product.itemSettings.length} ${Strings.availableTastes}",
                           style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                       ],

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -24,19 +25,20 @@ class UnauthorizedPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: adaptiveWidth(16)),
               child: Text(
-                "Connect your account to make purchases easier",
-                style: TextStyle(color: theme.mainTextColor, fontSize: 16),
+                Strings.connectToAccount,
+                textAlign: TextAlign.center,
+                style: theme.fontStyles.regular20.copyWith(color: theme.mainTextColor),
               ),
             ),
             SizedBox(height: adaptiveHeight(10)),
             SizedBox(
-              width: adaptiveWidth(200),
+              width: adaptiveWidth(250),
               child: MainRoundedButton(
-                text: "Login with Google",
-                textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w600, fontSize: 18),
-                color: theme.accentColor,
+                text: Strings.loginWithGoogle,
+                color: theme.mainTextColor,
                 theme: theme,
                 callback: () => bloc.add(
                   const AuthWithGoogleAccountEvent(),

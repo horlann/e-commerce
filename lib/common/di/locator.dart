@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-
-import 'locator.config.dart';
+import 'package:kurilki/common/di/locator.config.dart';
 
 final getIt = GetIt.instance;
 

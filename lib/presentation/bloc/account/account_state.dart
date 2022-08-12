@@ -18,6 +18,14 @@ class AccountState {
   AccountState failure() {
     return const AuthorizationFailureState();
   }
+
+  AccountState userDataLoaded(UserEntity user) {
+    return UserDataLoaded(user);
+  }
+
+  AccountState localUserDataLoaded() {
+    return const LocalUserDataLoaded();
+  }
 }
 
 class AuthorizedState extends AccountState {
@@ -36,4 +44,14 @@ class UnauthorizedState extends AccountState {
 
 class AuthorizationFailureState extends AccountState {
   const AuthorizationFailureState();
+}
+
+class UserDataLoaded extends AuthorizedState {
+  const UserDataLoaded(this.user) : super(user);
+
+  final UserEntity user;
+}
+
+class LocalUserDataLoaded extends UnauthorizedState {
+  const LocalUserDataLoaded();
 }

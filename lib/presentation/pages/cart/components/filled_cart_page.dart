@@ -4,9 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
+import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
@@ -14,138 +17,137 @@ import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'cart_product_card.dart';
 
 class FilledCartPage extends StatelessWidget {
-  const FilledCartPage({Key? key, required}) : super(key: key);
+  const FilledCartPage({Key? key, required this.cartItems}) : super(key: key);
+  final List<CartItem> cartItems;
 
   @override
   Widget build(BuildContext context) {
     final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
-    final List<CartItem> cartItems = cartBloc.cartItems;
-    return BlocBuilder<CartBloc, CartState>(
-      buildWhen: (previous, current) {
-        return current is CartLoadedState;
-      },
-      builder: (context, state) {
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: cartItems.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Slidable(
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+
+    return Container(
+      color: theme.backgroundColor,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              itemCount: cartItems.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.all(adaptiveWidth(16.0)),
+                  child: Slidable(
                     key: ValueKey(index),
                     child: CartProductCard(
                       cartItem: cartItems[index],
-                    ),
-                    startActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) {},
-                          backgroundColor: const Color(0xFF21B7CA),
-                          foregroundColor: Colors.white,
-                          icon: Icons.monitor_heart,
-                          label: 'add_to_favorite',
-                        ),
-                      ],
+                      index: index,
                     ),
                     endActionPane: ActionPane(
                       motion: const ScrollMotion(),
+                      extentRatio: adaptiveWidth(0.32),
                       children: [
-                        SlidableAction(
-                          // An action can be bigger than the others.
-                          onPressed: (context) {
-                            cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
-                          },
-                          backgroundColor: const Color(0xFF7BC043),
-                          foregroundColor: Colors.white,
-                          icon: Icons.remove,
-                          label: 'Remove',
-                        ),
-                        SlidableAction(
-                          onPressed: (context) {},
-                          backgroundColor: const Color(0xFF0392CF),
-                          foregroundColor: Colors.white,
-                          icon: Icons.save,
-                          label: 'Save',
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [theme.appShadows.largeShadow],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
+                              child: Material(
+                                color: theme.cardColor,
+                                child: InkWell(
+                                  onTap: () {
+                                    cartBloc.add(RemoveFromCartEvent(cartItems[index].item));
+                                  },
+                                  child: Container(
+                                    height: adaptiveHeight(120),
+                                    width: adaptiveWidth(100),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: theme.mainTextColor, width: 1),
+                                        borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                    child: Center(
+                                      child: Text(
+                                        Strings.removeButton,
+                                        style: theme.fontStyles.semiBold14.copyWith(color: theme.mainTextColor),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 16);
-                },
-              ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(height: adaptiveHeight(16));
+              },
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            _FilledCartPage(
-              cartItems: cartItems,
-            ),
-          ],
-        );
-      },
+          ),
+          SizedBox(height: adaptiveHeight(10)),
+          _FilledCartPage(cartItems: cartItems),
+        ],
+      ),
     );
   }
 }
 
-class _FilledCartPage extends StatefulWidget {
+class _FilledCartPage extends StatelessWidget {
   const _FilledCartPage({Key? key, required this.cartItems}) : super(key: key);
   final List<CartItem> cartItems;
 
   @override
-  State<_FilledCartPage> createState() => _FilledCartPageState();
-}
-
-class _FilledCartPageState extends State<_FilledCartPage> {
-  double totalPrice = 0;
-
-  @override
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final bloc = BlocProvider.of<CartBloc>(context);
+    final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
 
-    for (var element in widget.cartItems) {
-      totalPrice += element.count * element.item.price;
-    }
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(24)),
-            color: theme.backgroundColor,
-          ),
-          child: Column(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: adaptiveWidth(16)),
+      child: Column(
+        children: [
+          Row(
             children: [
-              const SizedBox(height: 5),
               Text(
-                "Total: ${totalPrice.toStringAsFixed(0)}\$",
-                style: TextStyle(color: theme.infoTextColor, fontSize: 16),
+                Strings.priceItems,
+                style: theme.fontStyles.regular18.copyWith(color: theme.inactiveTextColor),
               ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: MainRoundedButton(
-                  callback: () {
-                    bloc.add(const LoadDataEvent());
-                    AutoRouter.of(context).push(const OrderConfirmationRouter());
-                  },
-                  textStyle: TextStyle(color: theme.infoTextColor, fontSize: 17, fontWeight: FontWeight.w500),
-                  color: theme.accentColor,
-                  text: 'Check Out',
-                  paddingVert: 14,
-                  round: 24,
-                  theme: theme,
+              SizedBox(width: adaptiveWidth(5)),
+              Expanded(
+                  child: SizedBox(
+                child: Divider(
+                  color: theme.inactiveTextColor,
+                  thickness: adaptiveHeight(0.4),
+                  height: adaptiveHeight(10),
                 ),
+              )),
+              SizedBox(width: adaptiveWidth(5)),
+              Text(
+                "\$${cartBloc.priceDetails.itemsPrice.toStringAsFixed(0)}",
+                style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 10),
-      ],
+          SizedBox(height: adaptiveHeight(10)),
+          MainRoundedButton(
+            callback: () {
+              accountBloc.add(const LoadDataEvent());
+              context.pushRoute(const OrderConfirmationRouter());
+            },
+            textStyle: TextStyle(color: theme.whiteTextColor, fontSize: 17, fontWeight: FontWeight.w500),
+            color: theme.mainTextColor,
+            text: Strings.checkOutButton,
+            paddingVert: 14,
+            round: 24,
+            theme: theme,
+          ),
+          SizedBox(height: adaptiveHeight(10)),
+        ],
+      ),
     );
   }
 }

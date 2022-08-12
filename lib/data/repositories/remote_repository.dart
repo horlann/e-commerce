@@ -22,18 +22,14 @@ class RemoteRepository {
     return productsList;
   }
 
-
-
-  Future<void> createCategory(String name, String imageLink) async {
+  Future<void> createCategory(
+    String name,
+  ) async {
     await _remoteDataSource.createCategory(CategoryTableModel(
-      id: 1,
       name: name,
-      imageLink: imageLink,
       uuid: const Uuid().v4(),
     ));
   }
-
-
 
   Future<List<CategoryEntity>> getCategoriesList() async {
     List<CategoryEntity> entities = [];

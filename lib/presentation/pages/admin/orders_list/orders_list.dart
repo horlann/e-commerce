@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_bloc.dart';
 import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_state.dart';
+import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 
@@ -16,7 +18,7 @@ class OrdersList extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Заказы",
+          Strings.orders,
           style: TextStyle(color: theme.mainTextColor),
         ),
         foregroundColor: theme.mainTextColor,
@@ -32,7 +34,7 @@ class OrdersList extends StatelessWidget {
                     itemBuilder: (context, index) => _AdminOrderListTile(order: orders[index]),
                     itemCount: orders.length,
                   )
-                : const Text('empty');
+                : const Text(Strings.emptyText);
           } else {
             return const Center(child: CircularProgressIndicator());
           }
@@ -56,9 +58,7 @@ class _AdminOrderListTile extends StatelessWidget {
             order.number.toString(),
             style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: adaptiveWidth(10)),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,9 +74,7 @@ class _AdminOrderListTile extends StatelessWidget {
             order.deliveryDetails.deliveryType.name,
             style: theme.fontStyles.regular16.copyWith(color: theme.mainTextColor),
           ),
-          const SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: adaptiveWidth(100)),
           Text(
             order.priceDetails.itemsPrice.toStringAsFixed(0),
             style: theme.fontStyles.regular16.copyWith(color: theme.mainTextColor),

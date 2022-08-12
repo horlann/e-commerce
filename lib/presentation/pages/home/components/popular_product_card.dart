@@ -43,14 +43,10 @@ class PopularProductCard extends StatelessWidget {
             Expanded(
               flex: 3,
               child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
-                child: Container(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(9.0), bottomLeft: Radius.circular(9.0)),
+                child: SizedBox(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: const BoxDecoration(
-                      //borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      ),
                   child: CustomImageProvider(imageLink: itemSettings.imageLink, imageFrom: ImageFrom.network),
                 ),
               ),
@@ -81,7 +77,7 @@ class PopularProductCard extends StatelessWidget {
                       height: adaptiveHeight(10),
                     ),
                     Text(
-                      "\₴${item.price.toStringAsFixed(0)}",
+                      "₴${item.price.toStringAsFixed(0)}",
                       style: theme.fontStyles.semiBold16.copyWith(color: theme.infoTextColor),
                     ),
                   ],
