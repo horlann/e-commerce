@@ -69,11 +69,12 @@ abstract class Strings {
   static const String podButton = "POD системи";
   static const String snusButton = "Снюс";
   static const String nothingFound = "Спробуйте інший запит";
-  static const String availableTastes = "доступні смаки";
+  static const String availableTastes = "Доступних смаків";
   static const String taste = "Смак";
   static const String puffs = "Ємність";
   static const String strength = "Міцність";
   static const String addToCartButton = "В кошик";
+  static const String noItems = "Тут пусто(";
 
   //snackbar
   static const String status = "Статус";

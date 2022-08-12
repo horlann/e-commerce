@@ -7,9 +7,11 @@ import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
+import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
+import 'package:kurilki/presentation/widgets/snackbar.dart';
 
 class CartProductCard extends StatelessWidget {
   final CartItem cartItem;
@@ -76,9 +78,12 @@ class CartProductCard extends StatelessWidget {
                       ),
                       SizedBox(height: adaptiveHeight(5)),
                       Expanded(
-                        child: Text(
-                          "\$${product.price.toStringAsFixed(0)}",
-                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                        child: Center(
+                          child: Text(
+                            "\$${product.price.toStringAsFixed(0)}",
+                            textAlign: TextAlign.center,
+                            style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                          ),
                         ),
                       ),
                       SizedBox(height: adaptiveHeight(5)),
@@ -86,7 +91,7 @@ class CartProductCard extends StatelessWidget {
                         children: [
                           _RoundButton(
                             cartItem: cartItem,
-                            type: "+",
+                            type: "-",
                             index: index,
                           ),
                           SizedBox(
@@ -101,7 +106,7 @@ class CartProductCard extends StatelessWidget {
                           ),
                           _RoundButton(
                             cartItem: cartItem,
-                            type: "-",
+                            type: "+",
                             index: index,
                           ),
                         ],
@@ -137,18 +142,26 @@ class _RoundButton extends StatelessWidget {
           onTap: () {
             if (cartItem.itemSettings is ItemSettings) {
               final int totalAvailable = (cartItem.itemSettings as ItemSettings).count;
-
               if (type == "+" && totalAvailable > cartItem.count) {
                 bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count + 1), index));
               } else if (type == "-" && cartItem.count > 1) {
                 bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count - 1), index));
+              } else if (type == "-" && cartItem.count == 1) {
+                CustomSnackBar.showSnackNar(context, Strings.warning, Strings.clickDoubleTapToConfirm);
               }
             } else if (cartItem.itemSettings is NoItemSettings) {
               if (type == "+") {
                 bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count + 1), index));
               } else if (type == "-" && cartItem.count > 1) {
                 bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count - 1), index));
+              } else if (type == "-" && cartItem.count == 1) {
+                CustomSnackBar.showSnackNar(context, Strings.warning, Strings.clickDoubleTapToConfirm);
               }
+            }
+          },
+          onDoubleTap: () {
+            if (type == "-" && cartItem.count == 1) {
+              bloc.add(RemoveFromCartEvent(cartItem.item));
             }
           },
           child: Container(

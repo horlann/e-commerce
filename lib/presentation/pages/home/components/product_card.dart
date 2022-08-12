@@ -75,7 +75,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         SizedBox(height: adaptiveHeight(10)),
                         Text(
-                          "${product.itemSettings.length} ${Strings.availableTastes}",
+                          "${Strings.availableTastes}:${product.itemSettings.length} ",
                           style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                       ],

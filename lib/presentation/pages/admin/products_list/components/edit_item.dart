@@ -29,7 +29,7 @@ class EditItem extends StatefulWidget {
 class _EditItemState extends State<EditItem> {
   List<String> availableList = [Strings.trueString, Strings.falseString];
   List<String> typeList = [Strings.empty, Strings.filled];
-  Item? item;
+  late Item item;
   List<ItemSettings> itemsSettings = [];
   List<ExpandedTileController> controllers = [];
 
@@ -37,7 +37,7 @@ class _EditItemState extends State<EditItem> {
   void initState() {
     super.initState();
     item = widget.item;
-    itemsSettings = item!.itemSettings;
+    itemsSettings = item.itemSettings;
     for (int i = 0; i < itemsSettings.length; i++) {
       controllers.add(ExpandedTileController());
     }
@@ -74,7 +74,7 @@ class _EditItemState extends State<EditItem> {
                 SizedBox(height: adaptiveHeight(10)),
                 const _Divider(Strings.nameItem + ":", textSize: 16),
                 RoundedInputField(
-                  hint: item!.name,
+                  hint: item.name,
                   callback: (String callback) {
                     if (item is DisposablePodEntity) {
                       item = (item as DisposablePodEntity).copyWith(name: callback);
@@ -89,7 +89,7 @@ class _EditItemState extends State<EditItem> {
                 ),
                 const _Divider(Strings.imageLinkItem + ":", textSize: 16),
                 RoundedInputField(
-                  hint: item!.imageLink,
+                  hint: item.imageLink,
                   maxLength: 120,
                   callback: (String callback) {
                     if (item is DisposablePodEntity) {
@@ -112,7 +112,7 @@ class _EditItemState extends State<EditItem> {
                       activeColor: theme.mainTextColor,
                       textStyle: TextStyle(color: theme.mainTextColor),
                       spacebetween: 40,
-                      groupValue: item!.isAvailable ? Strings.trueString : Strings.falseString,
+                      groupValue: item.isAvailable ? Strings.trueString : Strings.falseString,
                       onChanged: (value) {
                         final bool isAvailable = value as String == Strings.trueString ? true : false;
                         setState(() {
@@ -131,9 +131,9 @@ class _EditItemState extends State<EditItem> {
                 const _Divider(Strings.priceItem + ":", textSize: 16),
                 RoundedInputField(
                   inputType: TextInputType.number,
-                  hint: item!.price.toString(),
+                  hint: item.price.toStringAsFixed(0),
                   callback: (String callback) {
-                    final double price = double.tryParse(callback) ?? item!.price;
+                    final double price = double.tryParse(callback) ?? item.price;
                     if (item is DisposablePodEntity) {
                       item = (item as DisposablePodEntity).copyWith(oldPrice: widget.item.price);
                       item = (item as DisposablePodEntity).copyWith(price: price);

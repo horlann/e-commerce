@@ -45,19 +45,28 @@ class _AllProductsState extends State<AllProducts> {
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                     scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: List.generate(
-                        items.length,
-                        (index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: adaptiveHeight(12)),
-                            child: ProductCard(
-                              product: items[index],
+                    child: items.isNotEmpty
+                        ? Column(
+                            children: List.generate(
+                            items.length,
+                            (index) {
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: adaptiveHeight(12)),
+                                child: ProductCard(
+                                  product: items[index],
+                                ),
+                              );
+                            },
+                          ))
+                        : SizedBox(
+                            height: adaptiveHeight(240),
+                            child: Center(
+                              child: Text(
+                                Strings.noItems,
+                                style: theme.fontStyles.semiBold18,
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          ),
                   ),
                 ],
               );

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:kurilki/presentation/pages/account/account_page.dart';
-import 'package:kurilki/presentation/pages/admin/create_category/create_category.dart';
 import 'package:kurilki/presentation/pages/admin/create_item/create_item.dart';
 import 'package:kurilki/presentation/pages/admin/orders_list/orders_list.dart';
 import 'package:kurilki/presentation/pages/admin/products_list/components/edit_item.dart';
@@ -78,11 +77,6 @@ import 'package:kurilki/presentation/screens/main_screen/main_screen.dart';
           path: 'create_item',
           name: "CreateItemRouter",
           page: CreateItem,
-        ),
-        AutoRoute(
-          path: 'create_category',
-          name: "CreateCategoryRouter",
-          page: CreateCategory,
         ),
         AutoRoute(
           path: 'orders_list',
