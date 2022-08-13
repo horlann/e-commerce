@@ -37,27 +37,36 @@ class _AllProductsState extends State<AllProducts> {
             if (state is ProductsLoadingState) {
               return const SizedBox();
             } else if (state is ProductsLoadedState) {
-              final List<Item> items = state.items;
+              final List<Item> items = state.items.where((element) => element.isAvailable == true).toList();
               return Column(
                 children: [
                   const _CategorySelector(),
                   SizedBox(height: adaptiveHeight(10)),
                   SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    //physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                     scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: List.generate(
-                        items.length,
-                        (index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: adaptiveHeight(12)),
-                            child: ProductCard(
-                              product: items[index],
+                    child: items.isNotEmpty
+                        ? Column(
+                            children: List.generate(
+                            items.length,
+                            (index) {
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: adaptiveHeight(12)),
+                                child: ProductCard(
+                                  product: items[index],
+                                ),
+                              );
+                            },
+                          ))
+                        : SizedBox(
+                            height: adaptiveHeight(240),
+                            child: Center(
+                              child: Text(
+                                Strings.noItems,
+                                style: theme.fontStyles.semiBold18,
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          ),
                   ),
                 ],
               );

@@ -76,6 +76,11 @@ abstract class Item {
     }
     throw Exception();
   }
+
+  @override
+  String toString() {
+    return 'Item(uuid: $uuid, id: $id, name: $name, price: $price, oldPrice: $oldPrice, category: $category, imageLink: $imageLink, tags: $tags, isAvailable: $isAvailable, itemSettings: $itemSettings, description: $description)';
+  }
 }
 
 enum ProductCategory { disposablePod, snus, unidentified }

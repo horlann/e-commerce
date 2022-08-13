@@ -5,6 +5,7 @@ import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
@@ -27,26 +28,25 @@ class EditItem extends StatefulWidget {
 }
 
 class _EditItemState extends State<EditItem> {
-  List<String> availableList = [Strings.trueString, Strings.falseString];
-  List<String> typeList = [Strings.empty, Strings.filled];
-  Item? item;
-  List<ItemSettings> itemsSettings = [];
-  List<ExpandedTileController> controllers = [];
+  final List<String> _availableList = [Strings.trueString, Strings.falseString];
+  late Item _item;
+  List<ItemSettings> _itemsSettings = [];
+  final List<ExpandedTileController> _controllers = [];
 
   @override
   void initState() {
     super.initState();
-    item = widget.item;
-    itemsSettings = item!.itemSettings;
-    for (int i = 0; i < itemsSettings.length; i++) {
-      controllers.add(ExpandedTileController());
+    _item = widget.item;
+    _itemsSettings = _item.itemSettings;
+    for (int i = 0; i < _itemsSettings.length; i++) {
+      _controllers.add(ExpandedTileController());
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    controllers.clear();
+    _controllers.clear();
   }
 
   @override
@@ -63,6 +63,20 @@ class _EditItemState extends State<EditItem> {
         ),
         foregroundColor: theme.mainTextColor,
         backgroundColor: theme.backgroundColor,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            color: theme.mainTextColor,
+            onPressed: () {
+              if (_item is DisposablePodEntity) {
+                bloc.add(
+                    UpdateDisposableItemEvent((_item as DisposablePodEntity).copyWith(itemSettings: _itemsSettings)));
+              } else if (_item is Snus) {
+                bloc.add(UpdateSnusItemEvent((_item as Snus).copyWith(itemSettings: _itemsSettings)));
+              }
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -71,15 +85,16 @@ class _EditItemState extends State<EditItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: adaptiveHeight(10)),
+                SizedBox(height: adaptiveHeight(5)),
                 const _Divider(Strings.nameItem + ":", textSize: 16),
                 RoundedInputField(
-                  hint: item!.name,
+                  border: Border.all(color: theme.mainTextColor, width: 1),
+                  initialValue: _item.name,
                   callback: (String callback) {
-                    if (item is DisposablePodEntity) {
-                      item = (item as DisposablePodEntity).copyWith(name: callback);
-                    } else if (item is Snus) {
-                      item = (item as Snus).copyWith(name: callback);
+                    if (_item is DisposablePodEntity) {
+                      _item = (_item as DisposablePodEntity).copyWith(name: callback);
+                    } else if (_item is Snus) {
+                      _item = (_item as Snus).copyWith(name: callback);
                     }
                   },
                   validation: ValidationBuilder()
@@ -89,13 +104,14 @@ class _EditItemState extends State<EditItem> {
                 ),
                 const _Divider(Strings.imageLinkItem + ":", textSize: 16),
                 RoundedInputField(
-                  hint: item!.imageLink,
+                  border: Border.all(color: theme.mainTextColor, width: 1),
+                  initialValue: _item.imageLink,
                   maxLength: 120,
                   callback: (String callback) {
-                    if (item is DisposablePodEntity) {
-                      item = (item as DisposablePodEntity).copyWith(imageLink: callback);
-                    } else if (item is Snus) {
-                      item = (item as Snus).copyWith(imageLink: callback);
+                    if (_item is DisposablePodEntity) {
+                      _item = (_item as DisposablePodEntity).copyWith(imageLink: callback);
+                    } else if (_item is Snus) {
+                      _item = (_item as Snus).copyWith(imageLink: callback);
                     }
                   },
                   validation: ValidationBuilder().minLength(10, Strings.min10Characters).url(Strings.onlyUrl).build(),
@@ -104,6 +120,7 @@ class _EditItemState extends State<EditItem> {
                 Container(
                   decoration: BoxDecoration(
                     color: theme.cardColor,
+                    border: Border.all(color: theme.mainTextColor, width: 1),
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: Padding(
@@ -112,34 +129,35 @@ class _EditItemState extends State<EditItem> {
                       activeColor: theme.mainTextColor,
                       textStyle: TextStyle(color: theme.mainTextColor),
                       spacebetween: 40,
-                      groupValue: item!.isAvailable ? Strings.trueString : Strings.falseString,
+                      groupValue: _item.isAvailable ? Strings.trueString : Strings.falseString,
                       onChanged: (value) {
                         final bool isAvailable = value as String == Strings.trueString ? true : false;
                         setState(() {
-                          if (item is DisposablePodEntity) {
-                            item = (item as DisposablePodEntity).copyWith(isAvailable: isAvailable);
-                          } else if (item is Snus) {
-                            item = (item as Snus).copyWith(isAvailable: isAvailable);
+                          if (_item is DisposablePodEntity) {
+                            _item = (_item as DisposablePodEntity).copyWith(isAvailable: isAvailable);
+                          } else if (_item is Snus) {
+                            _item = (_item as Snus).copyWith(isAvailable: isAvailable);
                           }
                         });
                       },
-                      items: availableList,
+                      items: _availableList,
                       itemBuilder: (item) => RadioButtonBuilder(item),
                     ),
                   ),
                 ),
                 const _Divider(Strings.priceItem + ":", textSize: 16),
                 RoundedInputField(
+                  border: Border.all(color: theme.mainTextColor, width: 1),
                   inputType: TextInputType.number,
-                  hint: item!.price.toString(),
+                  initialValue: _item.price.toStringAsFixed(0),
                   callback: (String callback) {
-                    final double price = double.tryParse(callback) ?? item!.price;
-                    if (item is DisposablePodEntity) {
-                      item = (item as DisposablePodEntity).copyWith(oldPrice: widget.item.price);
-                      item = (item as DisposablePodEntity).copyWith(price: price);
-                    } else if (item is Snus) {
-                      item = (item as Snus).copyWith(oldPrice: widget.item.price);
-                      item = (item as Snus).copyWith(price: price)..copyWith(oldPrice: widget.item.price);
+                    final double price = double.tryParse(callback) ?? _item.price;
+                    if (_item is DisposablePodEntity) {
+                      _item = (_item as DisposablePodEntity).copyWith(oldPrice: widget.item.price);
+                      _item = (_item as DisposablePodEntity).copyWith(price: price);
+                    } else if (_item is Snus) {
+                      _item = (_item as Snus).copyWith(oldPrice: widget.item.price);
+                      _item = (_item as Snus).copyWith(price: price)..copyWith(oldPrice: widget.item.price);
                     }
                   },
                   validation: ValidationBuilder()
@@ -147,17 +165,56 @@ class _EditItemState extends State<EditItem> {
                       .maxLength(30, Strings.max30Characters)
                       .build(),
                 ),
+                if (widget.item is DisposablePodEntity)
+                  Column(
+                    children: [
+                      const _Divider(Strings.puffsItem + ":"),
+                      RoundedInputField(
+                        border: Border.all(color: theme.mainTextColor, width: 1),
+                        inputType: TextInputType.number,
+                        initialValue: (_item as DisposablePodEntity).puffsCount.toString(),
+                        callback: (String callback) {
+                          _item = (_item as DisposablePodEntity).copyWith(
+                              puffsCount: int.tryParse(callback) ?? (_item as DisposablePodEntity).puffsCount);
+                        },
+                        validation: ValidationBuilder()
+                            .minLength(1, Strings.minCharacters)
+                            .maxLength(30, Strings.max30Characters)
+                            .build(),
+                      ),
+                    ],
+                  )
+                else if (widget.item is Snus)
+                  Column(
+                    children: [
+                      const _Divider(Strings.strengthItem + ":"),
+                      RoundedInputField(
+                        border: Border.all(color: theme.mainTextColor, width: 1),
+                        inputType: TextInputType.number,
+                        initialValue: (_item as Snus).strength.toString(),
+                        callback: (String callback) {
+                          _item =
+                              (_item as Snus).copyWith(strength: int.tryParse(callback) ?? (_item as Snus).strength);
+                        },
+                        validation: ValidationBuilder()
+                            .minLength(1, Strings.minCharacters)
+                            .maxLength(30, Strings.max30Characters)
+                            .build(),
+                      ),
+                    ],
+                  ),
                 const _Divider(Strings.itemSettings + ":", textSize: 16),
                 Container(
                   decoration: BoxDecoration(
                     color: theme.backgroundColor,
+                    border: Border.all(color: theme.mainTextColor, width: 1),
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: Column(
                     children: [
-                      if (itemsSettings.isNotEmpty)
+                      if (_itemsSettings.isNotEmpty)
                         ListView.builder(
-                          itemCount: itemsSettings.length,
+                          itemCount: _itemsSettings.length,
                           shrinkWrap: true,
                           itemBuilder: ((context, index) {
                             return Slidable(
@@ -166,7 +223,7 @@ class _EditItemState extends State<EditItem> {
                                 motion: const ScrollMotion(),
                                 extentRatio: adaptiveWidth(0.22),
                                 children: [
-                                  if (!controllers[index].isExpanded)
+                                  if (!_controllers[index].isExpanded)
                                     Padding(
                                       padding: const EdgeInsets.only(left: 2),
                                       child: ClipRRect(
@@ -175,7 +232,7 @@ class _EditItemState extends State<EditItem> {
                                           color: theme.cardColor,
                                           child: InkWell(
                                             onTap: () {
-                                              itemsSettings.removeAt(index);
+                                              _itemsSettings.removeAt(index);
                                               bloc.add(const InitItemsEvent());
                                               setState(() {});
                                             },
@@ -203,9 +260,9 @@ class _EditItemState extends State<EditItem> {
                                   children: [
                                     const _Divider(Strings.nameItem + ":"),
                                     RoundedInputField(
-                                      hint: itemsSettings[index].name,
+                                      initialValue: _itemsSettings[index].name,
                                       callback: (String callback) {
-                                        itemsSettings[index] = itemsSettings[index].copyWith(name: callback);
+                                        _itemsSettings[index] = _itemsSettings[index].copyWith(name: callback);
                                       },
                                       validation: ValidationBuilder()
                                           .minLength(1, Strings.minCharacters)
@@ -214,21 +271,24 @@ class _EditItemState extends State<EditItem> {
                                     ),
                                     const _Divider(Strings.imageLinkItem + ":"),
                                     RoundedInputField(
-                                      hint: itemsSettings[index].imageLink,
+                                      initialValue: _itemsSettings[index].imageLink,
                                       maxLength: 120,
                                       callback: (String callback) =>
-                                          itemsSettings[index] = itemsSettings[index].copyWith(imageLink: callback),
-                                      validation: ValidationBuilder()
-                                          .minLength(1, Strings.minCharacters)
-                                          .phone(Strings.onlyUrl)
-                                          .build(),
+                                          _itemsSettings[index] = _itemsSettings[index].copyWith(imageLink: callback),
+                                      validation: ValidationBuilder().minLength(1, Strings.minCharacters).build(),
                                     ),
                                     const _Divider(Strings.countItem + ":"),
                                     RoundedInputField(
                                       inputType: TextInputType.number,
-                                      hint: itemsSettings[index].count.toString(),
-                                      callback: (String callback) => itemsSettings[index] = itemsSettings[index]
-                                          .copyWith(count: int.tryParse(callback) ?? itemsSettings[index].count),
+                                      initialValue: _itemsSettings[index].count.toString(),
+                                      callback: (String callback) {
+                                        final int count = int.tryParse(callback) ?? _itemsSettings[index].count;
+                                        if (count == 0) {
+                                          _itemsSettings[index] = _itemsSettings[index].copyWith(isAvailable: false);
+                                          setState(() {});
+                                        }
+                                        _itemsSettings[index] = _itemsSettings[index].copyWith(count: count);
+                                      },
                                       validation: ValidationBuilder()
                                           .minLength(1, Strings.minCharacters)
                                           .maxLength(30, Strings.max30Characters)
@@ -246,22 +306,39 @@ class _EditItemState extends State<EditItem> {
                                           activeColor: theme.mainTextColor,
                                           textStyle: TextStyle(color: theme.mainTextColor),
                                           spacebetween: 35,
-                                          groupValue: itemsSettings[index].isAvailable == true
+                                          groupValue: _itemsSettings[index].isAvailable == true
                                               ? Strings.trueString
                                               : Strings.falseString,
                                           onChanged: (value) => setState(() {
-                                            itemsSettings[index] = itemsSettings[index].copyWith(
+                                            _itemsSettings[index] = _itemsSettings[index].copyWith(
                                                 isAvailable: value as String == Strings.trueString ? true : false);
                                           }),
-                                          items: availableList,
+                                          items: _availableList,
                                           itemBuilder: (item) => RadioButtonBuilder(item),
                                         ),
                                       ),
                                     ),
+                                    const _Divider(Strings.isPopular + ":"),
+                                    RadioGroup<String>.builder(
+                                      activeColor: theme.mainTextColor,
+                                      textStyle: TextStyle(color: theme.mainTextColor),
+                                      spacebetween: 40,
+                                      groupValue: _itemsSettings[index].isPopular == true
+                                          ? Strings.trueString
+                                          : Strings.falseString,
+                                      onChanged: (value) => setState(() {
+                                        _itemsSettings[index] = _itemsSettings[index]
+                                            .copyWith(isPopular: value as String == Strings.trueString ? true : false);
+                                      }),
+                                      items: _availableList,
+                                      itemBuilder: (item) => RadioButtonBuilder(item),
+                                    ),
                                   ],
                                 ),
                                 title: AutoSizeText(
-                                  itemsSettings[index].name,
+                                  _itemsSettings[index].name.isEmpty
+                                      ? Strings.emptyConfiraguration
+                                      : _itemsSettings[index].name,
                                   style: TextStyle(color: theme.mainTextColor, fontSize: 15),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -274,78 +351,32 @@ class _EditItemState extends State<EditItem> {
                                   contentBackgroundColor: theme.cardColor,
                                   contentPadding: const EdgeInsets.all(4),
                                 ),
-                                controller: controllers[index],
+                                controller: _controllers[index],
                               ),
                             );
                           }),
                         ),
-                      MainRoundedButton(
-                          text: Strings.addConfigurationButton,
-                          textStyle: theme.fontStyles.regular16.copyWith(color: theme.whiteTextColor),
-                          color: theme.mainTextColor,
-                          callback: () {
-                            controllers.add(ExpandedTileController());
-                            itemsSettings.add(ItemSettings(
-                              count: 0,
-                              isAvailable: false,
-                              name: '',
-                              isPopular: false,
-                              imageLink: "https://i.ibb.co/2qQqzdR/e.png",
-                            ));
-                            setState(() {});
-                          },
-                          theme: theme),
-                    ],
-                  ),
-                ),
-                if (widget.item is DisposablePodEntity)
-                  Column(
-                    children: [
-                      const _Divider(Strings.puffsItem + ":"),
-                      RoundedInputField(
-                        inputType: TextInputType.number,
-                        hint: (item as DisposablePodEntity).puffsCount.toString(),
-                        callback: (String callback) {
-                          item = (item as DisposablePodEntity)
-                              .copyWith(puffsCount: int.tryParse(callback) ?? (item as DisposablePodEntity).puffsCount);
-                        },
-                        validation: ValidationBuilder()
-                            .minLength(1, Strings.minCharacters)
-                            .maxLength(30, Strings.max30Characters)
-                            .build(),
-                      ),
-                    ],
-                  )
-                else if (widget.item is Snus)
-                  Column(
-                    children: [
-                      const _Divider(Strings.strengthItem + ":"),
-                      RoundedInputField(
-                        inputType: TextInputType.number,
-                        hint: (item as Snus).strength.toString(),
-                        callback: (String callback) {
-                          item = (item as Snus).copyWith(strength: int.tryParse(callback) ?? (item as Snus).strength);
-                        },
-                        validation: ValidationBuilder()
-                            .minLength(1, Strings.minCharacters)
-                            .maxLength(30, Strings.max30Characters)
-                            .build(),
+                      SizedBox(
+                        height: adaptiveHeight(60),
+                        child: MainRoundedButton(
+                            text: Strings.addConfigurationButton,
+                            textStyle: theme.fontStyles.regular16.copyWith(color: theme.whiteTextColor),
+                            color: theme.mainTextColor,
+                            callback: () {
+                              _controllers.add(ExpandedTileController());
+                              _itemsSettings.add(ItemSettings(
+                                count: 0,
+                                isAvailable: false,
+                                name: '',
+                                isPopular: false,
+                                imageLink: Const.whiteImage,
+                              ));
+                              setState(() {});
+                            },
+                            theme: theme),
                       ),
                     ],
                   ),
-                MainRoundedButton(
-                  text: Strings.updateItemButton,
-                  textStyle: theme.fontStyles.regular16.copyWith(color: theme.whiteTextColor),
-                  color: theme.mainTextColor,
-                  callback: () {
-                    if (item is DisposablePodEntity) {
-                      bloc.add(UpdateDisposableItemEvent(
-                          (item as DisposablePodEntity).copyWith(itemSettings: itemsSettings)));
-                    } else if (item is Snus) {
-                      bloc.add(UpdateSnusItemEvent((widget.item as Snus).copyWith(itemSettings: itemsSettings)));
-                    }
-                  },
-                  theme: theme,
                 ),
                 SizedBox(height: adaptiveHeight(10)),
               ],

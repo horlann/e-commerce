@@ -6,6 +6,7 @@ abstract class Strings {
   static const String max20Characters = 'Максимум 20 символів';
   static const String max30Characters = 'Максимум 30 символів';
   static const String onlyNumbers = 'Тільки цифри';
+  static const String onlyPhone = 'Неправильний номер телефону';
   static const String onlyUrl = 'Тільки URL';
 
   //cart const
@@ -39,13 +40,13 @@ abstract class Strings {
   static const String addConfigurationButton = "Додати конфігурацію";
   static const String updateItemButton = "Обновити";
   static const String emptyText = "Пусто";
-
+  static const String isPopular = "Популярний";
   static const String orders = "Замовлення";
   static const String createCategory = "Створити категорію";
   static const String productsList = "Список продуктів";
   static const String createProducts = "Створити продукт";
   static const String createButton = "Створити";
-
+  static const String emptyConfiraguration = "Нова конфігурація";
   static const String confirmButton = "Підтвердити";
   static const String backButton = "Назад";
 
@@ -59,7 +60,7 @@ abstract class Strings {
   static const String total = "До сплати";
   static const String priceDelivety = "Вартість доставки";
   static const String discount = "Знижка";
-  static const String cartIsEmpty = "Корзина пуста";
+  static const String cartIsEmpty = "Кошик пустий";
 
   //home const
   static const String search = "Пошук";
@@ -69,14 +70,16 @@ abstract class Strings {
   static const String podButton = "POD системи";
   static const String snusButton = "Снюс";
   static const String nothingFound = "Спробуйте інший запит";
-  static const String availableTastes = "доступні смаки";
+  static const String availableTastes = "Доступних смаків";
   static const String taste = "Смак";
   static const String puffs = "Ємність";
   static const String strength = "Міцність";
   static const String addToCartButton = "В кошик";
+  static const String noItems = "Тут пусто(";
 
   //snackbar
   static const String status = "Статус";
+  static const String itemWasAdded = "Продукт додано";
   static const String itemWasUpdated = "Продукт оновлено";
   static const String warning = "Оповіщення";
   static const String firstChooseProduct = "Спочатку оберіть товар";

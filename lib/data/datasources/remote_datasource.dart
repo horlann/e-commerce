@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:kurilki/common/typedefs/json.dart';
 import 'package:kurilki/data/api/rest_api/schemas/firestore_schema.dart';
 import 'package:kurilki/data/models/admin/category_table_model.dart';
-import 'package:kurilki/data/models/items/abstract_item_settings_table_model.dart';
 import 'package:kurilki/data/models/items/disposable_pod_table_model.dart';
 import 'package:kurilki/data/models/items/item_table_model.dart';
 import 'package:kurilki/data/models/items/snus_table_model.dart';
@@ -232,7 +231,7 @@ class RemoteDataSource {
                 item: productsList[i],
                 count: tableModel.items[i].count,
                 //TODO: below
-                itemSettings: const AbstractItemsSettingsTableModel(name: 'empty')));
+                itemSettings: tableModel.items[i].itemSettings));
           }
 
           tableModel = tableModel.copyWith(items: cartItems);

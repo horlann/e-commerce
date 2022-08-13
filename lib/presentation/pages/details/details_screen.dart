@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/common/di/locator.dart';
@@ -56,129 +57,155 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return BlocProvider(
       create: (context) => DetailsBloc(widget.product, productsBloc, getIt.call())..add(const InitDetailsPageEvent()),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            item.name,
-            style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),
-          ),
-          centerTitle: true,
-          foregroundColor: theme.mainTextColor,
-          backgroundColor: theme.backgroundColor,
-        ),
+        backgroundColor: theme.backgroundColor,
         body: Column(
           children: [
-            SizedBox(
-              height: getScreenHeight - adaptiveHeight(234),
-              child: ListView(
-                children: [
-                  CustomImageProvider(
-                    imageFrom: ImageFrom.network,
-                    imageLink: itemSettings?.imageLink ?? widget.product.imageLink,
-                  ),
-                  Container(
-                    width: getScreenWidth,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: theme.backgroundColor,
-                      boxShadow: [theme.appShadows.largeShadow],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.name,
-                          style: theme.fontStyles.semiBold22.copyWith(color: theme.infoTextColor),
+            Expanded(
+              child: CustomScrollView(slivers: [
+                SliverAppBar(
+                  leading: const SizedBox.shrink(),
+                  foregroundColor: Colors.transparent,
+                  backgroundColor: Colors.transparent,
+                  collapsedHeight: adaptiveHeight(335),
+                  flexibleSpace: Stack(
+                    children: [
+                      Center(
+                        child: CustomImageProvider(
+                          imageFrom: ImageFrom.network,
+                          imageLink: itemSettings?.imageLink ?? widget.product.imageLink,
                         ),
-                        SizedBox(height: adaptiveHeight(10)),
-                        item is DisposablePodEntity
-                            ? Text(
-                                "${Strings.puffs}: ${(widget.product as DisposablePodEntity).puffsCount}",
-                                style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
-                              )
-                            : const SizedBox.shrink(),
-                        item is Snus
-                            ? Text(
-                                "${Strings.strength}: ${(widget.product as Snus).strength}",
-                                style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
-                              )
-                            : const SizedBox.shrink(),
-                        SizedBox(height: adaptiveHeight(10)),
-                        itemSettings != null
-                            ? Text(
-                                "${Strings.taste}: ${itemSettings!.name}",
-                                style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
-                              )
-                            : const SizedBox.shrink(),
-                        const SizedBox(height: 10),
-                        if (widget.product is DisposablePodEntity)
-                          Wrap(
-                            spacing: adaptiveWidth(20),
-                            runSpacing: adaptiveHeight(10),
-                            children: (widget.product as DisposablePodEntity).itemSettings.map((e) {
-                              final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
-                              final bool canBeDisplayed = e.count > 0 && e.isAvailable;
-                              return GestureDetector(
-                                onTap: () {
-                                  if (!isSelected && e.count > 0 && e.isAvailable) {
-                                    setState(() {
-                                      itemSettings = e;
-                                      selectedCount = 1;
-                                    });
-                                  }
-                                },
-                                child: SizedBox(
-                                  width: adaptiveWidth(70),
-                                  height: adaptiveWidth(70),
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                          boxShadow: [theme.appShadows.baseShadow],
-                                          border: Border.all(
-                                            color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                          child:
-                                              CustomImageProvider(imageLink: e.imageLink, imageFrom: ImageFrom.network),
-                                        ),
-                                      ),
-                                      if (!canBeDisplayed)
+                      ),
+                      Positioned(
+                          left: 18,
+                          top: MediaQuery.of(context).padding.top + 18,
+                          child: GestureDetector(
+                            onTap: () {
+                              context.popRoute();
+                            },
+                            child: Container(
+                              width: adaptiveWidth(36),
+                              height: adaptiveWidth(36),
+                              child: Icon(
+                                Icons.chevron_left,
+                                color: theme.mainTextColor,
+                              ),
+                              decoration: BoxDecoration(shape: BoxShape.circle, color: theme.fillColor),
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    children: [
+                      Container(
+                        width: getScreenWidth,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: theme.backgroundColor,
+                          boxShadow: [theme.appShadows.largeShadow],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name,
+                              style: theme.fontStyles.semiBold22.copyWith(color: theme.infoTextColor),
+                            ),
+                            SizedBox(height: adaptiveHeight(10)),
+                            item is DisposablePodEntity
+                                ? Text(
+                                    "${Strings.puffs}: ${(widget.product as DisposablePodEntity).puffsCount}",
+                                    style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                                  )
+                                : const SizedBox.shrink(),
+                            item is Snus
+                                ? Text(
+                                    "${Strings.strength}: ${(widget.product as Snus).strength}",
+                                    style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                                  )
+                                : const SizedBox.shrink(),
+                            SizedBox(height: adaptiveHeight(10)),
+                            itemSettings != null
+                                ? Text(
+                                    "${Strings.taste}: ${itemSettings!.name}",
+                                    style: theme.fontStyles.semiBold18.copyWith(color: theme.infoTextColor),
+                                  )
+                                : const SizedBox.shrink(),
+                            const SizedBox(height: 10),
+                            Wrap(
+                              spacing: adaptiveWidth(20),
+                              runSpacing: adaptiveHeight(10),
+                              children: widget.product.itemSettings.map((e) {
+                                final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
+                                final bool canBeDisplayed = e.count > 0 && e.isAvailable;
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (!isSelected && e.count > 0 && e.isAvailable) {
+                                      setState(() {
+                                        itemSettings = e;
+                                        selectedCount = 1;
+                                      });
+                                    }
+                                  },
+                                  child: SizedBox(
+                                    width: adaptiveWidth(70),
+                                    height: adaptiveWidth(70),
+                                    child: Stack(
+                                      children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            color: theme.inactiveColor.withOpacity(0.5),
-                                            boxShadow: [theme.appShadows.baseShadow],
                                             borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                            boxShadow: [theme.appShadows.baseShadow],
                                             border: Border.all(
-                                              color: theme.inactiveColor,
-                                              width: 1,
+                                              color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
+                                              width: 2,
                                             ),
                                           ),
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          child: Icon(Icons.clear, color: theme.wrongColor, size: adaptiveWidth(40)),
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                            child: CustomImageProvider(
+                                                imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                                          ),
                                         ),
-                                    ],
+                                        if (!canBeDisplayed)
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: theme.inactiveColor.withOpacity(0.5),
+                                              boxShadow: [theme.appShadows.baseShadow],
+                                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                              border: Border.all(
+                                                color: theme.inactiveColor,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Icon(Icons.clear, color: theme.wrongColor, size: adaptiveWidth(40)),
+                                          ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                      ],
-                    ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                )
+              ]),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(adaptiveWidth(12)),
               child: Row(
                 children: [
                   Text(
-                    "\$${item.price.toStringAsFixed(0)}",
+                    "₴${item.price.toStringAsFixed(0)}",
                     style: theme.fontStyles.semiBold22.copyWith(color: theme.mainTextColor),
                   ),
                   Expanded(
@@ -187,19 +214,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       children: [
                         SizedBox(width: adaptiveWidth(5)),
                         _RoundButton(
-                            type: "+",
+                            type: "-",
                             callback: () {
-                              int countInCart = 0;
-                              for (CartItem cartItem in cartBloc.cartItems) {
-                                if (cartItem.itemSettings == itemSettings) {
-                                  countInCart = cartItem.count;
-                                }
-                              }
-                              if (itemSettings == null) {
-                                selectedCount++;
-                                setState(() {});
-                              } else if (selectedCount + countInCart < itemSettings!.count) {
-                                selectedCount++;
+                              if (selectedCount > 1) {
+                                selectedCount--;
                                 setState(() {});
                               }
                             }),
@@ -214,10 +232,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           width: adaptiveWidth(5),
                         ),
                         _RoundButton(
-                            type: "-",
+                            type: "+",
                             callback: () {
-                              if (selectedCount > 1) {
-                                selectedCount--;
+                              int countInCart = 0;
+                              for (CartItem cartItem in cartBloc.cartItems) {
+                                if (cartItem.itemSettings == itemSettings) {
+                                  countInCart = cartItem.count;
+                                }
+                              }
+                              if (itemSettings == null) {
+                                selectedCount++;
+                                setState(() {});
+                              } else if (selectedCount + countInCart < itemSettings!.count) {
+                                selectedCount++;
                                 setState(() {});
                               }
                             }),
@@ -250,8 +277,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 CustomSnackBar.showSnackNar(context, Strings.warning, Strings.productIsOver);
                               }
                             } else {
-                              cartBloc.add(
-                                  AddToCartEvent(item, selectedCount, itemSettings ?? NoItemSettings(name: 'empty')));
+                              cartBloc.add(AddToCartEvent(item, selectedCount, NoItemSettings(name: 'empty')));
                               CustomSnackBar.showSnackNar(context, Strings.warning, Strings.productIsAdded);
                             }
                             selectedCount = 1;
@@ -295,8 +321,9 @@ class _RoundButton extends StatelessWidget {
             height: adaptiveHeight(42),
             width: adaptiveWidth(42),
             decoration: BoxDecoration(
-                border: Border.all(color: theme.mainTextColor, width: 1),
-                borderRadius: const BorderRadius.all(Radius.circular(42))),
+              border: Border.all(color: theme.mainTextColor, width: 1),
+              shape: BoxShape.circle,
+            ),
             child: Center(
                 child: Text(
               type,

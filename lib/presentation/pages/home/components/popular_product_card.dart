@@ -26,6 +26,7 @@ class PopularProductCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        FocusScope.of(context).unfocus();
         final int itemConfiguration = item.itemSettings.indexWhere((element) => element == itemSettings);
         AutoRouter.of(context).push(DetailsRouter(product: item, itemConfiguration: itemConfiguration));
       },

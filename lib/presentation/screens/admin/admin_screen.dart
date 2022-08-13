@@ -32,7 +32,6 @@ class _AdminScreenState extends State<AdminScreen> {
         routes: const [
           CreateItemRouter(),
           ProductsListWrapper(),
-          CreateCategoryRouter(),
           OrdersListRouter(),
         ],
         lazyLoad: false,

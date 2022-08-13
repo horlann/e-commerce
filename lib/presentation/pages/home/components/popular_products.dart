@@ -38,7 +38,7 @@ class PopularProducts extends StatelessWidget {
                 final List<PopularItem> popularItems = [];
                 for (Item item in items) {
                   for (ItemSettings itemSettings in item.itemSettings) {
-                    if (itemSettings.isPopular) {
+                    if (itemSettings.isPopular && itemSettings.isAvailable && item.isAvailable) {
                       popularItems.add(PopularItem(item: item, itemSettings: itemSettings));
                     }
                   }

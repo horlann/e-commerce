@@ -88,8 +88,10 @@ class RemoteAdminRepository {
           List<Item> productsList = preItems.map((e) => Item.fromTableModel(e.item)).toList();
           List<CartItem> cartItems = [];
           for (int i = 0; i < productsList.length; i++) {
-            cartItems.add(
-                CartItem(item: productsList[i], count: preItems[i].count, itemSettings: NoItemSettings(name: 'empty')));
+            cartItems.add(CartItem(
+                item: productsList[i],
+                count: preItems[i].count,
+                itemSettings: AbstractItemSettings.fromTableModel(preItems[i].itemSettings)));
           }
 
           return OrderEntity.fromTableModel(model, cartItems);

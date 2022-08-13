@@ -42,7 +42,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  activePage = 1;
+                  activePage = 0;
                 });
                 categoryBloc.add(const InitCategoriesEvent());
                 tabsRouter.setActiveIndex(0);
@@ -51,8 +51,28 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.newItem,
+                      CustomIcons.newItem,
                   width: 26,
+                  color: activePage == 0 ? theme.infoTextColor : theme.inactiveTextColor,
+                )),
+              ),
+            ),
+          ),
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  activePage = 1;
+                });
+                itemBloc.add(const InitItemsEvent());
+                tabsRouter.setActiveIndex(1);
+              },
+              child: SizedBox(
+                width: double.infinity,
+                child: Center(
+                    child: SvgPicture.asset(
+                      CustomIcons.redactItem,
+                  width: 24,
                   color: activePage == 1 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
@@ -64,56 +84,16 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 setState(() {
                   activePage = 2;
                 });
-                itemBloc.add(const InitItemsEvent());
-                tabsRouter.setActiveIndex(1);
-              },
-              child: SizedBox(
-                width: double.infinity,
-                child: Center(
-                    child: SvgPicture.asset(
-                  CustomIcons.redactItem,
-                  width: 24,
-                  color: activePage == 2 ? theme.infoTextColor : theme.inactiveTextColor,
-                )),
-              ),
-            ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  activePage = 3;
-                });
-                categoryBloc.add(const CreateNewCategoryEvent());
+                ordersBloc.add(const InitOrdersEvent());
                 tabsRouter.setActiveIndex(2);
               },
               child: SizedBox(
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                  CustomIcons.newCategory,
+                      CustomIcons.orders,
                   width: 26,
-                  color: activePage == 3 ? theme.infoTextColor : theme.inactiveTextColor,
-                )),
-              ),
-            ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  activePage = 4;
-                });
-                ordersBloc.add(const InitOrdersEvent());
-                tabsRouter.setActiveIndex(3);
-              },
-              child: SizedBox(
-                width: double.infinity,
-                child: Center(
-                    child: SvgPicture.asset(
-                  CustomIcons.orders,
-                  width: 26,
-                  color: activePage == 4 ? theme.infoTextColor : theme.inactiveTextColor,
+                  color: activePage == 2 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
               ),
             ),
