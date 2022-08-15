@@ -195,6 +195,11 @@ class RemoteDataSource {
     await userCollectionRef.doc(orderTableModel.uuid).set(orderTableModel.toJson());
   }
 
+  Future<void> updateOrder(OrderTableModel model) async {
+    final userCollectionRef = _firestore.collection("orders");
+    await userCollectionRef.doc(model.uuid).update(model.toJson());
+  }
+
   Future<OrderTableModel> get lastOrder async {
     final ordersCollection = _firestore.collection("orders");
 

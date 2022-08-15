@@ -5,6 +5,7 @@ abstract class Strings {
   static const String max12Characters = 'Максимум 12 символів';
   static const String max20Characters = 'Максимум 20 символів';
   static const String max30Characters = 'Максимум 30 символів';
+  static const String max50Characters = 'Максимум 50 символів';
   static const String onlyNumbers = 'Тільки цифри';
   static const String onlyPhone = 'Неправильний номер телефону';
   static const String onlyUrl = 'Тільки URL';
@@ -37,7 +38,19 @@ abstract class Strings {
   static const String puffsItem = "Ємність";
   static const String strengthItem = "Міцність";
   static const String imageLinkItem = "URL зображення";
+  static const String orderCreatedAt = "Замовлення створено:";
+  static const String orderCompletedAt = "Замовлення завершено:";
+  static const String orderCanceled = "Замовлення відмінено";
+  static const String orderDeliveryAddress = "Адреса доставки: ";
+  static const String coupon = "Купон: ";
+  static const String deliveryPrice = "Вартість доставки: ";
+  static const String itemsPrice = "Вартість товарів: ";
+  static const String totalPrice = "Загалом: ";
+  static const String orderPickUpAddress = "Самовивіз";
   static const String addConfigurationButton = "Додати конфігурацію";
+  static const String completeOrderButton = "Завершити";
+  static const String inProgressOrderButton = "В обробку";
+  static const String cancelOrderButton = "Відмінити";
   static const String updateItemButton = "Обновити";
   static const String emptyText = "Пусто";
   static const String isPopular = "Популярний";

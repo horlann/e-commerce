@@ -146,7 +146,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                               border: Border.all(color: theme.mainTextColor),
                               validation: ValidationBuilder()
                                   .minLength(10, Strings.min10Characters)
-                                  .maxLength(30, Strings.max30Characters)
+                                  .maxLength(50, Strings.max50Characters)
                                   .build(),
                             ),
                             SizedBox(height: adaptiveHeight(10)),

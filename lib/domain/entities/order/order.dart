@@ -38,9 +38,9 @@ class OrderEntity {
     List<CartItem>? items,
     DeliveryDetails? deliveryDetails,
     PriceDetails? priceDetails,
-    DateTime? createDate,
-    DateTime? completeDate,
-    OrderStatus? status,
+    DateTime? createdAt,
+    DateTime? completedAt,
+    OrderStatus? orderStatus,
   }) {
     return OrderEntity(
       uuid: uuid ?? this.uuid,
@@ -49,9 +49,9 @@ class OrderEntity {
       items: items ?? this.items,
       deliveryDetails: deliveryDetails ?? this.deliveryDetails,
       priceDetails: priceDetails ?? this.priceDetails,
-      completedAt: createDate ?? completedAt,
-      createdAt: completeDate ?? createdAt,
-      orderStatus: status ?? orderStatus,
+      completedAt: completedAt ?? this.completedAt,
+      createdAt: createdAt ?? this.createdAt,
+      orderStatus: orderStatus ?? this.orderStatus,
     );
   }
 
@@ -67,4 +67,9 @@ class OrderEntity {
       orderStatus: model.orderStatus);
 }
 
-enum OrderStatus { created, cancelled, completed, inProgress }
+enum OrderStatus {
+  created,
+  cancelled,
+  completed,
+  inProgress,
+}

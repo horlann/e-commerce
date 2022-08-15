@@ -89,12 +89,17 @@ class RemoteAdminRepository {
           List<CartItem> cartItems = [];
           for (int i = 0; i < productsList.length; i++) {
             cartItems.add(CartItem(
-                item: productsList[i],
-                count: preItems[i].count,
-                itemSettings: AbstractItemSettings.fromTableModel(preItems[i].itemSettings)));
+              item: productsList[i],
+              count: preItems[i].count,
+              itemSettings: AbstractItemSettings.fromTableModel(preItems[i].itemSettings),
+            ));
           }
-
           return OrderEntity.fromTableModel(model, cartItems);
         }).toList());
+  }
+
+  Future<void> updateOrder(OrderEntity entity) async {
+    final OrderTableModel model = OrderTableModel.fromEntity(entity);
+    await _remoteDataSource.updateOrder(model);
   }
 }

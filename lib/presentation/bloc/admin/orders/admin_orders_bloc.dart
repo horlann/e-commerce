@@ -10,11 +10,18 @@ class AdminOrdersBloc extends Bloc<AdminOrdersEvent, AdminOrdersState> {
 
   AdminOrdersBloc(this._remoteAdminRepository) : super(const AdminOrdersState().inProgress()) {
     on<InitOrdersEvent>(_listenOrdersStream);
+    on<ChangeOrderStatusEvent>(_changeOrderStatus);
   }
 
   Future<void> _listenOrdersStream(AdminOrdersEvent event, Emitter<AdminOrdersState> emit) async {
     await emit.onEach(_remoteAdminRepository.ordersStream(), onData: (message) {
       emit(NewOrderState(message as List<OrderEntity>));
     });
+  }
+
+  Future<void> _changeOrderStatus(ChangeOrderStatusEvent event, Emitter<AdminOrdersState> emit) async {
+    await _remoteAdminRepository.updateOrder(event.orderEntity);
+    add(const InitOrdersEvent());
+    emit(NewOrderState(orders));
   }
 }
