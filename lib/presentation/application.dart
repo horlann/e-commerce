@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:kurilki/common/di/locator.dart';
 import 'package:kurilki/common/navigation/router.gr.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<CartBloc>(create: (_) => CartBloc(getIt.call(), getIt.call())..add(const InitCartEvent())),
       ],
       child: Builder(builder: (context) {
+        initializeDateFormatting();
         return MaterialApp.router(
           color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
           debugShowCheckedModeBanner: false,

@@ -23,6 +23,7 @@ class ProductCard extends StatelessWidget {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return InkWell(
       onTap: () {
+        FocusScope.of(context).unfocus();
         AutoRouter.of(context).push(DetailsRouter(product: product));
       },
       child: Container(
@@ -74,10 +75,11 @@ class ProductCard extends StatelessWidget {
                           style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                         ),
                         SizedBox(height: adaptiveHeight(10)),
-                        Text(
-                          "${Strings.availableTastes}:${product.itemSettings.length} ",
-                          style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
-                        ),
+                        if (product.itemSettings.isNotEmpty)
+                          Text(
+                            "${Strings.availableTastes}:${product.itemSettings.length} ",
+                            style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                          )
                       ],
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/domain/entities/category/category_entity.dart';
 import 'package:kurilki/domain/entities/items/disposable_pod_entity.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
@@ -15,6 +16,7 @@ import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/main_rounded_button.dart';
 import 'package:kurilki/presentation/widgets/rounded_text_field.dart';
+import 'package:kurilki/presentation/widgets/snackbar.dart';
 import 'package:uuid/uuid.dart';
 
 class DataLoaded extends StatefulWidget {
@@ -111,8 +113,8 @@ class _DataLoadedState extends State<DataLoaded> {
                   SizedBox(height: adaptiveHeight(10)),
                   MainRoundedButton(
                     text: Strings.createButton,
-                    color: theme.accentColor,
-                    textStyle: TextStyle(color: theme.mainTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+                    color: theme.mainTextColor,
+                    textStyle: theme.fontStyles.regular16.copyWith(color: theme.whiteTextColor),
                     callback: () {
                       if (_formKey.currentState!.validate() && _selectedCategory.isNotEmpty) {
                         if (_selectedCategory == ProductCategory.disposablePod.name) {
@@ -122,7 +124,7 @@ class _DataLoadedState extends State<DataLoaded> {
                                 category: _selectedCategory,
                                 description: '',
                                 id: '',
-                                imageLink: "",
+                                imageLink: Const.whiteImage,
                                 isAvailable: false,
                                 itemSettings: [],
                                 name: _name,
@@ -141,7 +143,7 @@ class _DataLoadedState extends State<DataLoaded> {
                                 category: _selectedCategory,
                                 description: '',
                                 id: '',
-                                imageLink: "",
+                                imageLink: Const.whiteImage,
                                 isAvailable: false,
                                 itemSettings: [],
                                 name: _name,
@@ -154,6 +156,7 @@ class _DataLoadedState extends State<DataLoaded> {
                             ),
                           );
                         }
+                        CustomSnackBar.showSnackNar(context, Strings.warning, Strings.itemWasAdded);
                       }
                     },
                     theme: theme,

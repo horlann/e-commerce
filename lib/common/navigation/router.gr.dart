@@ -17,9 +17,12 @@ import '../../domain/entities/items/item.dart' as _i17;
 import '../../presentation/pages/account/account_page.dart' as _i4;
 import '../../presentation/pages/admin/create_item/create_item.dart' as _i10;
 import '../../presentation/pages/admin/orders_list/orders_list.dart' as _i11;
-import '../../presentation/pages/admin/products_list/components/edit_item.dart' as _i14;
-import '../../presentation/pages/admin/products_list/products_list.dart' as _i13;
-import '../../presentation/pages/admin/products_list/products_list_wrapper.dart' as _i12;
+import '../../presentation/pages/admin/products_list/components/edit_item.dart'
+    as _i14;
+import '../../presentation/pages/admin/products_list/products_list.dart'
+    as _i13;
+import '../../presentation/pages/admin/products_list/products_list_wrapper.dart'
+    as _i12;
 import '../../presentation/pages/cart/order_confirmation_page.dart' as _i9;
 import '../../presentation/pages/cart/shopping_cart_page.dart' as _i8;
 import '../../presentation/pages/cart/shopping_cart_wrapper.dart' as _i5;
@@ -30,55 +33,73 @@ import '../../presentation/screens/admin/admin_screen.dart' as _i2;
 import '../../presentation/screens/main_screen/main_screen.dart' as _i1;
 
 class AppRouter extends _i15.RootStackRouter {
-  AppRouter([_i16.GlobalKey<_i16.NavigatorState>? navigatorKey]) : super(navigatorKey);
+  AppRouter([_i16.GlobalKey<_i16.NavigatorState>? navigatorKey])
+      : super(navigatorKey);
 
   @override
   final Map<String, _i15.PageFactory> pagesMap = {
     MainScreen.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i1.MainScreen());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i1.MainScreen());
     },
     AdminRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i2.AdminScreen());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.AdminScreen());
     },
     HomePageWrapper.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i3.HomePageWrapper());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i3.HomePageWrapper());
     },
     AccountRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i4.AccountPage());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i4.AccountPage());
     },
     CartWrapper.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i5.ShoppingCartWrapper());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i5.ShoppingCartWrapper());
     },
     HomeRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i6.HomePage());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i6.HomePage());
     },
     DetailsRouter.name: (routeData) {
       final args = routeData.argsAs<DetailsRouterArgs>();
       return _i15.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i7.DetailsScreen(key: args.key, product: args.product, itemConfiguration: args.itemConfiguration));
+          child: _i7.DetailsScreen(
+              key: args.key,
+              product: args.product,
+              itemConfiguration: args.itemConfiguration));
     },
     ShoppingCartRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i8.ShoppingCartPage());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i8.ShoppingCartPage());
     },
     OrderConfirmationRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i9.OrderConfirmationPage());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i9.OrderConfirmationPage());
     },
     CreateItemRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i10.CreateItem());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i10.CreateItem());
     },
     OrdersListRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i11.OrdersList());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i11.OrdersList());
     },
     ProductsListWrapper.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i12.ProductsListWrapper());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i12.ProductsListWrapper());
     },
     ProductsListRouter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: const _i13.ProductsListPage());
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i13.ProductsListPage());
     },
     EditItemRouter.name: (routeData) {
       final args = routeData.argsAs<EditItemRouterArgs>();
-      return _i15.MaterialPageX<dynamic>(routeData: routeData, child: _i14.EditItem(key: args.key, item: args.item));
+      return _i15.MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: _i14.EditItem(key: args.key, item: args.item));
     }
   };
 
@@ -86,25 +107,50 @@ class AppRouter extends _i15.RootStackRouter {
   List<_i15.RouteConfig> get routes => [
         _i15.RouteConfig(MainScreen.name, path: '/', children: [
           _i15.RouteConfig('#redirect',
-              path: '', parent: MainScreen.name, redirectTo: 'homePageWrapper', fullMatch: true),
-          _i15.RouteConfig(HomePageWrapper.name, path: 'homePageWrapper', parent: MainScreen.name, children: [
-            _i15.RouteConfig(HomeRouter.name, path: '', parent: HomePageWrapper.name),
-            _i15.RouteConfig(DetailsRouter.name, path: 'details', parent: HomePageWrapper.name)
-          ]),
-          _i15.RouteConfig(AccountRouter.name, path: 'account', parent: MainScreen.name),
-          _i15.RouteConfig(CartWrapper.name, path: 'cart', parent: MainScreen.name, children: [
-            _i15.RouteConfig(ShoppingCartRouter.name, path: '', parent: CartWrapper.name),
-            _i15.RouteConfig(OrderConfirmationRouter.name, path: 'order_confirmation', parent: CartWrapper.name)
-          ])
+              path: '',
+              parent: MainScreen.name,
+              redirectTo: 'homePageWrapper',
+              fullMatch: true),
+          _i15.RouteConfig(HomePageWrapper.name,
+              path: 'homePageWrapper',
+              parent: MainScreen.name,
+              children: [
+                _i15.RouteConfig(HomeRouter.name,
+                    path: '', parent: HomePageWrapper.name),
+                _i15.RouteConfig(DetailsRouter.name,
+                    path: 'details', parent: HomePageWrapper.name)
+              ]),
+          _i15.RouteConfig(AccountRouter.name,
+              path: 'account', parent: MainScreen.name),
+          _i15.RouteConfig(CartWrapper.name,
+              path: 'cart',
+              parent: MainScreen.name,
+              children: [
+                _i15.RouteConfig(ShoppingCartRouter.name,
+                    path: '', parent: CartWrapper.name),
+                _i15.RouteConfig(OrderConfirmationRouter.name,
+                    path: 'order_confirmation', parent: CartWrapper.name)
+              ])
         ]),
         _i15.RouteConfig(AdminRouter.name, path: '/admin', children: [
-          _i15.RouteConfig('#redirect', path: '', parent: AdminRouter.name, redirectTo: 'orders_list', fullMatch: true),
-          _i15.RouteConfig(CreateItemRouter.name, path: 'create_item', parent: AdminRouter.name),
-          _i15.RouteConfig(OrdersListRouter.name, path: 'orders_list', parent: AdminRouter.name),
-          _i15.RouteConfig(ProductsListWrapper.name, path: 'productsListWrapper', parent: AdminRouter.name, children: [
-            _i15.RouteConfig(ProductsListRouter.name, path: '', parent: ProductsListWrapper.name),
-            _i15.RouteConfig(EditItemRouter.name, path: 'edit_item', parent: ProductsListWrapper.name)
-          ])
+          _i15.RouteConfig('#redirect',
+              path: '',
+              parent: AdminRouter.name,
+              redirectTo: 'orders_list',
+              fullMatch: true),
+          _i15.RouteConfig(CreateItemRouter.name,
+              path: 'create_item', parent: AdminRouter.name),
+          _i15.RouteConfig(OrdersListRouter.name,
+              path: 'orders_list', parent: AdminRouter.name),
+          _i15.RouteConfig(ProductsListWrapper.name,
+              path: 'productsListWrapper',
+              parent: AdminRouter.name,
+              children: [
+                _i15.RouteConfig(ProductsListRouter.name,
+                    path: '', parent: ProductsListWrapper.name),
+                _i15.RouteConfig(EditItemRouter.name,
+                    path: 'edit_item', parent: ProductsListWrapper.name)
+              ])
         ])
       ];
 }
@@ -112,7 +158,8 @@ class AppRouter extends _i15.RootStackRouter {
 /// generated route for
 /// [_i1.MainScreen]
 class MainScreen extends _i15.PageRouteInfo<void> {
-  const MainScreen({List<_i15.PageRouteInfo>? children}) : super(MainScreen.name, path: '/', initialChildren: children);
+  const MainScreen({List<_i15.PageRouteInfo>? children})
+      : super(MainScreen.name, path: '/', initialChildren: children);
 
   static const String name = 'MainScreen';
 }
@@ -130,7 +177,8 @@ class AdminRouter extends _i15.PageRouteInfo<void> {
 /// [_i3.HomePageWrapper]
 class HomePageWrapper extends _i15.PageRouteInfo<void> {
   const HomePageWrapper({List<_i15.PageRouteInfo>? children})
-      : super(HomePageWrapper.name, path: 'homePageWrapper', initialChildren: children);
+      : super(HomePageWrapper.name,
+            path: 'homePageWrapper', initialChildren: children);
 
   static const String name = 'HomePageWrapper';
 }
@@ -163,15 +211,21 @@ class HomeRouter extends _i15.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.DetailsScreen]
 class DetailsRouter extends _i15.PageRouteInfo<DetailsRouterArgs> {
-  DetailsRouter({_i16.Key? key, required _i17.Item product, int itemConfiguration = -1})
+  DetailsRouter(
+      {_i16.Key? key, required _i17.Item product, int itemConfiguration = -1})
       : super(DetailsRouter.name,
-            path: 'details', args: DetailsRouterArgs(key: key, product: product, itemConfiguration: itemConfiguration));
+            path: 'details',
+            args: DetailsRouterArgs(
+                key: key,
+                product: product,
+                itemConfiguration: itemConfiguration));
 
   static const String name = 'DetailsRouter';
 }
 
 class DetailsRouterArgs {
-  const DetailsRouterArgs({this.key, required this.product, this.itemConfiguration = -1});
+  const DetailsRouterArgs(
+      {this.key, required this.product, this.itemConfiguration = -1});
 
   final _i16.Key? key;
 
@@ -196,7 +250,8 @@ class ShoppingCartRouter extends _i15.PageRouteInfo<void> {
 /// generated route for
 /// [_i9.OrderConfirmationPage]
 class OrderConfirmationRouter extends _i15.PageRouteInfo<void> {
-  const OrderConfirmationRouter() : super(OrderConfirmationRouter.name, path: 'order_confirmation');
+  const OrderConfirmationRouter()
+      : super(OrderConfirmationRouter.name, path: 'order_confirmation');
 
   static const String name = 'OrderConfirmationRouter';
 }
@@ -221,7 +276,8 @@ class OrdersListRouter extends _i15.PageRouteInfo<void> {
 /// [_i12.ProductsListWrapper]
 class ProductsListWrapper extends _i15.PageRouteInfo<void> {
   const ProductsListWrapper({List<_i15.PageRouteInfo>? children})
-      : super(ProductsListWrapper.name, path: 'productsListWrapper', initialChildren: children);
+      : super(ProductsListWrapper.name,
+            path: 'productsListWrapper', initialChildren: children);
 
   static const String name = 'ProductsListWrapper';
 }
@@ -238,7 +294,8 @@ class ProductsListRouter extends _i15.PageRouteInfo<void> {
 /// [_i14.EditItem]
 class EditItemRouter extends _i15.PageRouteInfo<EditItemRouterArgs> {
   EditItemRouter({_i16.Key? key, required _i17.Item item})
-      : super(EditItemRouter.name, path: 'edit_item', args: EditItemRouterArgs(key: key, item: item));
+      : super(EditItemRouter.name,
+            path: 'edit_item', args: EditItemRouterArgs(key: key, item: item));
 
   static const String name = 'EditItemRouter';
 }

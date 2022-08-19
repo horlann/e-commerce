@@ -68,7 +68,7 @@ class CartProductCard extends StatelessWidget {
                       SizedBox(
                         width: getScreenWidth - adaptiveWidth(180),
                         child: AutoSizeText(
-                          (settings is ItemSettings) ? "${product.name} (${settings.name})" : product.name,
+                          settings != null ? "${product.name} (${settings.name})" : product.name,
                           maxLines: 2,
                           minFontSize: 14,
                           maxFontSize: 16,
@@ -80,7 +80,7 @@ class CartProductCard extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: Text(
-                            "\$${product.price.toStringAsFixed(0)}",
+                            "₴${product.price.toStringAsFixed(0)}",
                             textAlign: TextAlign.center,
                             style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
                           ),
@@ -135,7 +135,7 @@ class _RoundButton extends StatelessWidget {
     final CartBloc bloc = BlocProvider.of<CartBloc>(context);
 
     return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(25)),
+      borderRadius: const BorderRadius.all(Radius.circular(35)),
       child: Material(
         color: theme.cardColor,
         child: InkWell(
@@ -168,8 +168,9 @@ class _RoundButton extends StatelessWidget {
             height: adaptiveHeight(35),
             width: adaptiveWidth(35),
             decoration: BoxDecoration(
-                border: Border.all(color: theme.mainTextColor, width: 1),
-                borderRadius: const BorderRadius.all(Radius.circular(25))),
+              shape: BoxShape.circle,
+              border: Border.all(color: theme.mainTextColor, width: 1),
+            ),
             child: Center(
                 child: Text(
               type,

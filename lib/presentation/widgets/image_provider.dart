@@ -14,26 +14,28 @@ class CustomImageProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
-    return imageFrom == ImageFrom.network
-        ? CachedNetworkImage(
-            imageUrl: imageLink,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: (Colors.grey[300]) ?? Colors.white,
-                highlightColor: (Colors.grey[100]) ?? Colors.white,
-                child: Container(
-                  color: Colors.grey,
-                )),
-            errorWidget: (context, url, error) => Container(
-              color: theme.backgroundColor,
-              height: double.infinity,
-              child: Icon(
-                Icons.error_outline,
-                color: theme.wrongColor,
-              ),
-            ),
-          )
-        : Image.asset(imageLink);
+    if (imageFrom == ImageFrom.network) {
+      return CachedNetworkImage(
+        imageUrl: imageLink,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: (Colors.grey[300]) ?? Colors.white,
+            highlightColor: (Colors.grey[100]) ?? Colors.white,
+            child: Container(
+              color: Colors.grey,
+            )),
+        errorWidget: (context, url, error) => Container(
+          color: theme.backgroundColor,
+          height: double.infinity,
+          child: Icon(
+            Icons.error_outline,
+            color: theme.wrongColor,
+          ),
+        ),
+      );
+    } else {
+      return Image.asset(imageLink);
+    }
   }
 }
 

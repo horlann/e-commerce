@@ -5,7 +5,9 @@ abstract class Strings {
   static const String max12Characters = 'Максимум 12 символів';
   static const String max20Characters = 'Максимум 20 символів';
   static const String max30Characters = 'Максимум 30 символів';
+  static const String max50Characters = 'Максимум 50 символів';
   static const String onlyNumbers = 'Тільки цифри';
+  static const String onlyPhone = 'Неправильний номер телефону';
   static const String onlyUrl = 'Тільки URL';
 
   //cart const
@@ -36,16 +38,28 @@ abstract class Strings {
   static const String puffsItem = "Ємність";
   static const String strengthItem = "Міцність";
   static const String imageLinkItem = "URL зображення";
+  static const String orderCreatedAt = "Замовлення створено:";
+  static const String orderCompletedAt = "Замовлення завершено:";
+  static const String orderCanceled = "Замовлення відмінено";
+  static const String orderDeliveryAddress = "Адреса доставки: ";
+  static const String coupon = "Купон: ";
+  static const String deliveryPrice = "Вартість доставки: ";
+  static const String itemsPrice = "Вартість товарів: ";
+  static const String totalPrice = "Загалом: ";
+  static const String orderPickUpAddress = "Самовивіз";
   static const String addConfigurationButton = "Додати конфігурацію";
+  static const String completeOrderButton = "Завершити";
+  static const String inProgressOrderButton = "В обробку";
+  static const String cancelOrderButton = "Відмінити";
   static const String updateItemButton = "Обновити";
   static const String emptyText = "Пусто";
-
+  static const String isPopular = "Популярний";
   static const String orders = "Замовлення";
   static const String createCategory = "Створити категорію";
   static const String productsList = "Список продуктів";
   static const String createProducts = "Створити продукт";
   static const String createButton = "Створити";
-
+  static const String emptyConfiraguration = "Нова конфігурація";
   static const String confirmButton = "Підтвердити";
   static const String backButton = "Назад";
 
@@ -59,7 +73,7 @@ abstract class Strings {
   static const String total = "До сплати";
   static const String priceDelivety = "Вартість доставки";
   static const String discount = "Знижка";
-  static const String cartIsEmpty = "Корзина пуста";
+  static const String cartIsEmpty = "Кошик пустий";
 
   //home const
   static const String search = "Пошук";
@@ -78,6 +92,7 @@ abstract class Strings {
 
   //snackbar
   static const String status = "Статус";
+  static const String itemWasAdded = "Продукт додано";
   static const String itemWasUpdated = "Продукт оновлено";
   static const String warning = "Оповіщення";
   static const String firstChooseProduct = "Спочатку оберіть товар";

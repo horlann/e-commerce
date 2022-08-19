@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
     return Container(
       color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
       child: Padding(
-        padding: EdgeInsets.all(adaptiveWidth(8.0)),
+        padding: EdgeInsets.fromLTRB(adaptiveWidth(8), adaptiveHeight(8), adaptiveWidth(8), 0),
         child: ListView(
           shrinkWrap: true,
           children: [
@@ -39,8 +39,9 @@ class HomePage extends StatelessWidget {
                     padding: EdgeInsets.all(adaptiveWidth(8.0)),
                     child: Container(
                       decoration: BoxDecoration(
-                          boxShadow: [theme.appShadows.largeShadow],
-                          borderRadius: const BorderRadius.all(Radius.circular(32))),
+                        boxShadow: [theme.appShadows.largeShadow],
+                        borderRadius: const BorderRadius.all(Radius.circular(32)),
+                      ),
                       child: RoundedInputField(
                         icon: Icons.search,
                         hint: Strings.search,
@@ -62,7 +63,7 @@ class HomePage extends StatelessWidget {
             BlocBuilder<ProductsBloc, ProductsState>(
               builder: ((context, state) {
                 if (state is ProductsLoadingState) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
                 } else if (state is SearchProductState) {
                   return SearchProduct(items: state.items);
                 } else {

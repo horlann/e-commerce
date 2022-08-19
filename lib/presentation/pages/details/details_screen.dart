@@ -66,7 +66,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   leading: const SizedBox.shrink(),
                   foregroundColor: Colors.transparent,
                   backgroundColor: Colors.transparent,
-                  collapsedHeight: adaptiveHeight(380),
+                  collapsedHeight: adaptiveHeight(335),
                   flexibleSpace: Stack(
                     children: [
                       Center(
@@ -136,64 +136,62 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   )
                                 : const SizedBox.shrink(),
                             const SizedBox(height: 10),
-                            if (widget.product is DisposablePodEntity)
-                              Wrap(
-                                spacing: adaptiveWidth(20),
-                                runSpacing: adaptiveHeight(10),
-                                children: (widget.product as DisposablePodEntity).itemSettings.map((e) {
-                                  final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
-                                  final bool canBeDisplayed = e.count > 0 && e.isAvailable;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      if (!isSelected && e.count > 0 && e.isAvailable) {
-                                        setState(() {
-                                          itemSettings = e;
-                                          selectedCount = 1;
-                                        });
-                                      }
-                                    },
-                                    child: SizedBox(
-                                      width: adaptiveWidth(70),
-                                      height: adaptiveWidth(70),
-                                      child: Stack(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                              boxShadow: [theme.appShadows.baseShadow],
-                                              border: Border.all(
-                                                color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
-                                                width: 2,
-                                              ),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                              child: CustomImageProvider(
-                                                  imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                            Wrap(
+                              spacing: adaptiveWidth(20),
+                              runSpacing: adaptiveHeight(10),
+                              children: widget.product.itemSettings.map((e) {
+                                final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
+                                final bool canBeDisplayed = e.count > 0 && e.isAvailable;
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (!isSelected && e.count > 0 && e.isAvailable) {
+                                      setState(() {
+                                        itemSettings = e;
+                                        selectedCount = 1;
+                                      });
+                                    }
+                                  },
+                                  child: SizedBox(
+                                    width: adaptiveWidth(70),
+                                    height: adaptiveWidth(70),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                            boxShadow: [theme.appShadows.baseShadow],
+                                            border: Border.all(
+                                              color: isSelected ? theme.secondaryAccentColor : theme.inactiveColor,
+                                              width: 2,
                                             ),
                                           ),
-                                          if (!canBeDisplayed)
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: theme.inactiveColor.withOpacity(0.5),
-                                                boxShadow: [theme.appShadows.baseShadow],
-                                                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                                border: Border.all(
-                                                  color: theme.inactiveColor,
-                                                  width: 1,
-                                                ),
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                            child: CustomImageProvider(
+                                                imageLink: e.imageLink, imageFrom: ImageFrom.network),
+                                          ),
+                                        ),
+                                        if (!canBeDisplayed)
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: theme.inactiveColor.withOpacity(0.5),
+                                              boxShadow: [theme.appShadows.baseShadow],
+                                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                              border: Border.all(
+                                                color: theme.inactiveColor,
+                                                width: 1,
                                               ),
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              child:
-                                                  Icon(Icons.clear, color: theme.wrongColor, size: adaptiveWidth(40)),
                                             ),
-                                        ],
-                                      ),
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Icon(Icons.clear, color: theme.wrongColor, size: adaptiveWidth(40)),
+                                          ),
+                                      ],
                                     ),
-                                  );
-                                }).toList(),
-                              ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ],
                         ),
                       ),
@@ -279,8 +277,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 CustomSnackBar.showSnackNar(context, Strings.warning, Strings.productIsOver);
                               }
                             } else {
-                              cartBloc.add(
-                                  AddToCartEvent(item, selectedCount, itemSettings ?? NoItemSettings(name: 'empty')));
+                              cartBloc.add(AddToCartEvent(item, selectedCount, NoItemSettings(name: 'empty')));
                               CustomSnackBar.showSnackNar(context, Strings.warning, Strings.productIsAdded);
                             }
                             selectedCount = 1;

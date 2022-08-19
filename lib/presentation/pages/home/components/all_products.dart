@@ -37,13 +37,13 @@ class _AllProductsState extends State<AllProducts> {
             if (state is ProductsLoadingState) {
               return const SizedBox();
             } else if (state is ProductsLoadedState) {
-              final List<Item> items = state.items;
+              final List<Item> items = state.items.where((element) => element.isAvailable == true).toList();
               return Column(
                 children: [
                   const _CategorySelector(),
                   SizedBox(height: adaptiveHeight(10)),
                   SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                    //physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                     scrollDirection: Axis.vertical,
                     child: items.isNotEmpty
                         ? Column(
