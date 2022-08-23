@@ -90,6 +90,9 @@ abstract class Strings {
   static const String addToCartButton = "В кошик";
   static const String noItems = "Тут пусто(";
 
+  //account const
+  static const String purchaseHistory = "Історія покупок";
+
   //snackbar
   static const String status = "Статус";
   static const String itemWasAdded = "Продукт додано";
@@ -102,6 +105,7 @@ abstract class Strings {
   static const String internetConnectionBadStatus = "Немає інтернет підключення";
   static const String clickDoubleTapToConfirm = "Натисніть двічі, щоб підтвердити";
 
+  static const String errorDuringAuthorization = "Виникла помилка під час авторизації";
   static const String connectToAccount = "Авторизуйтесь за допомогою Google аккаунта, щоб робити покупки зручніше";
   static const String loginWithGoogle = "Авторизуватись";
 }
