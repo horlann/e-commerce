@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ class HistoryProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
+    final DateFormat formatter = DateFormat(Const.shortDateFormat);
 
     return Padding(
       padding: EdgeInsets.only(bottom: adaptiveHeight(5)),
@@ -51,21 +53,29 @@ class HistoryProductCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: adaptiveWidth(260),
-                          child: AutoSizeText(
-                            product.itemSettings.name != Const.empty
-                                ? "${product.item.name} (${product.itemSettings.name})"
-                                : product.item.name,
-                            maxLines: 2,
-                            minFontSize: 14,
-                            maxFontSize: 16,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                        Expanded(
+                          child: SizedBox(
+                            width: adaptiveWidth(260),
+                            child: AutoSizeText(
+                              product.itemSettings.name != Const.empty
+                                  ? "${product.item.name} (${product.itemSettings.name})"
+                                  : product.item.name,
+                              maxLines: 2,
+                              minFontSize: 14,
+                              maxFontSize: 16,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                            ),
                           ),
                         ),
-                        Text("₴ ${product.item.price.toStringAsFixed(0)}",
-                            style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor)),
+                        Expanded(
+                          child: Text("₴${product.item.price.toStringAsFixed(0)}",
+                              style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor)),
+                        ),
+                        Expanded(
+                          child: Text(formatter.format(product.createdAt),
+                              style: theme.fontStyles.regular12.copyWith(color: theme.infoTextColor)),
+                        ),
                       ],
                     ),
                   ),
