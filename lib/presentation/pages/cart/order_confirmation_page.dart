@@ -206,10 +206,16 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                                 );
                                 if (_deliveryType != Strings.pickUp && _address.isEmpty) {
                                   cartBloc.add(ConfirmOrderEvent(userData: userData));
-                                  accountBloc.add(SaveDataEvent(userData: userData));
+                                  accountBloc.add(SaveDataEvent(
+                                    userData: userData,
+                                    cartItems: cartBloc.cartItems,
+                                  ));
                                 } else {
                                   cartBloc.add(ConfirmOrderEvent(userData: userData.copyWith(address: _address)));
-                                  accountBloc.add(SaveDataEvent(userData: userData.copyWith(address: _address)));
+                                  accountBloc.add(SaveDataEvent(
+                                    userData: userData.copyWith(address: _address),
+                                    cartItems: cartBloc.cartItems,
+                                  ));
                                 }
                                 AutoRouter.of(context).pop();
                               }

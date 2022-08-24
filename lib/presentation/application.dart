@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemesBloc>(create: (_) => ThemesBloc()..add(const ThemeInitEvent())),
-        BlocProvider<AccountBloc>(create: (_) => AccountBloc(getIt.call())..add(const InitAuthEvent())),
+        BlocProvider<AccountBloc>(create: (_) => getIt<AccountBloc>()..add(const InitAuthEvent())),
         BlocProvider<CartBloc>(
             create: (_) => CartBloc(getIt.call(), getIt.call(), getIt.call())..add(const InitCartEvent())),
       ],

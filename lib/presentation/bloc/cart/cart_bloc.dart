@@ -6,6 +6,7 @@ import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
 import 'package:kurilki/domain/entities/user/history_item.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
@@ -63,8 +64,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Future<void> _addToCart(AddToCartEvent event, Emitter<CartState> emit) async {
     if (_countOfItemsInCart(event.item.uuid, event.itemSettings) > 0) {
       final int index = cartItems.indexWhere((element) {
-        print(element.itemSettings.toString());
-        print(element.itemSettings == event.itemSettings);
         return element.itemSettings == event.itemSettings;
       });
       cartItems[index] = cartItems[index].copyWith(count: (cartItems[index].count + event.count));
@@ -114,8 +113,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       deliveryType: event.userData.deliveryType,
       phone: event.userData.phone,
       priceDetails: priceDetails,
-    );
-    //todo: change bloc
+    ); /*
     UserEntity userEntity = await _userRemoteRepository.getAccountEntity();
     final List<HistoryItem> historyItems = [];
     for (CartItem cartItem in cartItems) {
@@ -123,11 +121,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         historyItems.add(HistoryItem(
           item: cartItem.item,
           itemSettings: cartItem.itemSettings,
+          createdAt: DateTime.now(),
+          orderStatus: OrderStatus.created,
         ));
       }
     }
     userEntity = userEntity.copyWith(items: userEntity.items + historyItems);
-    await _userRemoteRepository.setAccountEntity(userEntity);
+    await _userRemoteRepository.setAccountEntity(userEntity);*/
 
     cartItems.clear();
     emit(state.orderCreated());

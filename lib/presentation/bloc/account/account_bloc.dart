@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
+import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/order/order.dart';
+import 'package:kurilki/domain/entities/user/history_item.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/main.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
@@ -71,7 +74,20 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
           phone: event.userData.phone,
         ),
       );
+      final List<HistoryItem> historyItems = [];
+      for (CartItem cartItem in event.cartItems) {
+        for (int i = 1; i <= cartItem.count; i++) {
+          historyItems.add(HistoryItem(
+            item: cartItem.item,
+            itemSettings: cartItem.itemSettings,
+            createdAt: DateTime.now(),
+            orderStatus: OrderStatus.created,
+          ));
+        }
+      }
+      userEntity = userEntity.copyWith(items: userEntity.items + historyItems);
       await _userRemoteRepository.setAccountEntity(userEntity);
+      add(const LoadDataEvent());
     } catch (e) {
       logger.e(e);
     }
