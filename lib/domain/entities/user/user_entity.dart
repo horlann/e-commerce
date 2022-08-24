@@ -1,5 +1,6 @@
 import 'package:kurilki/data/models/user/user_table_model.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
+import 'package:kurilki/domain/entities/user/history_item.dart';
 import 'package:uuid/uuid.dart';
 
 class UserEntity {
@@ -8,6 +9,7 @@ class UserEntity {
   final String name;
   final String imageLink;
   final DeliveryDetails deliveryDetails;
+  final List<HistoryItem> items;
 
   UserEntity({
     String? uuid,
@@ -15,6 +17,7 @@ class UserEntity {
     required this.name,
     required this.imageLink,
     required this.deliveryDetails,
+    required this.items,
   }) : uuid = uuid ?? const Uuid().v4();
 
   UserEntity copyWith({
@@ -23,6 +26,7 @@ class UserEntity {
     String? name,
     String? imageLink,
     DeliveryDetails? deliveryDetails,
+    List<HistoryItem>? items,
   }) {
     return UserEntity(
       uuid: uuid ?? this.uuid,
@@ -30,6 +34,7 @@ class UserEntity {
       name: name ?? this.name,
       imageLink: imageLink ?? this.imageLink,
       deliveryDetails: deliveryDetails ?? this.deliveryDetails,
+      items: items ?? this.items,
     );
   }
 
@@ -39,6 +44,7 @@ class UserEntity {
         name: model.name,
         imageLink: model.imageLink,
         deliveryDetails: DeliveryDetails.fromTableModel(model.deliveryDetails),
+        items: model.items.map((e) => HistoryItem.fromTableModel(e)).toList(),
       );
 
   @override

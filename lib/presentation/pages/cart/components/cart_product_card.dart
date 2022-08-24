@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/domain/entities/items/item.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
@@ -26,9 +27,7 @@ class CartProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Item product = cartItem.item;
-    final AbstractItemSettings settings = cartItem.itemSettings is ItemSettings
-        ? (cartItem.itemSettings as ItemSettings)
-        : (cartItem.itemSettings as NoItemSettings);
+    final ItemSettings settings = cartItem.itemSettings;
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return InkWell(
       onTap: () {},
@@ -52,7 +51,7 @@ class CartProductCard extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                 ),
                 child: CustomImageProvider(
-                    imageLink: (settings is ItemSettings) ? settings.imageLink : product.imageLink,
+                    imageLink: settings.name != Const.empty ? settings.imageLink : product.imageLink,
                     imageFrom: ImageFrom.network),
               ),
             ),
@@ -68,7 +67,7 @@ class CartProductCard extends StatelessWidget {
                       SizedBox(
                         width: getScreenWidth - adaptiveWidth(180),
                         child: AutoSizeText(
-                          settings != null ? "${product.name} (${settings.name})" : product.name,
+                          settings.name != Const.empty ? "${product.name} (${settings.name})" : product.name,
                           maxLines: 2,
                           minFontSize: 14,
                           maxFontSize: 16,
@@ -140,8 +139,8 @@ class _RoundButton extends StatelessWidget {
         color: theme.cardColor,
         child: InkWell(
           onTap: () {
-            if (cartItem.itemSettings is ItemSettings) {
-              final int totalAvailable = (cartItem.itemSettings as ItemSettings).count;
+            if (cartItem.itemSettings.name != Const.empty) {
+              final int totalAvailable = cartItem.itemSettings.count;
               if (type == "+" && totalAvailable > cartItem.count) {
                 bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count + 1), index));
               } else if (type == "-" && cartItem.count > 1) {
@@ -149,7 +148,7 @@ class _RoundButton extends StatelessWidget {
               } else if (type == "-" && cartItem.count == 1) {
                 CustomSnackBar.showSnackNar(context, Strings.warning, Strings.clickDoubleTapToConfirm);
               }
-            } else if (cartItem.itemSettings is NoItemSettings) {
+            } else {
               if (type == "+") {
                 bloc.add(ChangeItemCountEvent(cartItem.copyWith(count: cartItem.count + 1), index));
               } else if (type == "-" && cartItem.count > 1) {

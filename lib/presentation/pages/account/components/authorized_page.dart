@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/common/const/const.dart';
-import 'package:kurilki/domain/entities/items/snus.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
@@ -12,7 +10,6 @@ import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
-import 'package:uuid/uuid.dart';
 
 class AuthorizedPage extends StatelessWidget {
   final UserEntity user;
@@ -32,38 +29,17 @@ class AuthorizedPage extends StatelessWidget {
       slivers: [
         _FlexibleAppBar(user: user),
         SliverToBoxAdapter(
-          child: Column(
-            children: [
-              SizedBox(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                  scrollDirection: Axis.horizontal,
-                  child: Column(
-                    children: List.generate(
-                      10,
-                      (index) {
-                        return HistoryProductCard(
-                          product: Snus(
-                            category: "",
-                            description: '',
-                            id: '',
-                            imageLink: Const.whiteImage,
-                            isAvailable: false,
-                            itemSettings: [],
-                            name: "Test product ${index * 100}",
-                            oldPrice: 0,
-                            price: index * 100,
-                            tags: [],
-                            strength: 0,
-                            uuid: const Uuid().v4(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+          child: SizedBox(
+            child: SingleChildScrollView(
+              child: Column(
+                children: List.generate(
+                  user.items.length,
+                  (index) {
+                    return HistoryProductCard(product: user.items.reversed.toList()[index]);
+                  },
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ],

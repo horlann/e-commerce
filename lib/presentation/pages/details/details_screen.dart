@@ -72,26 +72,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       Center(
                         child: CustomImageProvider(
                           imageFrom: ImageFrom.network,
-                          imageLink: itemSettings?.imageLink ?? widget.product.imageLink,
+                          imageLink: itemSettings?.imageLink ?? item.imageLink,
                         ),
                       ),
                       Positioned(
-                          left: 18,
-                          top: MediaQuery.of(context).padding.top + 18,
-                          child: GestureDetector(
-                            onTap: () {
-                              context.popRoute();
-                            },
-                            child: Container(
-                              width: adaptiveWidth(36),
-                              height: adaptiveWidth(36),
-                              child: Icon(
-                                Icons.chevron_left,
-                                color: theme.mainTextColor,
-                              ),
-                              decoration: BoxDecoration(shape: BoxShape.circle, color: theme.fillColor),
+                        left: 18,
+                        top: MediaQuery.of(context).padding.top + 18,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.popRoute();
+                          },
+                          child: Container(
+                            width: adaptiveWidth(36),
+                            height: adaptiveWidth(36),
+                            child: Icon(
+                              Icons.chevron_left,
+                              color: theme.mainTextColor,
                             ),
-                          ))
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: theme.fillColor),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -139,7 +140,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             Wrap(
                               spacing: adaptiveWidth(20),
                               runSpacing: adaptiveHeight(10),
-                              children: widget.product.itemSettings.map((e) {
+                              children: item.itemSettings.map((e) {
                                 final bool isSelected = (itemSettings?.uuid ?? 'null') == e.uuid;
                                 final bool canBeDisplayed = e.count > 0 && e.isAvailable;
                                 return GestureDetector(
@@ -166,7 +167,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                             ),
                                           ),
                                           child: ClipRRect(
-                                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                            borderRadius: const BorderRadius.all(Radius.circular(14)),
                                             child: CustomImageProvider(
                                                 imageLink: e.imageLink, imageFrom: ImageFrom.network),
                                           ),
@@ -277,7 +278,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 CustomSnackBar.showSnackNar(context, Strings.warning, Strings.productIsOver);
                               }
                             } else {
-                              cartBloc.add(AddToCartEvent(item, selectedCount, NoItemSettings(name: 'empty')));
+                              cartBloc.add(
+                                AddToCartEvent(
+                                  item,
+                                  selectedCount,
+                                  ItemSettings.empty(
+                                    imageLink: item.imageLink,
+                                    isAvailable: item.isAvailable,
+                                    count: 0,
+                                    uuid: item.uuid,
+                                  ),
+                                ),
+                              );
                               CustomSnackBar.showSnackNar(context, Strings.warning, Strings.productIsAdded);
                             }
                             selectedCount = 1;

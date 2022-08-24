@@ -1,37 +1,10 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:kurilki/data/models/items/abstract_item_settings_table_model.dart';
+import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/data/models/items/item_settings_table_model.dart';
 
-class AbstractItemSettings {
+class ItemSettings {
   final String name;
-
-  const AbstractItemSettings({
-    required this.name,
-  });
-
-  factory AbstractItemSettings.fromTableModel(AbstractItemsSettingsTableModel model) {
-    if (model is ItemSettingsTableModel) {
-      return ItemSettings.fromTableModel(model);
-    } else {
-      return NoItemSettings(
-        name: model.name,
-      );
-    }
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AbstractItemSettings && other.name == name;
-  }
-
-  @override
-  int get hashCode => name.hashCode;
-}
-
-class ItemSettings extends AbstractItemSettings {
   final String uuid;
   final String imageLink;
   final bool isAvailable;
@@ -44,8 +17,16 @@ class ItemSettings extends AbstractItemSettings {
     required this.isAvailable,
     required this.count,
     required this.isPopular,
-    required super.name,
+    required this.name,
   }) : uuid = uuid ?? const Uuid().v4();
+
+  ItemSettings.empty({
+    required this.uuid,
+    required this.imageLink,
+    required this.isAvailable,
+    required this.count,
+    this.isPopular = false,
+  }) : name = Const.empty;
 
   ItemSettings copyWith({
     String? uuid,
@@ -78,6 +59,7 @@ class ItemSettings extends AbstractItemSettings {
     if (identical(this, other)) return true;
 
     return other is ItemSettings &&
+        other.name == name &&
         other.uuid == uuid &&
         other.imageLink == imageLink &&
         other.isAvailable == isAvailable &&
@@ -87,10 +69,16 @@ class ItemSettings extends AbstractItemSettings {
 
   @override
   int get hashCode {
-    return uuid.hashCode ^ imageLink.hashCode ^ isAvailable.hashCode ^ count.hashCode ^ isPopular.hashCode;
+    return name.hashCode ^
+        uuid.hashCode ^
+        imageLink.hashCode ^
+        isAvailable.hashCode ^
+        count.hashCode ^
+        isPopular.hashCode;
   }
-}
 
-class NoItemSettings extends AbstractItemSettings {
-  NoItemSettings({required super.name});
+  @override
+  String toString() {
+    return 'ItemSettings(name: $name, uuid: $uuid, imageLink: $imageLink, isAvailable: $isAvailable, count: $count, isPopular: $isPopular)';
+  }
 }

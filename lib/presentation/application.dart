@@ -31,19 +31,22 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemesBloc>(create: (_) => ThemesBloc()..add(const ThemeInitEvent())),
-        BlocProvider<AccountBloc>(create: (_) => getIt<AccountBloc>()..add(const InitAuthEvent())),
-        BlocProvider<CartBloc>(create: (_) => CartBloc(getIt.call(), getIt.call())..add(const InitCartEvent())),
+        BlocProvider<AccountBloc>(create: (_) => AccountBloc(getIt.call())..add(const InitAuthEvent())),
+        BlocProvider<CartBloc>(
+            create: (_) => CartBloc(getIt.call(), getIt.call(), getIt.call())..add(const InitCartEvent())),
       ],
-      child: Builder(builder: (context) {
-        initializeDateFormatting();
-        return MaterialApp.router(
-          color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
-          debugShowCheckedModeBanner: false,
-          routeInformationParser: _appRouter.defaultRouteParser(),
-          routerDelegate: _appRouter.delegate(),
-          builder: (context, router) => router!,
-        );
-      }),
+      child: Builder(
+        builder: (context) {
+          initializeDateFormatting();
+          return MaterialApp.router(
+            color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
+            debugShowCheckedModeBanner: false,
+            routeInformationParser: _appRouter.defaultRouteParser(),
+            routerDelegate: _appRouter.delegate(),
+            builder: (context, router) => router!,
+          );
+        },
+      ),
     );
   }
 }

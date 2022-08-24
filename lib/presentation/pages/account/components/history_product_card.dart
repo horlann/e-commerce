@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kurilki/domain/entities/items/item.dart';
-import 'package:kurilki/domain/entities/items/snus.dart';
+import 'package:kurilki/common/const/const.dart';
+import 'package:kurilki/domain/entities/items/item_settings.dart';
+import 'package:kurilki/domain/entities/user/history_item.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
 
-import '../../../resources/strings.dart';
-
 class HistoryProductCard extends StatelessWidget {
   const HistoryProductCard({Key? key, required this.product}) : super(key: key);
-  final Item product;
+  final HistoryItem product;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class HistoryProductCard extends StatelessWidget {
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(9.0), bottomLeft: Radius.circular(9.0)),
                 child: Container(
                   color: theme.whiteTextColor,
-                  child: CustomImageProvider(imageLink: product.imageLink, imageFrom: ImageFrom.network),
+                  child: CustomImageProvider(imageLink: product.itemSettings.imageLink, imageFrom: ImageFrom.network),
                 ),
               ),
             ),
@@ -55,24 +54,21 @@ class HistoryProductCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: adaptiveWidth(260),
-                              child: AutoSizeText(
-                                product.name,
-                                maxLines: 2,
-                                minFontSize: 14,
-                                maxFontSize: 16,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
-                              ),
-                            ),
-                            Text("₴ ${product.price.toStringAsFixed(0)}",
-                                style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor)),
-                          ],
+                        SizedBox(
+                          width: adaptiveWidth(260),
+                          child: AutoSizeText(
+                            product.itemSettings.name != Const.empty
+                                ? "${product.item.name} (${product.itemSettings.name})"
+                                : product.item.name,
+                            maxLines: 2,
+                            minFontSize: 14,
+                            maxFontSize: 16,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor),
+                          ),
                         ),
+                        Text("₴ ${product.item.price.toStringAsFixed(0)}",
+                            style: theme.fontStyles.semiBold14.copyWith(color: theme.infoTextColor)),
                       ],
                     ),
                   ),

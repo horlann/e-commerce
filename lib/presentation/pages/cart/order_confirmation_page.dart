@@ -248,7 +248,7 @@ class _PriceInformation extends StatelessWidget {
           ),
           const Expanded(child: SizedBox()),
           Text(
-            "\$$price",
+            "₴ $price",
             style: theme.fontStyles.semiBold16.copyWith(color: theme.mainTextColor),
           ),
         ],

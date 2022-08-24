@@ -52,16 +52,18 @@ class UserRemoteRepository {
       final String authId = (await _remoteDataSource.userFromGoogleAuth).uid;
       final String name = (await _remoteDataSource.userFromGoogleAuth).displayName ?? 'error';
       final String imageLink = (await _remoteDataSource.userFromGoogleAuth).photoURL ?? 'error';
-      UserEntity entity = UserEntity(
-          authId: authId,
-          name: name,
-          imageLink: imageLink,
-          deliveryDetails: const DeliveryDetails(
-            address: "",
-            deliveryType: DeliveryType.undefined,
-            name: '',
-            phone: '',
-          ));
+      final UserEntity entity = UserEntity(
+        authId: authId,
+        name: name,
+        imageLink: imageLink,
+        deliveryDetails: const DeliveryDetails(
+          address: "",
+          deliveryType: DeliveryType.undefined,
+          name: '',
+          phone: '',
+        ),
+        items: [],
+      );
       await _remoteDataSource.createUser(UserTableModel.fromEntity(entity));
       return entity;
     } on Exception {
