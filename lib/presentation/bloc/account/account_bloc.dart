@@ -37,6 +37,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     try {
       final result = await _userRemoteRepository.authWithGoogleAccount();
       emit(state.authorized(entity: result));
+      add(const LoadDataEvent());
     } on Exception {
       emit(state.failure());
     }
@@ -47,6 +48,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     try {
       await _userRemoteRepository.logout();
       emit(state.unauthorized());
+      add(const LoadDataEvent());
     } on Exception {
       emit(state.failure());
     }

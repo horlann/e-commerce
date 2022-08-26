@@ -31,6 +31,8 @@ class OrderConfirmationPage extends StatelessWidget {
         } else if (state is LocalUserDataLoaded) {
           //TODO: Implement loading local user data
           return const _OrderConfirmation(user: null);
+        } else if (state is AuthorizationFailureState) {
+          return const _OrderConfirmation(user: null);
         } else {
           return const SizedBox(
             child: Center(child: Text("Error")),

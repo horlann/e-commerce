@@ -37,13 +37,12 @@ class UnauthorizedPage extends StatelessWidget {
             SizedBox(
               width: adaptiveWidth(250),
               child: MainRoundedButton(
-                text: Strings.loginWithGoogle,
-                color: theme.mainTextColor,
-                theme: theme,
-                callback: () => bloc.add(
-                  const AuthWithGoogleAccountEvent(),
-                ),
-              ),
+                  text: Strings.loginWithGoogle,
+                  color: theme.mainTextColor,
+                  theme: theme,
+                  callback: () {
+                    bloc.add(const AuthWithGoogleAccountEvent());
+                  }),
             ),
           ],
         ),

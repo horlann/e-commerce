@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
+import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/pages/account/components/history_product_card.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
@@ -53,7 +54,8 @@ class _FlexibleAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AccountBloc bloc = BlocProvider.of<AccountBloc>(context);
+    final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
+    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return SliverAppBar(
@@ -67,7 +69,9 @@ class _FlexibleAppBar extends StatelessWidget {
               right: 10,
               top: MediaQuery.of(context).padding.top + adaptiveHeight(30),
               child: GestureDetector(
-                onTap: () => bloc.add(const LogoutFromAccountEvent()),
+                onTap: () {
+                  accountBloc.add(const LogoutFromAccountEvent());
+                },
                 child: Container(
                   width: adaptiveWidth(36),
                   height: adaptiveWidth(36),

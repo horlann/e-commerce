@@ -2,25 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/data/repositories/local_repository.dart';
 import 'package:kurilki/data/repositories/ordering/ordering_remote_repository.dart';
-import 'package:kurilki/data/repositories/user/user_remote_repository.dart';
 import 'package:kurilki/domain/entities/items/item_settings.dart';
 import 'package:kurilki/domain/entities/order/cart_item.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
-import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/domain/entities/order/price_details.dart';
-import 'package:kurilki/domain/entities/user/history_item.dart';
-import 'package:kurilki/domain/entities/user/user_entity.dart';
 
 import 'cart_event.dart';
 import 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
   final OrderingRemoteRepository _orderingRemoteRepository;
-  final UserRemoteRepository _userRemoteRepository;
   final LocalRepository _localRepository;
 
-  CartBloc(this._localRepository, this._orderingRemoteRepository, this._userRemoteRepository)
-      : super(const CartState().inProgress()) {
+  CartBloc(this._localRepository, this._orderingRemoteRepository) : super(const CartState().inProgress()) {
     on<InitCartEvent>(_init);
     on<AddToCartEvent>(_addToCart);
     on<ChangeItemCountEvent>(_changeItemCount);
@@ -113,21 +107,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       deliveryType: event.userData.deliveryType,
       phone: event.userData.phone,
       priceDetails: priceDetails,
-    ); /*
-    UserEntity userEntity = await _userRemoteRepository.getAccountEntity();
-    final List<HistoryItem> historyItems = [];
-    for (CartItem cartItem in cartItems) {
-      for (int i = 1; i <= cartItem.count; i++) {
-        historyItems.add(HistoryItem(
-          item: cartItem.item,
-          itemSettings: cartItem.itemSettings,
-          createdAt: DateTime.now(),
-          orderStatus: OrderStatus.created,
-        ));
-      }
-    }
-    userEntity = userEntity.copyWith(items: userEntity.items + historyItems);
-    await _userRemoteRepository.setAccountEntity(userEntity);*/
+    );
 
     cartItems.clear();
     emit(state.orderCreated());
