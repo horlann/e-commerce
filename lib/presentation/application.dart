@@ -10,6 +10,7 @@ import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/bloc/cart/cart_event.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_event.dart';
+import 'package:kurilki/presentation/widgets/custom_scroll_behaviour.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -22,12 +23,16 @@ class _MyAppState extends State<MyApp> {
   final _appRouter = AppRouter();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemesBloc>(create: (_) => ThemesBloc()..add(const ThemeInitEvent())),
@@ -42,7 +47,10 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             routeInformationParser: _appRouter.defaultRouteParser(),
             routerDelegate: _appRouter.delegate(),
-            builder: (context, router) => router!,
+            builder: (context, router) => ScrollConfiguration(
+              behavior: CustomScrollBehaviour(),
+              child: router!,
+            ),
           );
         },
       ),

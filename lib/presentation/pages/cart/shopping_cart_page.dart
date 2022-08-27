@@ -5,6 +5,8 @@ import 'package:kurilki/presentation/bloc/cart/cart_state.dart';
 import 'package:kurilki/presentation/pages/cart/components/empty_cart_page.dart';
 import 'package:kurilki/presentation/pages/cart/components/filled_cart_page.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
+import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
+import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
 import 'package:kurilki/presentation/widgets/snackbar.dart';
 
 class ShoppingCartPage extends StatelessWidget {
@@ -12,6 +14,7 @@ class ShoppingCartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return BlocConsumer<CartBloc, CartState>(
       listener: (context, state) {
         if (state is OrderCreated) {
@@ -20,7 +23,7 @@ class ShoppingCartPage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is InProgressCartState) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
         } else if (state is CartLoadedState) {
           if (state.cartItems.isEmpty) {
             return const EmptyCartPage();

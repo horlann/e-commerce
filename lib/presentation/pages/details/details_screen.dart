@@ -70,15 +70,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ),
                     Positioned(
-                      left: 18,
-                      top: MediaQuery.of(context).padding.top + 18,
+                      left: adaptiveWidth(18),
+                      top: MediaQuery.of(context).padding.top + adaptiveHeight(18),
                       child: GestureDetector(
                         onTap: () {
                           context.popRoute();
                         },
                         child: Container(
-                          width: adaptiveWidth(36),
-                          height: adaptiveWidth(36),
+                          width: adaptiveWidth(44),
+                          height: adaptiveWidth(44),
                           child: Icon(
                             Icons.chevron_left,
                             color: theme.mainTextColor,
@@ -332,7 +332,7 @@ class _RoundButton extends StatelessWidget {
             child: Center(
                 child: Text(
               type,
-              style: theme.fontStyles.regular18.copyWith(color: theme.mainTextColor),
+              style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),
             )),
           ),
         ),

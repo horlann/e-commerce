@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kurilki/domain/entities/user/user_entity.dart';
 import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
 import 'package:kurilki/presentation/bloc/account/account_event.dart';
-import 'package:kurilki/presentation/bloc/cart/cart_bloc.dart';
 import 'package:kurilki/presentation/pages/account/components/history_product_card.dart';
 import 'package:kurilki/presentation/resources/adaptive_sizes.dart';
 import 'package:kurilki/presentation/resources/strings.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
+import 'package:kurilki/presentation/widgets/alert_dialog.dart';
 import 'package:kurilki/presentation/widgets/image_provider.dart';
 
 class AuthorizedPage extends StatelessWidget {
@@ -22,9 +22,6 @@ class AuthorizedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
-    final AccountBloc bloc = BlocProvider.of<AccountBloc>(context);
-
     return Expanded(
         child: CustomScrollView(
       slivers: [
@@ -48,14 +45,20 @@ class AuthorizedPage extends StatelessWidget {
   }
 }
 
-class _FlexibleAppBar extends StatelessWidget {
+class _FlexibleAppBar extends StatefulWidget {
   const _FlexibleAppBar({Key? key, required this.user}) : super(key: key);
   final UserEntity user;
 
   @override
+  State<_FlexibleAppBar> createState() => _FlexibleAppBarState();
+}
+
+class _FlexibleAppBarState extends State<_FlexibleAppBar> {
+  bool adminMode = false;
+
+  @override
   Widget build(BuildContext context) {
     final AccountBloc accountBloc = BlocProvider.of<AccountBloc>(context);
-    final CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
     final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
 
     return SliverAppBar(
@@ -97,9 +100,20 @@ class _FlexibleAppBar extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(29)),
-                      child: CustomImageProvider(
-                        imageLink: user.imageLink,
-                        imageFrom: ImageFrom.network,
+                      child: GestureDetector(
+                        onDoubleTap: () => adminMode = !adminMode,
+                        onLongPress: () {
+                          if (adminMode) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => const CustomAlertDialog(),
+                            );
+                          }
+                        },
+                        child: CustomImageProvider(
+                          imageLink: widget.user.imageLink,
+                          imageFrom: ImageFrom.network,
+                        ),
                       ),
                     ),
                   ),
@@ -108,7 +122,7 @@ class _FlexibleAppBar extends StatelessWidget {
                     width: adaptiveWidth(200),
                     child: Center(
                       child: AutoSizeText(
-                        user.name,
+                        widget.user.name,
                         minFontSize: 16,
                         maxFontSize: 20,
                         style: theme.fontStyles.semiBold18.copyWith(color: theme.mainTextColor),

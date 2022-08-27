@@ -94,6 +94,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
+    emit(state.inProgress());
     _calculatePrice();
     if (event.userData.deliveryType != DeliveryType.pickUp) {
       priceDetails = priceDetails.copyWith(deliveryPrice: Const.deliveryPrice);

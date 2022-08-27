@@ -16,7 +16,7 @@ class RoundedInputField extends StatefulWidget {
   final int maxLines;
   final TextInputType inputType;
   final Border? border;
-  final String? Function(String? value) validation;
+  final String? Function(String? value)? validation;
 
   const RoundedInputField({
     Key? key,
@@ -29,7 +29,7 @@ class RoundedInputField extends StatefulWidget {
     this.maxLines = 1,
     this.inputType = TextInputType.text,
     this.suffixIcon,
-    required this.validation,
+    this.validation,
     this.initialValue,
     this.border,
   }) : super(key: key);

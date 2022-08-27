@@ -108,4 +108,6 @@ abstract class Strings {
   static const String errorDuringAuthorization = "Виникла помилка під час авторизації";
   static const String connectToAccount = "Авторизуйтесь за допомогою Google аккаунта, щоб робити покупки зручніше";
   static const String loginWithGoogle = "Авторизуватись";
+
+  static const String enterPassword = "Пароль:";
 }

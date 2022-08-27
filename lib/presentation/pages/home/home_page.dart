@@ -53,7 +53,6 @@ class HomePage extends StatelessWidget {
                             FocusScope.of(context).unfocus();
                           }
                         },
-                        validation: (value) => null,
                       ),
                     ),
                   ),

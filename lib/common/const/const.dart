@@ -5,4 +5,5 @@ class Const {
   static const String empty = "empty";
   static const String longDateFormat = "mm:hh:ss dd-MM-yyyy";
   static const String shortDateFormat = "dd-MM-yyyy";
+  static const String adminPassword = "deep";
 }

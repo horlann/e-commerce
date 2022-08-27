@@ -22,10 +22,11 @@ class OrderConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return BlocBuilder<AccountBloc, AccountState>(
       builder: (context, state) {
         if (state is InProgressAuthState) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
         } else if (state is UserDataLoaded) {
           return _OrderConfirmation(user: state.user);
         } else if (state is LocalUserDataLoaded) {
@@ -123,7 +124,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                     validation: ValidationBuilder()
                         .regExp(RegExp(r'(^(?:[+]38)?[0-9]{10,12}$)'), Strings.onlyPhone)
                         .minLength(10, Strings.min10Characters)
-                        .maxLength(30, Strings.max12Characters)
+                        .maxLength(12, Strings.max12Characters)
                         .build(),
                   ),
                   SizedBox(height: adaptiveHeight(20)),
@@ -183,11 +184,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                           color: theme.backgroundColor,
                           border: Border.all(color: theme.mainTextColor),
                           textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
-                          callback: () {
-                            //TODO: Fix loading cart items
-                            cartBloc.add(const InitCartEvent());
-                            context.popRoute();
-                          },
+                          callback: () => context.popRoute(),
                           theme: theme,
                         ),
                       ),

@@ -27,7 +27,7 @@ class CreateItem extends StatelessWidget {
       body: BlocBuilder<AdminCategoryBloc, AdminCategoryState>(
         builder: ((context, state) {
           if (state is InProgressLoadingState) {
-            return Center(child: CircularProgressIndicator(color: theme.accentColor));
+            return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
           } else if (state is CategoriesLoadedState) {
             return DataLoaded(categories: state.categories);
           } else {
