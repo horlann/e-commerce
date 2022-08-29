@@ -43,8 +43,10 @@ class OrdersList extends StatelessWidget {
                     ),
                   )
                 : const Text(Strings.emptyText);
+          } else if (state is InProgressLoadingState) {
+            return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Text("Something went wrong");
           }
         },
       ),

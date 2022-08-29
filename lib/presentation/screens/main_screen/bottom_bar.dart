@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kurilki/presentation/bloc/account/account_bloc.dart';
+import 'package:kurilki/presentation/bloc/account/account_event.dart';
 import 'package:kurilki/presentation/resources/icons.dart';
 import 'package:kurilki/presentation/resources/themes/abstract_theme.dart';
 import 'package:kurilki/presentation/resources/themes/bloc/themes_bloc.dart';
@@ -24,7 +26,7 @@ class _BottomBarState extends State<BottomBar> {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-        border: const Border(top: BorderSide(width: 1.5, color: Colors.black)),
+        border: Border(top: BorderSide(width: 1.5, color: theme.mainTextColor)),
         color: BlocProvider.of<ThemesBloc>(context).theme.backgroundColor,
       ),
       child: Row(
@@ -54,6 +56,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 2;
                 });
+
                 tabsRouter.setActiveIndex(1);
               },
               child: SizedBox(
@@ -73,6 +76,7 @@ class _BottomBarState extends State<BottomBar> {
                 setState(() {
                   activePage = 3;
                 });
+
                 tabsRouter.setActiveIndex(2);
               },
               child: SizedBox(

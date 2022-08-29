@@ -137,7 +137,7 @@ class _FilledCartPage extends StatelessWidget {
               accountBloc.add(const LoadDataEvent());
               context.pushRoute(const OrderConfirmationRouter());
             },
-            textStyle: TextStyle(color: theme.whiteTextColor, fontSize: 17, fontWeight: FontWeight.w500),
+            textStyle: theme.fontStyles.semiBold16.copyWith(color: theme.whiteTextColor),
             color: theme.mainTextColor,
             text: Strings.checkOutButton,
             paddingVert: 14,

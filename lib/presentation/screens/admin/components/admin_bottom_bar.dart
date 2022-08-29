@@ -20,7 +20,7 @@ class AdminBottomBar extends StatefulWidget {
 }
 
 class _AdminBottomBarState extends State<AdminBottomBar> {
-  int activePage = 4;
+  int activePage = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                      CustomIcons.newItem,
+                  CustomIcons.newItem,
                   width: 26,
                   color: activePage == 0 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
@@ -71,7 +71,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                      CustomIcons.redactItem,
+                  CustomIcons.redactItem,
                   width: 24,
                   color: activePage == 1 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),
@@ -91,7 +91,7 @@ class _AdminBottomBarState extends State<AdminBottomBar> {
                 width: double.infinity,
                 child: Center(
                     child: SvgPicture.asset(
-                      CustomIcons.orders,
+                  CustomIcons.orders,
                   width: 26,
                   color: activePage == 2 ? theme.infoTextColor : theme.inactiveTextColor,
                 )),

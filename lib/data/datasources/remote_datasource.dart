@@ -235,7 +235,6 @@ class RemoteDataSource {
             cartItems.add(CartItemTableModel(
                 item: productsList[i],
                 count: tableModel.items[i].count,
-                //TODO: below
                 itemSettings: tableModel.items[i].itemSettings));
           }
 

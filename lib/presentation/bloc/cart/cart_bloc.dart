@@ -26,10 +26,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   List<CartItem> cartItems = [];
   PriceDetails priceDetails = PriceDetails(deliveryPrice: 0, itemsPrice: 0, totalPrice: 0);
 
-  int _countOfItemsInCart(String uuid, AbstractItemSettings? settings) {
+  int _countOfItemsInCart(String uuid, ItemSettings? settings) {
     int count = 0;
     for (CartItem e in cartItems) {
-      if (e.item.uuid == uuid && (e.itemSettings.name == (settings?.name ?? "empty"))) {
+      if (e.item.uuid == uuid && (e.itemSettings.name == (settings?.name ?? Const.empty))) {
         count = e.count;
       }
     }
@@ -57,7 +57,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _addToCart(AddToCartEvent event, Emitter<CartState> emit) async {
     if (_countOfItemsInCart(event.item.uuid, event.itemSettings) > 0) {
-      final int index = cartItems.indexWhere((element) => element.itemSettings == event.itemSettings);
+      final int index = cartItems.indexWhere((element) {
+        return element.itemSettings == event.itemSettings;
+      });
       cartItems[index] = cartItems[index].copyWith(count: (cartItems[index].count + event.count));
     } else {
       cartItems.add(CartItem(item: event.item, count: event.count, itemSettings: event.itemSettings));
@@ -92,6 +94,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _confirm(ConfirmOrderEvent event, Emitter<CartState> emit) async {
+    emit(state.inProgress());
     _calculatePrice();
     if (event.userData.deliveryType != DeliveryType.pickUp) {
       priceDetails = priceDetails.copyWith(deliveryPrice: Const.deliveryPrice);

@@ -4,7 +4,7 @@ import 'package:kurilki/domain/entities/items/item_settings.dart';
 
 class CartItem {
   final Item item;
-  final AbstractItemSettings itemSettings;
+  final ItemSettings itemSettings;
   final int count;
 
   const CartItem({
@@ -13,14 +13,9 @@ class CartItem {
     required this.count,
   });
 
-  @override
-  String toString() {
-    return 'CartItem{item: $item,itemSettings:$itemSettings, count: $count}';
-  }
-
   CartItem copyWith({
     Item? item,
-    AbstractItemSettings? itemSettings,
+    ItemSettings? itemSettings,
     int? count,
   }) {
     return CartItem(
@@ -33,6 +28,19 @@ class CartItem {
   factory CartItem.fromTableModel(CartItemTableModel model) => CartItem(
         count: model.count,
         item: Item.fromTableModel(model.item),
-        itemSettings: AbstractItemSettings.fromTableModel(model.itemSettings),
+        itemSettings: ItemSettings.fromTableModel(model.itemSettings),
       );
+
+  @override
+  String toString() => 'CartItem(item: $item, itemSettings: $itemSettings, count: $count)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CartItem && other.item == item && other.itemSettings == itemSettings && other.count == count;
+  }
+
+  @override
+  int get hashCode => item.hashCode ^ itemSettings.hashCode ^ count.hashCode;
 }

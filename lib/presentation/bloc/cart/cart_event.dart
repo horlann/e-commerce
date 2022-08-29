@@ -16,7 +16,7 @@ class AddToCartEvent extends CartEvent {
   const AddToCartEvent(this.item, this.count, this.itemSettings);
 
   final Item item;
-  final AbstractItemSettings itemSettings;
+  final ItemSettings itemSettings;
   final int count;
 }
 

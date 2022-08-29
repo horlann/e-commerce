@@ -36,7 +36,7 @@ class ProductsListPage extends StatelessWidget {
           },
           builder: ((context, state) {
             if (state is InProgressLoadingState) {
-              return Center(child: CircularProgressIndicator(color: theme.accentColor));
+              return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
             } else if (state is ItemsLoadedState) {
               return ProductsList(items: state.items);
             } else {

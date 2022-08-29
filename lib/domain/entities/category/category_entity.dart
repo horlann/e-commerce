@@ -3,7 +3,6 @@ import 'package:uuid/uuid.dart';
 
 class CategoryEntity {
   final String name;
-
   final String uuid;
 
   CategoryEntity({

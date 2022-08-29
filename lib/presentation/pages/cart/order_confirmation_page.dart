@@ -22,14 +22,17 @@ class OrderConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AbstractTheme theme = BlocProvider.of<ThemesBloc>(context).theme;
     return BlocBuilder<AccountBloc, AccountState>(
       builder: (context, state) {
         if (state is InProgressAuthState) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: theme.mainTextColor));
         } else if (state is UserDataLoaded) {
           return _OrderConfirmation(user: state.user);
         } else if (state is LocalUserDataLoaded) {
           //TODO: Implement loading local user data
+          return const _OrderConfirmation(user: null);
+        } else if (state is AuthorizationFailureState) {
           return const _OrderConfirmation(user: null);
         } else {
           return const SizedBox(
@@ -121,7 +124,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                     validation: ValidationBuilder()
                         .regExp(RegExp(r'(^(?:[+]38)?[0-9]{10,12}$)'), Strings.onlyPhone)
                         .minLength(10, Strings.min10Characters)
-                        .maxLength(30, Strings.max12Characters)
+                        .maxLength(12, Strings.max12Characters)
                         .build(),
                   ),
                   SizedBox(height: adaptiveHeight(20)),
@@ -181,11 +184,7 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                           color: theme.backgroundColor,
                           border: Border.all(color: theme.mainTextColor),
                           textStyle: TextStyle(color: theme.mainTextColor, fontWeight: FontWeight.w500, fontSize: 18),
-                          callback: () {
-                            //TODO: Fix loading cart items
-                            cartBloc.add(const InitCartEvent());
-                            context.popRoute();
-                          },
+                          callback: () => context.popRoute(),
                           theme: theme,
                         ),
                       ),
@@ -206,10 +205,16 @@ class _OrderConfirmationState extends State<_OrderConfirmation> {
                                 );
                                 if (_deliveryType != Strings.pickUp && _address.isEmpty) {
                                   cartBloc.add(ConfirmOrderEvent(userData: userData));
-                                  accountBloc.add(SaveDataEvent(userData: userData));
+                                  accountBloc.add(SaveDataEvent(
+                                    userData: userData,
+                                    cartItems: cartBloc.cartItems,
+                                  ));
                                 } else {
                                   cartBloc.add(ConfirmOrderEvent(userData: userData.copyWith(address: _address)));
-                                  accountBloc.add(SaveDataEvent(userData: userData.copyWith(address: _address)));
+                                  accountBloc.add(SaveDataEvent(
+                                    userData: userData.copyWith(address: _address),
+                                    cartItems: cartBloc.cartItems,
+                                  ));
                                 }
                                 AutoRouter.of(context).pop();
                               }
@@ -248,7 +253,7 @@ class _PriceInformation extends StatelessWidget {
           ),
           const Expanded(child: SizedBox()),
           Text(
-            "\$$price",
+            "₴ $price",
             style: theme.fontStyles.semiBold16.copyWith(color: theme.mainTextColor),
           ),
         ],

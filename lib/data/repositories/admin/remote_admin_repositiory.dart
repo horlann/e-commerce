@@ -91,7 +91,7 @@ class RemoteAdminRepository {
             cartItems.add(CartItem(
               item: productsList[i],
               count: preItems[i].count,
-              itemSettings: AbstractItemSettings.fromTableModel(preItems[i].itemSettings),
+              itemSettings: ItemSettings.fromTableModel(preItems[i].itemSettings),
             ));
           }
           return OrderEntity.fromTableModel(model, cartItems);

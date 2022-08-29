@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:kurilki/common/const/const.dart';
 import 'package:kurilki/domain/entities/order/delivery_details.dart';
 import 'package:kurilki/domain/entities/order/order.dart';
 import 'package:kurilki/presentation/bloc/admin/orders/admin_orders_bloc.dart';
@@ -23,7 +24,7 @@ class AdminOrderListTile extends StatefulWidget {
 class _AdminOrderListTileState extends State<AdminOrderListTile> {
   final ExpandedTileController _expandedTileController = ExpandedTileController(isExpanded: false);
   late final OrderEntity _order;
-  final DateFormat formatter = DateFormat('mm:hh:ss dd-MM-yyyy');
+  final DateFormat formatter = DateFormat(Const.longDateFormat);
 
   @override
   void initState() {
