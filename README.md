@@ -1,16 +1,24 @@
-# ecommerce
+# Sample of ecommerce project
 
-A new Flutter project.
+The project uses Firebase for storing products, purchase history, information about orders for administator, opportunity for creating and editing products for administator
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## User UI
+### Головна сторінка
+![](https://i.imgur.com/5desC95.png "Головна сторінка")
+### Вибір товару
+![](https://i.imgur.com/lhAnLjk.png "Вибір товару")
+### Корзина
+![](https://i.imgur.com/VIUHKQz.png "Корзина")
+![](https://i.imgur.com/m3Mpewt.png "Корзина")
+![](https://i.imgur.com/7u4HjyW.png "Корзина")
+### Аккаунт
+![](https://i.imgur.com/b6z1ZRU.png "Аккаунт")
+## Admin UI
+Hidden admin panel
+### Cписок продуктів
+![](https://i.imgur.com/XcjK3Cd.png "Cписок продуктів")
+### Редагування товару
+![](https://i.imgur.com/OJebPzk.png "Редагування товару")
+![](https://i.imgur.com/QuP6mhI.png "Редагування товару")
+### Список замовлень
+![](https://i.imgur.com/mLMQx4x.png "Список замовлень")
