@@ -80,8 +80,8 @@ abstract class Strings {
   static const String popular = "Популярне";
   static const String allProducts = "Всі товари";
   static const String allButton = "Все";
-  static const String podButton = "POD системи";
-  static const String snusButton = "Снюс";
+  static const String podButton = "Цукерки";
+  static const String snusButton = "Шоколад";
   static const String nothingFound = "Спробуйте інший запит";
   static const String availableTastes = "Доступних смаків";
   static const String taste = "Смак";
